@@ -24,7 +24,7 @@ if(isset($_GET['logout'])){
     <title>Home</title>
   </head>
   <!--Header-->
-  <?php require("../mv-content/header.php"); ?>
+  <?php require(SITE_PATH."mv-content/header.php"); ?>
   <body>
     <?php if(isset($_SESSION['success'])) : ?>
       <div class="">
@@ -41,5 +41,5 @@ if(isset($_GET['logout'])){
     <?php if(isset($_SESSION['username'])) : ?>
       <div class="jumbotron"><h3>Welcome <strong><?= $_SESSION['username']?></strong></h3></div>
     <?php endif ?>
-  </body>
+  <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>

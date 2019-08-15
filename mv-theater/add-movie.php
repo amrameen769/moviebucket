@@ -199,5 +199,5 @@ label{
             </table>
         </div>
     </form>
-  </body>
+    <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>

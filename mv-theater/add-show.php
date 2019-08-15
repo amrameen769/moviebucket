@@ -241,8 +241,5 @@ $rem->removeShow($thr_id);
         </div>
         <?php endif ?>
     </form>
-
-    </body>
-
-</html>
+    <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>
