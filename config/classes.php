@@ -69,14 +69,26 @@ class RemoveData{
 
     function removeMovie($thr_id){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $flag = 1;
         if(isset($_POST['remove_mov'])){
             $mv_id = $_POST['remove_mov'];
             //echo "<h1>Removing Data for $shw_id</h1>";
             //$delQueryA = "DELETE FROM tbl_movie where mv_id = '$mv_id' AND thr_id = '$thr_id'";
             $delQueryA = "UPDATE tbl_movie SET mv_status = FALSE, rq_status = FALSE WHERE mv_id = '$mv_id' AND thr_id = '$thr_id'";
             //$delLogA = mysqli_query($dbconn,$delQueryA);
-            if($dbconn -> query($delQueryA) === true){
-                $_SESSION['remove_mov'] = "Movie Removed";
+            $selectShow = "SELECT shw_id FROM tbl_showtime WHERE mv_id = $mv_id";
+            $resShow = $dbconn->query($selectShow);
+            if(mysqli_num_rows($resShow)){
+                while($rowShow = mysqli_fetch_assoc($resShow)){
+                    $shw_id = $rowShow['shw_id'];
+                    $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id = $shw_id";
+                    if(!$dbconn->query($removeShow)){
+                        $flag = 0;
+                    }
+                }
+            }
+            if($dbconn -> query($delQueryA) === TRUE && $flag == 1){
+                $_SESSION['remove_mov'] = "Movie Removed, Shows Updated";
             }
             else{
                 $_SESSION['remove_mov'] = "You are Not authorised to remove this Movie";
