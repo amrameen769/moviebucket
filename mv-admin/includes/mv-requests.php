@@ -1,7 +1,7 @@
 <?php
 require("../../config/autoload.php");
-if(!isset($_SESSION['username'])){
-    header("location:../../index.php");
+if(!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin'){
+    header("location:".SITE_PATH."index.php");
 }
 ?>
 

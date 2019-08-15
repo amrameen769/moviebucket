@@ -1,4 +1,11 @@
 <?php require("config/autoload.php");?>
+<?php
+
+if(isset($_SESSION)){
+    session_destroy();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
