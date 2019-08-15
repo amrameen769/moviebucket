@@ -33,15 +33,28 @@ if(!isset($_SESSION['username'])){
 
                                 if($rq_status == 0){
                                     $updateStatus = "UPDATE tbl_movie SET rq_status = TRUE WHERE mv_id='$mv_id'";
+                                    if($exec->query($updateStatus)){
+                                        array_push($errors,"Status Updated");
+                                    }
                                 }
                                 elseif($rq_status == 1){
+                                    $flag = 1;
                                     $updateStatus = "UPDATE tbl_movie SET rq_status = FALSE WHERE mv_id='$mv_id'";
-                                }
-                                if($exec->query($updateStatus)){
-                                    array_push($errors,"Status Updated");
-                                }
-                                else{
-                                    array_push($errors,"Status Updated");
+                                    $selectShow = "SELECT shw_id FROM tbl_showtime WHERE mv_id = $mv_id";
+                                    $resShow = $exec->query($selectShow);
+                                    if(mysqli_num_rows($resShow) > 0){
+                                        while($row = mysqli_fetch_assoc($resShow)){
+                                            $shw_id = $row['shw_id'];
+                                            $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id=$shw_id";
+                                            if(!$exec->query($removeShow)){
+                                                $flag = 0;
+                                            }
+                                        }
+                                    }
+                                    $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id=()";
+                                    if($exec->query($updateStatus) && $flag == 1){
+                                        array_push($errors,"Status Updated, Shows Removed");
+                                    }
                                 }
                             }
                         }
