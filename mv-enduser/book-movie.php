@@ -1,6 +1,13 @@
 <?php
 require("../config/autoload.php");
-require("../mv-content/header.php");
+
+$sec = new Secure;
+$sec->checkUSign();
+
+?>
+
+<?php
+
 
 ?>
 

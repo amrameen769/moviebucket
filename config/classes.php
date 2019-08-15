@@ -11,6 +11,7 @@ class Secure{
 
     else{
     $_SESSION['msg'] = "You must login first to view this page.";
+    unset($_SESSION['success']);
     header("location:../mv-content/login.php");
     }
   }
@@ -26,6 +27,7 @@ class Secure{
 
     else{
     $_SESSION['msg'] = "You must login first to view this page.";
+    unset($_SESSION['success']);
     header("location:../mv-content/login.php");
     }
   }
@@ -39,6 +41,7 @@ class Secure{
 
       else{
           $_SESSION['msg'] = "You must login first to view this page.";
+          unset($_SESSION['success']);
           header("location:../mv-content/login.php");
       }
   }
