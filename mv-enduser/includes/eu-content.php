@@ -13,12 +13,11 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="<?=SITE_URL?>mv-admin/home.php"><span>Movies</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="<?=SITE_URL?>mv-enduser/home.php"><span>Movies</span></a></li>
                     <li class="nav-item">
 
                     </li>
                 </ul>
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
