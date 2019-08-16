@@ -40,7 +40,6 @@ if(isset($_GET['logout'])){
     <!--if user logged in Successfully-->
     <?php if(isset($_SESSION['username'])) : ?>
       <!--<div class="jumbotron"><h3>Welcome <strong><$session['username']></strong></h3></div>-->
-    <?php require(SITE_PATH."mv-enduser/includes/eu-content.php");?>
     <?php endif ?>
   <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>
