@@ -13,19 +13,19 @@ $thr_screens = "";
     <meta charset="utf-8">
     <title>Signup for MovieBucket</title>
   </head>
-  <script src="<?=BASE_URL?>mv-includes/bootstrap/jquery/jquery.slim.min.js"></script>
-  <script src="<?=BASE_URL?>mv-includes/bootstrap/jquery/popper.min.js"></script>
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/bootstrap/css/bootstrap.min.css">
-  <script src="<?=BASE_URL?>mv-includes/bootstrap/js/bootstrap.min.js"></script>
-  <script src="<?=BASE_URL?>mv-includes/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/css/login.css">
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/css/animate.css">
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/css/style.css">
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/fontawesome/css/all.css">
-  <script src="<?=BASE_URL?>mv-includes/fontawesome/js/all.js"></script>
-  <link rel="stylesheet" href="<?=BASE_URL?>mv-includes/css/responsive.css">
-  <link href="<?=BASE_URL?>mv-includes/images/mvbucket.ico" rel="icon" type="image/ico">
-  <script src="<?=BASE_URL?>mv-includes/js/script.js"></script>
+  <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.slim.min.js"></script>
+  <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/popper.min.js"></script>
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/bootstrap/css/bootstrap.min.css">
+  <script src="<?=SITE_URL?>mv-includes/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<?=SITE_URL?>mv-includes/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/login.css">
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/animate.css">
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/style.css">
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/fontawesome/css/all.css">
+  <script src="<?=SITE_URL?>mv-includes/fontawesome/js/all.js"></script>
+  <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/responsive.css">
+  <link href="<?=SITE_URL?>mv-includes/images/mvbucket.ico" rel="icon" type="image/ico">
+  <script src="<?=SITE_URL?>mv-includes/js/script.js"></script>
   <body>
     <div id=center class="container-fluid">
       <div class="col- col-sm col-md col-lg col-xl containera animated fadeInUp delay-02s" style="background: url(../mv-includes/images/thr-bg.jpg) left top repeat !important;">
@@ -79,7 +79,7 @@ $thr_screens = "";
                                 }
                               }
                             }
-                          require(BASE_PATH."mv-content/errors.php");
+                          require(SITE_PATH."mv-content/errors.php");
                          ?>
             <div class="inp">
               <input type="text" name="thr_name" placeholder="Theater Name" value ="<?= $thr_name ?>"><br><br>
