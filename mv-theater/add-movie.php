@@ -23,6 +23,7 @@ $rem->removeMovie($thr_id);
   $mv_lang = "";
   $mv_director = "";
   $mv_producer = "";
+  $mv_release_date = "";
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -52,6 +53,7 @@ label{
                $mv_lang = mysqli_real_escape_string($dbconn,$_POST['mv_lang']);
                $mv_director = mysqli_real_escape_string($dbconn,$_POST['mv_director']);
                $mv_producer = mysqli_real_escape_string($dbconn,$_POST['mv_producer']);
+               $mv_release_date = mysqli_real_escape_string($dbconn,$_POST['mv_release_date']);
 
                if(empty($mv_name)){ array_push($errors, "Movie name Needed");}
                if(empty($mv_hero)){ array_push($errors, "Movie hero Needed");}
@@ -59,8 +61,10 @@ label{
                if(empty($mv_lang)){ array_push($errors, "Movie language Needed");}
                if(empty($mv_director)){ array_push($errors, "Movie director Needed");}
                if(empty($mv_producer)){ array_push($errors, "Movie producer Needed");}
+               if(empty($mv_release_date)){ array_push($errors, "Release Date Needed");}
 
-               $checkExistingQuery = "SELECT mv_name FROM tbl_movie WHERE mv_name = '$mv_name' AND mv_hero = '$mv_hero'
+
+                $checkExistingQuery = "SELECT mv_name FROM tbl_movie WHERE mv_name = '$mv_name' AND mv_hero = '$mv_hero'
                AND mv_heroine = '$mv_heroine' AND mv_lang = '$mv_lang' AND mv_director = '$mv_director' AND mv_producer = '$mv_producer' AND mv_status= TRUE ";
                $results = mysqli_query($dbconn,$checkExistingQuery);
                if(mysqli_num_rows($results) > 0){
@@ -94,8 +98,8 @@ label{
                        }
                    }
                    else{
-                       $insQuery = "INSERT INTO tbl_movie (mv_name, mv_hero, mv_heroine, mv_lang, mv_director, mv_producer, rq_status, thr_id, mv_status)
-                                VALUES('$mv_name', '$mv_hero', '$mv_heroine', '$mv_lang', '$mv_director', '$mv_producer',0,'$thr_id',TRUE)";
+                       $insQuery = "INSERT INTO tbl_movie (mv_name, mv_hero, mv_heroine, mv_lang, mv_director, mv_producer, rq_status, thr_id, mv_status, mv_release_date)
+                                VALUES('$mv_name', '$mv_hero', '$mv_heroine', '$mv_lang', '$mv_director', '$mv_producer',0,'$thr_id',TRUE,'$mv_release_date')";
                        if(!mysqli_query($dbconn,$insQuery)){
                            array_push($errors, "Internal Insertion Error");
                        }
@@ -108,6 +112,7 @@ label{
                            $mv_lang = "";
                            $mv_director = "";
                            $mv_producer = "";
+                           $mv_release_date = "";
                        }
                    }
                }
@@ -152,6 +157,10 @@ label{
                           <label for="formGroupExampleInput">Producer</label>
                           <input class="form-control field-width" id="formGroupExampleInput" type="text" name="mv_producer" value="<?= $mv_producer ?>"><br><br>
                       </td>
+                      <td>
+                          <label for="formGroupExampleInput">Release Date</label>
+                          <input class="form-control field-width" id="formGroupExampleInput" type="date" name="mv_release_date" value="<?= $mv_release_date ?>"><br><br>
+                      </td>
                   </tr>
               </table>
             <button type="submit" name="request" class="btn btn-primary mx-auto d-block">Request</button>
@@ -170,6 +179,7 @@ label{
                     <th>Language</th>
                     <th>Director</th>
                     <th>Producer</th>
+                    <th>Release Date</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
@@ -188,6 +198,7 @@ label{
                         <td><?=$row['mv_lang']?></td>
                         <td><?=$row['mv_director']?></td>
                         <td><?=$row['mv_producer']?></td>
+                        <td><?=$row['mv_release_date']?></td>
                         <td>
                             <button class="btn btn-primary" type="submit" name="remove_mov" value="<?=$row['mv_id']?>">Remove Movie</button>
                         </td>

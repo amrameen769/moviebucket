@@ -1,5 +1,24 @@
 
 <?php
+
+class MovieBook{
+    function selectMovies(){
+        $movies = array();
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectMovie = "SELECT mv_id, mv_name,mv_hero,mv_heroine,mv_lang,mv_director,mv_producer,mv_release_date 
+                        FROM tbl_movie WHERE mv_status = 1 AND rq_status = 1 ORDER BY mv_release_date DESC";
+        $resSelectMovie = $dbconn -> query($selectMovie);
+        if(mysqli_num_rows($resSelectMovie) > 0){
+            while($row = mysqli_fetch_assoc($resSelectMovie)){
+                if(!array_push($movies,$row)){echo "Array Insertion Unsuccess";}
+            }
+        }
+        return $movies;
+    }
+}
+
+
+
 class Secure{
   function checkTSign(){
     if(isset($_SESSION['thr_name']) && $_SESSION['user_type'] == 'theater'){
