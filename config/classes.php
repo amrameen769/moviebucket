@@ -27,6 +27,10 @@ class MovieBook{
         }
         return $row;
     }
+
+    function selectShows($mv_id){
+        $selectShows = "SELECT "
+    }
 }
 
 

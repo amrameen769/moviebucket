@@ -37,7 +37,7 @@ if(isset($_GET['logout'])){
     <!--if user logged in Successfully-->
     <?php if(isset($_SESSION['username'])) : ?>
       <!--<div class="jumbotron"><h3>Welcome <strong><$session['username']></strong></h3></div>-->
-        <div class="row">
+        <div class="row row-margin" >
             <?php
             $i=1;
             $mb = new MovieBook;
@@ -69,21 +69,6 @@ if(isset($_GET['logout'])){
             ?>
         </div>
     <?php endif ?>
-    <script>
-    function loadDoc(str) {
-        if (str.length == 0) {
-            document.getElementById("txtHint").innerHTML = "";
-            return;
-        }
-        var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    document.getElementById("book-page").innerHTML = this.responseText;
-    }
-    };
-    xhttp.open("GET", "book-movie.php?t=" + str, true);
-    xhttp.send();
-    }
-    </script>
   <?php require(SITE_PATH."mv-content/footer.php");?>
+  </body>
 </html>

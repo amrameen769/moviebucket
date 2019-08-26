@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/responsive.css">
     <script src="<?=SITE_URL?>mv-admin/assets/js/theme.js"></script>
     <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.easing.js"></script>
+    <script src="<?=SITE_URL?>mv-includes/js/script.js"></script>
   <style>
     .navbar-brand img{
       height: 40px;

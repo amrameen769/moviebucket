@@ -6,7 +6,7 @@ $sec->checkUSign();
 
 require (SITE_PATH."mv-content/header.php");
 ?>
-<div class="row">
+<div class="row row-margin">
     <?php
     if(isset($_REQUEST['t'])){
         $mv_id = $_REQUEST['t'];
@@ -33,6 +33,9 @@ require (SITE_PATH."mv-content/header.php");
                                 <span>Release Date: </span><div class="text-dark font-weight-bold h5 mb-0"><span><?=$movie['mv_release_date']?></span></div>
                                 <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                             </div>
+                            <div>
+                                <button class="btn btn-primary" name="btn-show-book" value="<?=$mv_id?>" onclick="loadShow(this.value)">Shows</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,4 +45,6 @@ require (SITE_PATH."mv-content/header.php");
     }
     ?>
 </div>
+
 <?php require(SITE_PATH."mv-content/footer.php");?>
+

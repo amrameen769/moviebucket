@@ -1,6 +1,6 @@
 <?php
 //Project Path
-define("SITE_URL","http://moviebucket.com/");
+define("SITE_URL","https://moviebucket.com/");
 define("SITE_PATH","C:/xampp/htdocs/moviebucket/");
 
 //Time Zone
