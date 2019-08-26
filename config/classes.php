@@ -29,7 +29,16 @@ class MovieBook{
     }
 
     function selectShows($mv_id){
-        $selectShows = "SELECT "
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectShows = "SELECT * FROM tbl_showtime WHERE mv_id='$mv_id' ORDER BY shw_date AND shw_time";
+        $shows = array();
+        $resSelectShows = $dbconn -> query($selectShows);
+        if(mysqli_num_rows($resSelectShows) > 0){
+            while($row = mysqli_fetch_assoc($resSelectShows)){
+                array_push($shows,$row);
+            }
+        }
+        return $shows;
     }
 }
 
@@ -89,13 +98,12 @@ class RemoveData{
     if(isset($_POST['remove_shw'])){
       $shw_id = $_POST['remove_shw'];
       //echo "<h1>Removing Data for $shw_id</h1>";
-      $delQueryA = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = '$shw_id'";
-      $delQueryB = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id = '$shw_id' AND thr_id='$thr_id'";
+      $delQuery = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = '$shw_id' AND thr_id='$thr_id'";
         //$delQueryA = "DELETE FROM tbl_showtime where shw_id = '$shw_id'";
         //$delQueryB = "DELETE FROM tbl_shows where shw_id = '$shw_id' AND thr_id='$thr_id'";
         //$delLogA = mysqli_query($dbconn,$delQueryA);
       //$delLogB = mysqli_query($dbconn,$delQueryB);
-      if($dbconn -> query($delQueryA) === true && $dbconn -> query($delQueryB) === true){
+      if($dbconn -> query($delQuery) === true){
         $_SESSION['remove_shw'] = "Show Time Removed";
       }
       else{

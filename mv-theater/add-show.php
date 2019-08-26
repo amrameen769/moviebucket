@@ -45,84 +45,66 @@ $rem->removeShow($thr_id);
 
             <?php
             $errors = array();
-            if(isset($_POST['add_showtime'])){
-                $mv_id = mysqli_real_escape_string($dbconn,$_POST['mv_id']);
-                $thr_screen_no = mysqli_real_escape_string($dbconn,$_POST['thr_screen_no']);
-                $shw_time = mysqli_real_escape_string($dbconn,$_POST['shw_time']);
-                $shw_date = mysqli_real_escape_string($dbconn,$_POST['shw_date']);
+            if(isset($_POST['add_showtime'])) {
+                $mv_id = mysqli_real_escape_string($dbconn, $_POST['mv_id']);
+                $thr_screen_no = mysqli_real_escape_string($dbconn, $_POST['thr_screen_no']);
+                $shw_time = mysqli_real_escape_string($dbconn, $_POST['shw_time']);
+                $shw_date = mysqli_real_escape_string($dbconn, $_POST['shw_date']);
 
                 $selQuery = "SELECT thr_id FROM tbl_theater WHERE thr_uname = '$thr_uname'";
-                $results = mysqli_query($dbconn,$selQuery);
-                if(mysqli_num_rows($results) > 0){
+                $results = mysqli_query($dbconn, $selQuery);
+                if (mysqli_num_rows($results) > 0) {
                     $row = mysqli_fetch_assoc($results);
-                    $thr_id =$row['thr_id'];
+                    $thr_id = $row['thr_id'];
                 }
 
-                if(empty($mv_id)){ array_push($errors,"Please Select a Movie");}
-                if(empty($thr_screen_no)){ array_push($errors,"Please Add Screen");}
-                if(empty($shw_time)){ array_push($errors,"Please Add Show Time");}
-                if(empty($shw_date)){ array_push($errors,"Please Add Show Date");}
-                $shw_id ='';
-                $shw_status='';
+                if (empty($mv_id)) {
+                    array_push($errors, "Please Select a Movie");
+                }
+                if (empty($thr_screen_no)) {
+                    array_push($errors, "Please Add Screen");
+                }
+                if (empty($shw_time)) {
+                    array_push($errors, "Please Add Show Time");
+                }
+                if (empty($shw_date)) {
+                    array_push($errors, "Please Add Show Date");
+                }
+                $shw_id = '';
+                $shw_status = '';
 
-                $checkShowQuery = "SELECT shw_id FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_no = '$thr_screen_no'
-                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date'";
-                $resShw = mysqli_query($dbconn,$checkShowQuery);
+                $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_no = '$thr_screen_no'
+                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
+                $resShw = mysqli_query($dbconn, $checkShowQuery);
 
                 //$show = new StoreData;
 
-                if(mysqli_num_rows($resShw) > 0){
+                if (mysqli_num_rows($resShw) > 0) {
                     //echo "There are show ids";
-                    while($row = mysqli_fetch_assoc($resShw)){
-                        $shw_id = $row['shw_id'];
-                        //$show->putShow($shw_id);
-                        //echo "<br>" . $shw_id . "<br>" . $thr_id . "<br>";
-                        $checkThrQuery = "SELECT thr_id,shw_status FROM tbl_shows WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";
-                        $resThr = mysqli_query($dbconn,$checkThrQuery);
+                    $row = mysqli_fetch_assoc($resShw);
+                    $shw_id = $row['shw_id'];
 
-                        if(mysqli_num_rows($resThr) > 0){
-                            if($row = mysqli_fetch_assoc($resThr)){
-                                $shw_status = $row['shw_status'];
-                                if($shw_status == 0){
-                                    $changeStatusQueryA = "UPDATE tbl_shows SET shw_status = TRUE WHERE shw_id = $shw_id";
-                                    $changeStatusQueryB = "UPDATE tbl_showtime SET shw_status = TRUE WHERE shw_id = $shw_id";
-                                    if($exec ->query($changeStatusQueryA) && $exec ->query($changeStatusQueryB)){
-                                        array_push($errors,"Show Time Added");
-                                    }
-                                    else echo "Insertion Error";
-                                }
-                                else{
-                                    array_push($errors, "Show Time already Exists for $thr_uname");
-                                    break;
-                                    //Checking for Show time already Exists
-                                }
-                            }
+                    if($row['shw_status'] == 1){
+                        array_push($errors, "Show Time already Exists for $thr_uname");
+                        //Checking for Show time already Exists
+                    }
+                    elseif($row['shw_status'] == 0) {
+                        $changeStatusQuery = "UPDATE tbl_showtime SET shw_status = TRUE WHERE shw_id = '$shw_id' AND shw_status = 0";
+                        if ($exec->query($changeStatusQuery)) {
+                            array_push($errors, "Show Time Updated");
                         }
                     }
                 }
-
-                if(count($errors) == 0){
+                if (count($errors) == 0) {
                     //$statusQueryA = "SELECT shw_status FROM tbl_shows WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";
-                    $insShw = "INSERT INTO tbl_showtime (mv_id, shw_time, thr_screen_no, shw_date, shw_status)
-              VALUES ('$mv_id', '$shw_time', '$thr_screen_no', '$shw_date', TRUE)";
-                    if(mysqli_query($dbconn,$insShw)){
-                        $shwIdQuery = "SELECT shw_id FROM tbl_showtime ORDER BY shw_id DESC LIMIT 1";
-                        $row = mysqli_fetch_row(mysqli_query($dbconn,$shwIdQuery));
-                        $shw_id = $row[0];
-                        /*$shwIdQuery = "SELECT shw_id FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_no = '$thr_screen_no'
-                        AND shw_time = '$shw_time' AND shw_date = '$shw_date'";*/
-                        $insThr = "INSERT INTO tbl_shows (thr_id, shw_id, thr_screen_no, shw_status)
-                VALUES ('$thr_id', '$shw_id', '$thr_screen_no', TRUE)";
-                        if(mysqli_query($dbconn,$insThr)){
-                            $_SESSION['addshow'] = "Show Time Added";
-                            //header("location:add-show.php");
-                        }
-                        else{
-                            array_push($errors,"Internal Insertion Error");
-                        }
+                    $insShw = "INSERT INTO tbl_showtime (mv_id, shw_time,thr_id, thr_screen_no, shw_date, shw_status)
+                    VALUES ('$mv_id', '$shw_time','$thr_id', '$thr_screen_no', '$shw_date', TRUE)";
+                    if (mysqli_query($dbconn, $insShw)) {
+                        $_SESSION['addshow'] = "Show Time Added";
+                        //header("location:add-show.php");
                     }
-                    else{
-                        array_push($errors,"Internal Insertion Error");
+                    else {
+                        array_push($errors, "Internal Insertion Error");
                     }
                 }
             }
@@ -202,7 +184,7 @@ $rem->removeShow($thr_id);
                 </thead>
                 <tbody>
                 <?php
-                $selIdQuery = "SELECT shw_id from tbl_shows WHERE thr_id = '$thr_id' AND shw_status = TRUE";
+                $selIdQuery = "SELECT shw_id from tbl_showtime WHERE thr_id = '$thr_id' AND shw_status = TRUE";
                 $resI = mysqli_query($dbconn, $selIdQuery);
                 $i = 1;
                 if(mysqli_num_rows($resI) > 0):
