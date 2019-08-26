@@ -25,7 +25,7 @@ if(isset($_GET['logout'])){
   </head>
   <!--Header-->
   <?php require(SITE_PATH."mv-content/header.php"); ?>
-  <body>
+  <body id="book-page">
     <?php if(isset($_SESSION['success'])) : ?>
       <div class="jumbotron">
         <h3>
@@ -39,6 +39,7 @@ if(isset($_GET['logout'])){
       <!--<div class="jumbotron"><h3>Welcome <strong><$session['username']></strong></h3></div>-->
         <div class="row">
             <?php
+            $i=1;
             $mb = new MovieBook;
             $movies = $mb->selectMovies();
             if(is_array($movies)){
@@ -53,10 +54,11 @@ if(isset($_GET['logout'])){
                                                 <span>
                                                     <img src="<?=SITE_URL?>mv-includes/images/saaho.jpg" alt="saaho.jpg">
                                                 </span>
-                                            </div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span><?=$movie['mv_name']?></span></div>
+                                                </div>
+                                                <div class="text-dark font-weight-bold h5 mb-0"><span><?=$movie['mv_name']?></span></div>
+                                                <button class="btn btn-primary" name="btn-mov-book" value="<?=$movie['mv_id']?>" onclick="loadDoc(this.value)">Read More...</button>
+                                            <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
@@ -67,5 +69,21 @@ if(isset($_GET['logout'])){
             ?>
         </div>
     <?php endif ?>
+    <script>
+    function loadDoc(str) {
+        if (str.length == 0) {
+            document.getElementById("txtHint").innerHTML = "";
+            return;
+        }
+        var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("book-page").innerHTML = this.responseText;
+    }
+    };
+    xhttp.open("GET", "book-movie.php?t=" + str, true);
+    xhttp.send();
+    }
+    </script>
   <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>

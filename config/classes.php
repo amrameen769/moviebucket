@@ -15,6 +15,18 @@ class MovieBook{
         }
         return $movies;
     }
+
+    function selectMovie($mv_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $row = "";
+        $selectMovie = "SELECT mv_name,mv_hero,mv_heroine,mv_lang,mv_director,mv_producer,mv_release_date 
+                        FROM tbl_movie WHERE mv_id = '$mv_id' LIMIT 1";
+        $resSelectMovie = $dbconn -> query($selectMovie);
+        if(mysqli_num_rows($resSelectMovie) > 0){
+            $row = mysqli_fetch_assoc($resSelectMovie);
+        }
+        return $row;
+    }
 }
 
 
