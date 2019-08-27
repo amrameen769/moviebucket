@@ -46,7 +46,7 @@ class MovieBook{
 
 class Secure{
   function checkTSign(){
-    if(isset($_SESSION['thr_name']) && $_SESSION['user_type'] == 'theater'){
+    if(isset($_SESSION['thr_uname']) && $_SESSION['user_type'] == 'theater'){
     $_SESSION['success'] = "Logged in Successfully";
     //$_SESSION['root'] = "home.php";
     }
@@ -127,7 +127,7 @@ class RemoveData{
             if(mysqli_num_rows($resShow)){
                 while($rowShow = mysqli_fetch_assoc($resShow)){
                     $shw_id = $rowShow['shw_id'];
-                    $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id = $shw_id";
+                    $removeShow = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = $shw_id";
                     if(!$dbconn->query($removeShow)){
                         $flag = 0;
                     }
@@ -166,6 +166,27 @@ class getData{
             }
         }
         return $this->thr_name;
+    }
+
+    function getScreenDetails($thr_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectScreenNo = "SELECT thr_screens FROM tbl_theater WHERE thr_id = $thr_id LIMIT 1";
+        $resScreen = $dbconn->query($selectScreenNo);
+        if(mysqli_num_rows($resScreen) > 0){
+            //return scren no
+        }
+    }
+
+    function getTheaterId($thr_name){
+        $thr_id = 0;
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selQuery = "SELECT thr_id FROM tbl_theater WHERE thr_uname = '$thr_name'";
+        $results = mysqli_query($dbconn, $selQuery);
+        if (mysqli_num_rows($results) > 0) {
+            $row = mysqli_fetch_assoc($results);
+            $thr_id = $row['thr_id'];
+        }
+        return $thr_id;
     }
     private $reqNo;
     function getNumReqs($n){

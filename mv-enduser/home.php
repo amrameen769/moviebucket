@@ -1,8 +1,8 @@
 <?php require("../config/autoload.php");
 
 //check session if any Theater is logged in
-if(isset($_SESSION['thr_name'])){
-  unset($_SESSION['thr_name']);
+if(isset($_SESSION['thr_uname'])){
+  unset($_SESSION['thr_uname']);
 }
 
 //check session if any user is logged in

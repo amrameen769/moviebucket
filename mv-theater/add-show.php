@@ -14,7 +14,7 @@ Interacting with:
 tbl_showtime
 tbl_shows
 */
-$thr_uname = $_SESSION['thr_name'];
+$thr_uname = $_SESSION['thr_uname'];
 $selQuery = "SELECT thr_screens,thr_id FROM tbl_theater WHERE thr_uname = '$thr_uname'";
 $results = mysqli_query($dbconn,$selQuery);
 if(mysqli_num_rows($results) > 0){
@@ -50,13 +50,6 @@ $rem->removeShow($thr_id);
                 $thr_screen_no = mysqli_real_escape_string($dbconn, $_POST['thr_screen_no']);
                 $shw_time = mysqli_real_escape_string($dbconn, $_POST['shw_time']);
                 $shw_date = mysqli_real_escape_string($dbconn, $_POST['shw_date']);
-
-                $selQuery = "SELECT thr_id FROM tbl_theater WHERE thr_uname = '$thr_uname'";
-                $results = mysqli_query($dbconn, $selQuery);
-                if (mysqli_num_rows($results) > 0) {
-                    $row = mysqli_fetch_assoc($results);
-                    $thr_id = $row['thr_id'];
-                }
 
                 if (empty($mv_id)) {
                     array_push($errors, "Please Select a Movie");

@@ -4,7 +4,7 @@ $sec -> checkTSign();
 
 
 
-$thr_uname = $_SESSION['thr_name'];
+$thr_uname = $_SESSION['thr_uname'];
 $selQuery = "SELECT thr_id FROM tbl_theater WHERE thr_uname = '$thr_uname'";
 $results = mysqli_query($dbconn,$selQuery);
 if(mysqli_num_rows($results) > 0){

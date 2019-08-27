@@ -2,8 +2,8 @@
 
 
 //check session if any Theater is logged in
-if(isset($_SESSION['thr_name'])){
-  unset($_SESSION['thr_name']);
+if(isset($_SESSION['thr_uname'])){
+  unset($_SESSION['thr_uname']);
 }
 
 //check session if any user or Admin is logged in

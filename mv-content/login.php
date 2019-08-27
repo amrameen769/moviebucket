@@ -64,7 +64,7 @@
                                 if(mysqli_num_rows($results) > 0){ #if there is a result
                                     if($row = mysqli_fetch_assoc($results)){
                                         if($row['thr_status'] == 1){
-                                            $_SESSION['thr_name'] = $user_uname;
+                                            $_SESSION['thr_uname'] = $user_uname;
                                             $_SESSION['user_type'] = "theater";
                                             //$_SESSION['success'] = "Logged in Successfully";
                                             header("location:../mv-theater/home.php"); #to Theater home
