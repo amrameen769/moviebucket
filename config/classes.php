@@ -173,7 +173,8 @@ class getData{
         $selectScreenNo = "SELECT thr_screens FROM tbl_theater WHERE thr_id = $thr_id LIMIT 1";
         $resScreen = $dbconn->query($selectScreenNo);
         if(mysqli_num_rows($resScreen) > 0){
-            //return scren no
+            $row = mysqli_fetch_assoc($resScreen);
+            return $row['thr_screens'];
         }
     }
 

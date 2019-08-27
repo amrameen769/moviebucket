@@ -45,13 +45,12 @@ if(!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin'){
                                     if(mysqli_num_rows($resShow) > 0){
                                         while($row = mysqli_fetch_assoc($resShow)){
                                             $shw_id = $row['shw_id'];
-                                            $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id=$shw_id";
+                                            $removeShow = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id=$shw_id";
                                             if(!$exec->query($removeShow)){
                                                 $flag = 0;
                                             }
                                         }
                                     }
-                                    $removeShow = "UPDATE tbl_shows SET shw_status = FALSE WHERE shw_id=()";
                                     if($exec->query($updateStatus) && $flag == 1){
                                         array_push($errors,"Status Updated, Shows Removed");
                                     }
