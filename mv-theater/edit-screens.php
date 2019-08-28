@@ -11,12 +11,9 @@ $screen = new Screens;
 $thr_screens = $gd->getScreenDetails($thr_id);
 $status = $screen->checkScreenInitial($thr_id);
 ?>
-<html>
-<body>
 <?php if (!$status) : ?>
     <form class="col- col-sm col-md col-lg col-xl form-movie mx-auto d-block">
         <div class="add-info table-responsive">
-            <h4>No Screens Initialized.</h4>
             <label class="btn btn-danger" id="InitializeScreens">
                 Initialize Screens
             </label>
@@ -24,7 +21,7 @@ $status = $screen->checkScreenInitial($thr_id);
                 <?php
                 $i = 1;
                 while ($i <= $thr_screens) : ?>
-                    <tr>
+                    <tr id="row-<?=$i?>">
                         <td>
                             <input class="form-control field-width" type="text" id="name-<?= $i ?>" name="screen-name"
                                    placeholder="Screen Name">
@@ -34,15 +31,16 @@ $status = $screen->checkScreenInitial($thr_id);
                                    placeholder="Screen Seats">
                         </td>
                         <td>
-                            <button class="btn btn-dark" type="button" onclick="initializeScreen(this.id)"
-                                    id="screen-<?= $i ?>">Intialize
-                            </button>
+                            <button onclick="init(this.id)" class="btn btn-dark" type="button" id="<?= $i ?>">Intialize</button>
                         </td>
                     </tr>
                     <?php $i++; endwhile; ?>
             </table>
         </div>
     </form>
+<script>
+
+</script>
+<?php else : ?>
+    <h4>All Screens Initialized</h4>
 <?php endif ?>
-</body>
-</html>

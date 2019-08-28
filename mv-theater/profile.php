@@ -63,5 +63,13 @@ $thr_screens = $gd->getScreenDetails($thr_id);
             xhr.send(details);
         }
     }
+
+    /*document.getElementById('1').addEventListener("click", function () {
+        init(this.id);
+    })
+    function init(sid) {
+        var seat = document.getElementById("name-1").value;
+        alert(sid + seat);
+    }*/
 </script>
 </html>

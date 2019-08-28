@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2019 at 07:51 PM
+-- Generation Time: Aug 28, 2019 at 06:26 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -34,6 +34,8 @@ CREATE TABLE `tbl_booking` (
   `show_id` int(11) NOT NULL,
   `mv_id` int(11) NOT NULL,
   `thr_id` int(11) NOT NULL,
+  `thr_screen_id` varchar(255) NOT NULL,
+  `screen_seat_id` varchar(255) NOT NULL,
   `book_date` date NOT NULL,
   `book_pay` double NOT NULL,
   `book_status` tinyint(1) NOT NULL
@@ -85,6 +87,62 @@ CREATE TABLE `tbl_review` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_screens`
+--
+
+CREATE TABLE `tbl_screens` (
+  `def_screen_id` bigint(255) NOT NULL,
+  `thr_id` int(11) NOT NULL,
+  `thr_screen_id` varchar(20) NOT NULL,
+  `seat_number` int(11) DEFAULT NULL,
+  `thr_screen_name` varchar(20) NOT NULL,
+  `thr_screen_status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_screens`
+--
+
+INSERT INTO `tbl_screens` (`def_screen_id`, `thr_id`, `thr_screen_id`, `seat_number`, `thr_screen_name`, `thr_screen_status`) VALUES
+(1, 2, 'carnival3901', 3, 'CarnA', 1),
+(2, 2, 'carnival3902', 4, 'CarnB', 1),
+(3, 2, 'carnival3903', 6, 'CarnC', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_seats`
+--
+
+CREATE TABLE `tbl_seats` (
+  `def_seat_id` bigint(255) NOT NULL,
+  `thr_screen_id` varchar(255) NOT NULL,
+  `screen_seat_id` varchar(255) NOT NULL,
+  `seat_book_status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_seats`
+--
+
+INSERT INTO `tbl_seats` (`def_seat_id`, `thr_screen_id`, `screen_seat_id`, `seat_book_status`) VALUES
+(1, 'carnival3901', 'carnival3901-1', 1),
+(2, 'carnival3901', 'carnival3901-2', 1),
+(3, 'carnival3901', 'carnival3901-3', 1),
+(4, 'carnival3902', 'carnival3902-1', 1),
+(5, 'carnival3902', 'carnival3902-2', 1),
+(6, 'carnival3902', 'carnival3902-3', 1),
+(7, 'carnival3902', 'carnival3902-4', 1),
+(8, 'carnival3903', 'carnival3903-1', 1),
+(9, 'carnival3903', 'carnival3903-2', 1),
+(10, 'carnival3903', 'carnival3903-3', 1),
+(11, 'carnival3903', 'carnival3903-4', 1),
+(12, 'carnival3903', 'carnival3903-5', 1),
+(13, 'carnival3903', 'carnival3903-6', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_showtime`
 --
 
@@ -106,7 +164,8 @@ INSERT INTO `tbl_showtime` (`shw_id`, `mv_id`, `shw_time`, `thr_id`, `thr_screen
 (1, 1, '04:00:00', 1, 1, '2019-08-01', 1),
 (2, 1, '04:00:00', 2, 1, '2019-08-01', 1),
 (3, 4, '19:00:00', 2, 2, '2019-08-30', 1),
-(4, 4, '16:15:00', 1, 4, '2019-08-31', 1);
+(4, 4, '16:15:00', 1, 4, '2019-08-31', 1),
+(5, 3, '05:00:00', 1, 3, '2019-08-14', 1);
 
 -- --------------------------------------------------------
 
@@ -185,6 +244,18 @@ ALTER TABLE `tbl_review`
   ADD PRIMARY KEY (`rvw_id`);
 
 --
+-- Indexes for table `tbl_screens`
+--
+ALTER TABLE `tbl_screens`
+  ADD PRIMARY KEY (`def_screen_id`);
+
+--
+-- Indexes for table `tbl_seats`
+--
+ALTER TABLE `tbl_seats`
+  ADD PRIMARY KEY (`def_seat_id`);
+
+--
 -- Indexes for table `tbl_showtime`
 --
 ALTER TABLE `tbl_showtime`
@@ -228,10 +299,22 @@ ALTER TABLE `tbl_review`
   MODIFY `rvw_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_screens`
+--
+ALTER TABLE `tbl_screens`
+  MODIFY `def_screen_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_seats`
+--
+ALTER TABLE `tbl_seats`
+  MODIFY `def_seat_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `tbl_showtime`
 --
 ALTER TABLE `tbl_showtime`
-  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_theater`

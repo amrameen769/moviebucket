@@ -5,9 +5,44 @@ class Screens{
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreen = "SELECT thr_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 1";
         $resScreen = $dbconn->query($selectScreen);
-        if(mysqli_num_rows($resScreen) == 0){
+        $gd = new getData;
+        $thr_screens = $gd->getScreenDetails($thr_id);
+        if(mysqli_num_rows($resScreen) < $thr_screens){
             return false;
         } else return true;
+    }
+
+    function checkScreenExist($thr_screen_id,$thr_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $checkScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_id='$thr_screen_id' AND thr_screen_status = 1";
+        $resCheckScreen = $dbconn->query($checkScreen);
+        if(mysqli_num_rows($resCheckScreen) > 0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function initSeats($thr_screen_id,$seat_number){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $i = 1;
+        $flag = 1;
+        while($i<=$seat_number){
+            $screen_seat_id = $thr_screen_id."-".$i;
+            $initSeat = "INSERT INTO tbl_seats (thr_screen_id,screen_seat_id, seat_book_status) 
+            VALUES ('$thr_screen_id','$screen_seat_id',true)";
+            if(!$dbconn->query($initSeat)){
+                $flag = 0;
+                break;
+            }
+            if($flag == 0){
+                return "Seat Initialization Failed";
+            }
+            if($i == $seat_number){
+                return "Seats Initialized Succesfully";
+            }
+            $i++;
+        }
     }
 }
 

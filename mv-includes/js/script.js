@@ -43,6 +43,44 @@ function loadShow(mv_id) {
     xhttp.send();
 }
 
-function initializeScreen(sid) {
 
+/*document.getElementById('1').addEventListener("click", function () {
+    init(this.id);
+});*/
+
+
+/*function init(sid) {
+    var screenid = "name-" + sid;
+    var seatid = "seat-" + sid;
+    var screen = $("#" + screenid).val();
+    var seat = $("#" + seatid).val();
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST','https://moviebucket.com/mv-theater/add-screens.php', true);
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    let details = "screen_name="+screen+"&seat_number="+seat;
+    xhr.onload = function() {
+        if(this.readyState == 4){
+            document.getElementById('settings').innerHTML = this.responseText;
+        }
+    }
+    xhr.send(details);
+}*/
+
+function init(sid) {
+    //alert(sid);
+    var screenid = "name-" + sid;
+    var seatid = "seat-" + sid;
+    var screen = $("#" + screenid).val();
+    var seat = $("#" + seatid).val();
+        $.post('https://moviebucket.com/mv-theater/add-screens.php', {
+                screen_name: screen,
+                seat_number: seat,
+                sid : sid
+            },
+            function (response) {
+                document.getElementById('settings').innerHTML = response;
+            });
 }
+
+
+
