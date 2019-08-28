@@ -9,11 +9,11 @@ if(!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin'){
 <!DOCTYPE html>
 <html>
 
-<?php require(SITE_PATH . "mv-content/header.php");?>
+<?php //require(SITE_PATH . "mv-content/header.php");?>
 <title>Theater Requests</title>
 <?php if(isset($_SESSION['username'])) : ?>
     <?php require (SITE_PATH."mv-admin/includes/ad-header.php");?>
-    <div id="content">
+    <div class="d-flex flex-column" id="content-wrapper">
         <div class="highlight-blue">
             <div class="container">
                 <div class="intro">

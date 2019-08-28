@@ -14,7 +14,6 @@ require(SITE_PATH."mv-content/header.php");
 
 
 $thr_uname = $_SESSION['thr_uname'];
-echo $thr_uname;
 $gd = new getData;
 $thr_id = $gd->getTheaterId($thr_uname);
 $thr_screens = $gd->getScreenDetails($thr_id);
@@ -27,5 +26,6 @@ $thr_screens = $gd->getScreenDetails($thr_id);
         </div>
     </div>
 </div>
+<div class="d-flex flex-column" id="content-wrapper">
 <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>

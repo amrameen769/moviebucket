@@ -25,7 +25,7 @@ if(isset($_GET['logout'])){
     <title>Home</title>
   </head>
   <!--Header-->
-  <?php require(SITE_PATH."mv-content/header.php"); ?>
+  <?php //require(SITE_PATH."mv-content/header.php"); ?>
     <?php if(isset($_SESSION['success'])) : ?>
       <div class="">
         <h3>
@@ -40,6 +40,7 @@ if(isset($_GET['logout'])){
     <!--if Admin logged in Successfully-->
   <?php require(SITE_PATH."mv-admin/includes/ad-header.php");?>
     <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') : ?>
+    <body>
             <div class="d-flex flex-column" id="content-wrapper">
                 <div id="content">
                     <div class="container-fluid">

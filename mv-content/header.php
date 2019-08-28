@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/fonts/webfontkit/stylesheet.css">
   <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.min.js"></script>
   <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/popper.min.js"></script>
-    <link rel="stylesheet" href="<?=SITE_URL?>mv-admin/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/bootstrap/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="mv-includes/bootstrap/css/bootstrap.min.css">-->
-  <script src="<?=SITE_URL?>mv-admin/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<?=SITE_URL?>mv-includes/bootstrap/js/bootstrap.min.js"></script>
   <script src="<?=SITE_URL?>mv-includes/bootstrap/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/login.css">
   <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/animate.css">
@@ -86,7 +86,7 @@
                 <div class="nav-item dropdown">
                     <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown"><strong><?= $_SESSION['thr_uname']?></strong></h3></button>
                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                        <a class="dropdown-item" role="presentation" href="<?=SITE_URL?>mv-theater/screen-manage.php"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
+                        <a class="dropdown-item" role="presentation" href="<?=SITE_URL?>mv-theater/profile.php"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
                         <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
                         <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
                         <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="<?=SITE_URL?>mv-theater/home.php?logout='1'"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
