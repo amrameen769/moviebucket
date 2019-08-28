@@ -2,9 +2,9 @@
 require("../config/autoload.php");
 
 $sec = new Secure;
-$sec -> checkTSign();
+$sec->checkTSign();
 
-require(SITE_PATH."mv-content/header.php");
+require(SITE_PATH . "mv-content/header.php");
 ?>
 
 <html>
@@ -26,6 +26,42 @@ $thr_screens = $gd->getScreenDetails($thr_id);
         </div>
     </div>
 </div>
-<div class="d-flex flex-column" id="content-wrapper">
-<?php require(SITE_PATH."mv-content/footer.php");?>
+<div>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <button id ="screens" class="btn nav-link btn-primary" value="<?=$thr_id?>">Screens</button>
+        </li>
+        <li class="nav-item">
+            <button id ="details" class="btn nav-link btn-primary" value="<?=$thr_id?>">Theater Details</button>
+        </li>
+        <li class="nav-item">
+            <button id ="contact" class="btn nav-link btn-primary" value="<?=$thr_id?>">Contact</button>
+        </li>
+    </ul>
+</div>
+<div id="settings">
+
+</div>
+
+<?php require(SITE_PATH . "mv-content/footer.php"); ?>
+</body>
+<script>
+    document.getElementById('screens').addEventListener('click',function(){ profileSettings(this.id,this.value)});
+    document.getElementById('details').addEventListener('click',function(){ profileSettings(this.id,this.value)});
+    document.getElementById('contact').addEventListener('click',function(){ profileSettings(this.id,this.value)});
+    function profileSettings(settingsid,thrid){
+        var xhr = new XMLHttpRequest();
+        if(settingsid == 'screens'){
+            xhr.open('POST', 'edit-screens.php', true);
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            let details = "thr_id=" + thrid;
+            xhr.onload = function() {
+                if(this.readyState == 4){
+                    document.getElementById('settings').innerHTML = this.responseText;
+                }
+            }
+            xhr.send(details);
+        }
+    }
+</script>
 </html>

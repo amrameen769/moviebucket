@@ -1,5 +1,16 @@
 
 <?php
+class Screens{
+    function checkScreenInitial($thr_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectScreen = "SELECT thr_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 1";
+        $resScreen = $dbconn->query($selectScreen);
+        if(mysqli_num_rows($resScreen) == 0){
+            return false;
+        } else return true;
+    }
+}
+
 
 class MovieBook{
     function selectMovies(){

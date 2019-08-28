@@ -33,7 +33,7 @@
         }
     </style>
 </head>
-<body class="animated fadeInDown delay-02s" id="page-top">
+
 
 <!-- Navigation Bar -->
 <header>

@@ -40,7 +40,7 @@ if(isset($_GET['logout'])){
     <!--if Admin logged in Successfully-->
   <?php require(SITE_PATH."mv-admin/includes/ad-header.php");?>
     <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') : ?>
-    <body>
+    <body class="animated fadeInDown delay-02s" id="page-top">
             <div class="d-flex flex-column" id="content-wrapper">
                 <div id="content">
                     <div class="container-fluid">
@@ -292,13 +292,13 @@ if(isset($_GET['logout'])){
                         <div class="text-center my-auto copyright"><span>Copyright © Brand 2019</span></div>
                     </div>
                 </footer>
-            </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+            </div>
+            <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
         <script src="assets/js/chart.min.js"></script>
         <script src="assets/js/bs-charts.js"></script>
         <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>-->
         <script src="assets/js/theme.js"></script>
-        </body>
-
+    </body>
     <?php endif ?>
 </html>

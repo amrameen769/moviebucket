@@ -43,13 +43,6 @@ function loadShow(mv_id) {
     xhttp.send();
 }
 
-function loadScreen(shwid){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("book-page").innerHTML = this.responseText;
-        }
-    }
-    xhttp.open("GET","screen-manage.php?shwid=" + shwid, true);
-    xhttp.send();
+function initializeScreen(sid) {
+
 }
