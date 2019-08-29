@@ -88,7 +88,14 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
                         <?php while ($movie = mysqli_fetch_assoc($results)) : ?>
                             <tr>
                                 <td><?= $movie['mv_id'] ?></td>
-                                <td><?= $movie['mv_name'] ?></td>
+                                <td>
+                                    <?= $movie['mv_name'] ?>
+                                    <div class="avatar-upload">
+                                        <img class="avatar-preview"
+                                             src="<?= SITE_URL ?>/mv-theater/mv-thumb/<?= $movie['mv_thumb'] ?>"
+                                             alt="movie_thumb">
+                                    </div>
+                                </td>
                                 <td><?= $movie['mv_hero'] ?></td>
                                 <td><?= $movie['mv_heroine'] ?></td>
                                 <td><?= $movie['mv_lang'] ?></td>

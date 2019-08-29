@@ -25,6 +25,8 @@ if(mysqli_num_rows($results) > 0){
 
 $rem = new RemoveData;
 $rem->removeShow($thr_id);
+
+$screen = new Screens;
 ?>
 
 <!DOCTYPE html>
@@ -47,14 +49,15 @@ $rem->removeShow($thr_id);
             $errors = array();
             if(isset($_POST['add_showtime'])) {
                 $mv_id = mysqli_real_escape_string($dbconn, $_POST['mv_id']);
-                $thr_screen_no = mysqli_real_escape_string($dbconn, $_POST['thr_screen_no']);
+                $thr_screen_id = mysqli_real_escape_string($dbconn, $_POST['thr_screen_id']);
                 $shw_time = mysqli_real_escape_string($dbconn, $_POST['shw_time']);
                 $shw_date = mysqli_real_escape_string($dbconn, $_POST['shw_date']);
+                $shw_cost = (double)mysqli_real_escape_string($dbconn, $_POST['shw_cost']);
 
                 if (empty($mv_id)) {
                     array_push($errors, "Please Select a Movie");
                 }
-                if (empty($thr_screen_no)) {
+                if (empty($thr_screen_id)) {
                     array_push($errors, "Please Add Screen");
                 }
                 if (empty($shw_time)) {
@@ -63,10 +66,13 @@ $rem->removeShow($thr_id);
                 if (empty($shw_date)) {
                     array_push($errors, "Please Add Show Date");
                 }
+                if (empty($shw_cost)) {
+                    array_push($errors, "Please Add Show Cost");
+                }
                 $shw_id = '';
                 $shw_status = '';
 
-                $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_no = '$thr_screen_no'
+                $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_id = '$thr_screen_id'
                                     AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
                 $resShw = mysqli_query($dbconn, $checkShowQuery);
 
@@ -90,8 +96,8 @@ $rem->removeShow($thr_id);
                 }
                 if (count($errors) == 0) {
                     //$statusQueryA = "SELECT shw_status FROM tbl_shows WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";
-                    $insShw = "INSERT INTO tbl_showtime (mv_id, shw_time,thr_id, thr_screen_no, shw_date, shw_status)
-                    VALUES ('$mv_id', '$shw_time','$thr_id', '$thr_screen_no', '$shw_date', TRUE)";
+                    $insShw = "INSERT INTO tbl_showtime (mv_id, shw_time,thr_id, thr_screen_id, shw_date, shw_cost, shw_status)
+                    VALUES ('$mv_id', '$shw_time','$thr_id', '$thr_screen_id', '$shw_date', '$shw_cost', TRUE)";
                     if (mysqli_query($dbconn, $insShw)) {
                         $_SESSION['addshow'] = "Show Time Added";
                         //header("location:add-show.php");
@@ -136,14 +142,24 @@ $rem->removeShow($thr_id);
                             </select>
                         </td>
                         <td id="02">
-                            <label for="formGroupExampleInput">Screen Number</label>
-                            <select class="form-control field-width" name="thr_screen_no">
+                            <label for="formGroupExampleInput">Screen Name</label>
+                            <select class="form-control field-width" name="thr_screen_id">
                                 <?php
-                                $i=1;
-                                while($i <= $thr_screens) : ?>
-                                    <option value="<?= $i ?>"><?= $i ?></option>
-                                    <?php $i++; ?>
-                                <?php endwhile ?>
+                                //$i=1;
+                                //while($i <= $thr_screens) : ?>
+                                    <!--<option value="<?//= $i ?>"><?//= $i ?></option>-->
+                                    <?php //$i++; ?>
+                                <?php //endwhile ?>
+
+                                <?php
+                                    $selectScreens = "SELECT thr_screen_id,thr_screen_name FROM tbl_screens WHERE thr_id = '$thr_id'";
+                                    $resScreen = $exec ->query($selectScreens);
+                                    if(mysqli_num_rows($resScreen) > 0){
+                                        while($row = mysqli_fetch_assoc($resScreen)) : ?>
+                                            <option value="<?=$row['thr_screen_id'] ?>"><?=$row['thr_screen_name'] ?></option>
+                                        <?php endwhile;
+                                    }
+                                ?>
                             </select>
                         </td>
                         <td id="03">
@@ -153,6 +169,10 @@ $rem->removeShow($thr_id);
                         <td id="04">
                             <label for="formGroupExampleInput">Show Date</label>
                             <input class="form-control field-width" id="formGroupExampleInput" type="date" name="shw_date" value="">
+                        </td>
+                        <td id="05">
+                            <label for="formGroupExampleInput">Show Cost</label>
+                            <input class="form-control field-width" id="formGroupExampleInput" type="text" name="shw_cost" value="">
                         </td>
                         <td>
                             <button type="submit" name="add_showtime" class="btn btn-primary mx-auto d-block">Add Showtime</button>
@@ -172,6 +192,7 @@ $rem->removeShow($thr_id);
                     <th>Screen</th>
                     <th>Show Time</th>
                     <th>Date</th>
+                    <th>Show Cost</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
@@ -201,9 +222,10 @@ $rem->removeShow($thr_id);
                                     }
                                     ?>
                                 </td>
-                                <td><?=$row['thr_screen_no']?></td>
+                                <td><?=$screen->returnScreenName($row['thr_screen_id'])?></td>
                                 <td><?=$row['shw_time']?></td>
                                 <td><?=$row['shw_date']?></td>
+                                <td><?=$row['shw_cost']?></td>
                                 <td>
                                     <button class="btn btn-primary" type="submit" name="remove_shw" value="<?=$shw_id?>">Remove Show</button>
                                 </td>
