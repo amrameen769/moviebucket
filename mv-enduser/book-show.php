@@ -13,6 +13,7 @@ require (SITE_PATH."mv-content/header.php");
         $errors = array();
         $gd = new getData;
         $mb = new MovieBook;
+        $movie = $mb->selectMovie($mv_id);
         $shows = $mb->selectShows($mv_id);
         if(is_array($shows)){
             foreach($shows as $show){
@@ -24,7 +25,7 @@ require (SITE_PATH."mv-content/header.php");
                                     <div class="col mr-2">
                                         <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
                                             <span>
-                                                <img src="<?=SITE_URL?>mv-includes/images/saaho.jpg" alt="saaho.jpg">
+                                                <img src="<?=SITE_URL?>mv-theater/mv-thumb/<?=$movie['mv_thumb']?>" alt="mv-thumb.jpg">
                                             </span>
                                         </div>
                                         <div class="text-dark font-weight-bold h5 mb-0"><span><?=$gd->getTheater($show['thr_id'])?></span></div>
