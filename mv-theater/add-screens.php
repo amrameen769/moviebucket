@@ -1,6 +1,9 @@
 <?php
 require ("../config/autoload.php");
 
+$sec = new Secure;
+$sec->checkTSign();
+
 $errors = array();
 if (isset($_POST)) {
     $screen_name = mysqli_real_escape_string($dbconn,$_POST['screen_name']);
