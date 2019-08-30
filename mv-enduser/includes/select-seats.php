@@ -5,13 +5,16 @@ $sec->checkUSign();
 
 require(SITE_PATH . "mv-content/header.php");
 
-echo $_POST['shw_id'];
+$shw_id = $_POST['shw_id'];
+
+$screen = new Screens;
+$thr_screen_id = $screen->returnScreenId($shw_id);
+
+$seat_number = $screen->returnScreenSeats($thr_screen_id);
+
 ?>
 
-<head>
-    <link rel="stylesheet" href="<?= SITE_URL ?>mv-includes/scss/seat-style.css">
-    <script src="<?= SITE_URL ?>mv-includes/js/sass.dart.js"></script>
-</head>
+<body class="container-fluid">
 <div class="d-flex flex-column" id="content-wrapper">
     <div class="highlight-blue">
         <div class="container">
@@ -22,14 +25,36 @@ echo $_POST['shw_id'];
         </div>
     </div>
 </div>
-<div class="row row-margin">
-    <div class="seat">
-        <input type="checkbox" id="A1"><label for="A1">A1</label>
-    </div>
-</div>
-<div class="row row-margin">
-    <div class="seat">
-        <input type="checkbox" id="A2"><label for="A2">A1</label>
-    </div>
-</div>
+<div class="seat-layout mx-auto d-block">
+    <table class="table">
+        <tr>
+            <td>
+                <div class="row row--1 row-margin" style="justify-content: center;">
+            <?php
+                $i=1;
+                $resSeats = $screen->returnSeats($thr_screen_id);
 
+                while ($seat = mysqli_fetch_assoc($resSeats)) : ?>
+                    <div class="seat">
+                        <input type="checkbox" id="<?= $seat['screen_seat_id'] ?>"
+                            <?php
+                            if($seat['seat_book_status'] == 1){
+                                echo "disabled";
+                            }
+                            ?>
+                        >
+                        <label
+                                for="<?= $seat['screen_seat_id'] ?>"><?=$i++; ?></label>
+                    </div>
+                    <?php if($i%15 == 0) { echo "</div><div class=\"row row--1 row-margin\" style='justify-content: center;'>";} ?>
+                <?php endwhile; ?>
+                    </div>
+            </td>
+        </tr>
+    </table>
+    <div class="screen-img">All Eyes Here!</div>
+</div>
+<div class="en-flex" style="justify-content: center;">
+    <button class="btn btn-primary" id="pay">Payment</button>
+</div>
+</body>

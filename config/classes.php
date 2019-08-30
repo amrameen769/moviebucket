@@ -22,6 +22,35 @@ class Screens{
         }
     }
 
+    function returnSeats($thr_screen_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectSeats = "SELECT * FROM tbl_seats WHERE thr_screen_id = '$thr_screen_id'";
+        $resSeats = $dbconn->query($selectSeats);
+        if(mysqli_num_rows($resSeats) > 0){
+            return $resSeats;
+        }
+    }
+
+    function returnScreenSeats($thr_screen_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectScreen = "SELECT seat_number FROM tbl_screens WHERE thr_screen_id = '$thr_screen_id'";
+        $resScreen = $dbconn->query($selectScreen);
+        if(mysqli_num_rows($resScreen) > 0){
+            $row = mysqli_fetch_assoc($resScreen);
+            return $row['seat_number'];
+        }
+    }
+
+    function returnScreenId($shw_id){
+        $dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $selectScreen ="SELECT thr_screen_id FROM tbl_showtime WHERE shw_id='$shw_id'";
+        $resScreen = $dbconn->query($selectScreen);
+        if(mysqli_num_rows($resScreen) > 0){
+            $row = mysqli_fetch_assoc($resScreen);
+            return $row['thr_screen_id'];
+        }
+    }
+
     function checkScreenExist($thr_screen_id,$thr_id){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $checkScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_id='$thr_screen_id' AND thr_screen_status = 1";

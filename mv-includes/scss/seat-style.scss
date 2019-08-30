@@ -7,7 +7,28 @@ html {
 }
 
 .row-margin{
-  margin-left: 20px;
+  margin-left: 50px;
+}
+
+.seat-layout{
+  width: 1200px;
+  height: 600px;
+  background-color: #1d2124;
+}
+
+.en-flex{
+  display: flex;
+}
+
+.screen-img{
+  width: 500px;
+  border-style: dotted;
+  border-radius: 50%;
+  height: 25px;
+  position: absolute;
+  bottom: 50px;
+  text-align: center;
+  margin-left: 350px;
 }
 
 ol {
@@ -43,6 +64,7 @@ ol {
   input[type=checkbox]:checked {
     + label {
       background: #148dff;
+      color: #FFFFFF;
       -webkit-animation-name: rubberBand;
       animation-name: rubberBand;
       animation-duration: 300ms;
@@ -75,7 +97,7 @@ ol {
     text-align: center;
     font-size: 14px;
     font-weight: bold!important;
-    text-decoration-color: #1b1e21;
+    color: #000000!important;
     line-height: 1.5rem;
     padding: 4px 0;
     background: #fcf2ff;

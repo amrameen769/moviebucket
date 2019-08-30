@@ -26,7 +26,10 @@
     <script src="<?=SITE_URL?>mv-admin/assets/js/theme.js"></script>
     <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.easing.js"></script>
     <script src="<?=SITE_URL?>mv-includes/js/script.js"></script>
+    <link rel="stylesheet" href="<?= SITE_URL ?>mv-includes/scss/seat-style.css">
+    <script src="<?= SITE_URL ?>mv-includes/js/sass.dart.js"></script>
     <link rel="stylesheet/less" href="<?=SITE_URL?>mv-includes/less/styles.css">
+
     <!--<script>
         less = {
             env: "development",
