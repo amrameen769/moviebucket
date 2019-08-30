@@ -43,8 +43,8 @@ ol {
   input[type=checkbox]:checked {
     + label {
       background: #148dff;
-      -webkit-animation-name: fadeIn;
-      animation-name: fadeIn;
+      -webkit-animation-name: rubberBand;
+      animation-name: rubberBand;
       animation-duration: 300ms;
       animation-fill-mode: both;
     }
@@ -176,6 +176,6 @@ ol {
 }
 
 .rubberBand {
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
 }
