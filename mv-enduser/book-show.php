@@ -13,6 +13,7 @@ require (SITE_PATH."mv-content/header.php");
         $errors = array();
         $gd = new getData;
         $mb = new MovieBook;
+        $screen = new Screens;
         $movie = $mb->selectMovie($mv_id);
         $shows = $mb->selectShows($mv_id);
         if(is_array($shows)){
@@ -29,9 +30,10 @@ require (SITE_PATH."mv-content/header.php");
                                             </span>
                                         </div>
                                         <div class="text-dark font-weight-bold h5 mb-0"><span><?=$gd->getTheater($show['thr_id'])?></span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><span><?=$screen->returnScreenName($show['thr_screen_id'])?></span></div>
                                         <div class="text-dark font-weight-bold h5 mb-0"><span><?=$show['shw_date']?></span></div>
                                         <div class="text-dark font-weight-bold h5 mb-0"><span><?=$show['shw_time']?></span></div>
-                                        <button class="btn btn-primary" name="btn-mov-book" value="<?=$show['shw_id']?>" onclick="#">Select Seats</button>
+                                        <button class="btn btn-primary" name="btn-mov-book" value="<?=$show['shw_id']?>" onclick="bookSeats(this.value)">Select Seats</button>
                                         <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
@@ -47,3 +49,4 @@ require (SITE_PATH."mv-content/header.php");
     }
     require(SITE_PATH."mv-content/errors.php");
     ?>
+</div>

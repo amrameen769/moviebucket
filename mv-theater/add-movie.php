@@ -14,6 +14,14 @@ if (mysqli_num_rows($results) > 0) {
 $rem = new RemoveData;
 $rem->removeMovie($thr_id);
 
+function findLang($languages,$lang_id){
+    foreach ($languages as $code=>$language){
+        if($code == $lang_id){
+            return $language;
+        }
+    }
+}
+
 ?>
 <?php
 $mv_name = "";
@@ -44,13 +52,29 @@ $mv_release_date = "";
         <p class="heading">Update Movie</p>
         <br>
         <?php
+        $languages=array(
+                "default"=>"",
+                "ar"=>"Arabic",
+            "zh"=>"Chinese",
+            "en"=>"English",
+            "fr"=>"French",
+            "de"=>"German",
+            "hi"=>"Hindi",
+            "ja"=>"Japanese",
+            "kn"=>"Kannada",
+            "ko"=>"Korean",
+            "ml"=>"Malayalam",
+            "ta"=>"Tamil",
+            "te"=>"Telugu"
+        );
         $errors = array();
         if (isset($_POST['request'])) {
 
             $mv_name = mysqli_real_escape_string($dbconn, $_POST['mv_name']);
             $mv_hero = mysqli_real_escape_string($dbconn, $_POST['mv_hero']);
             $mv_heroine = mysqli_real_escape_string($dbconn, $_POST['mv_heroine']);
-            $mv_lang = mysqli_real_escape_string($dbconn, $_POST['mv_lang']);
+            $lang_id = $_POST['mv_lang'];
+            $mv_lang=mysqli_real_escape_string($dbconn, findLang($languages,$lang_id));
             $mv_director = mysqli_real_escape_string($dbconn, $_POST['mv_director']);
             $mv_producer = mysqli_real_escape_string($dbconn, $_POST['mv_producer']);
             $mv_release_date = mysqli_real_escape_string($dbconn, $_POST['mv_release_date']);
@@ -209,8 +233,13 @@ $mv_release_date = "";
                     </td>
                     <td>
                         <label for="formGroupExampleInput">Language</label>
-                        <input class="form-control field-width" id="formGroupExampleInput" type="text" name="mv_lang"
-                               value="<?= $mv_lang ?>"><br><br>
+                        <select class="form-control field-width" id="formGroupExampleInput" type="text" name="mv_lang">
+                            <optgroup label="Select Language">
+                            <?php foreach($languages as $code => $lang) : ?>
+                            <option value="<?=$code?>"><?=$lang?></option>
+                            <?php endforeach;?>
+                            </optgroup>
+                        </select><br><br>
                     </td>
                     <td>
                         <label for="formGroupExampleInput">Director</label>

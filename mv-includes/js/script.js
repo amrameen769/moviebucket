@@ -82,5 +82,14 @@ function init(sid) {
             });
 }
 
+function bookSeats(shw_id){
+    $.post("https://moviebucket.com/mv-enduser/includes/select-seats.php",
+        {
+            shw_id: shw_id
+        },
+        function(response){
+            document.getElementById("book-page").innerHTML = response;
+        });
+}
 
 

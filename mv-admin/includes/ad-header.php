@@ -19,14 +19,14 @@
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/animate.css">
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/master.css">
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/style.css">
-    <link rel="stylesheet/less" href="<?=SITE_URL?>mv-includes/css/styles.less">
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/fontawesome/css/all.css">
     <script src="<?=SITE_URL?>mv-includes/fontawesome/js/all.js"></script>
     <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/css/responsive.css">
     <script src="<?=SITE_URL?>mv-admin/assets/js/theme.js"></script>
     <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.easing.js"></script>
     <script src="<?=SITE_URL?>mv-includes/js/script.js"></script>
-    <script>
+    <link rel="stylesheet/less" href="<?=SITE_URL?>mv-includes/less/styles.css"/>
+    <!--<script>
         less = {
             env: "development",
             async: false,
@@ -37,8 +37,8 @@
             relativeUrls: false,
             rootpath: ":/a.com/"
         };
-    </script>
-    <script src="<?=SITE_URL?>mv-includes/js/less.min.js"></script>
+    </script>-->
+    <script src="<?=SITE_URL?>mv-includes/js/less.js"></script>
     <style>
         .navbar-brand img{
             height: 40px;
