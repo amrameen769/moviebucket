@@ -73,7 +73,7 @@
                         }
                     }?>">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link" href="#">Movies</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -86,23 +86,23 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Reports</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <!--<form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            </form>-->
             <?php if(isset($_SESSION['user_type'])) : ?>
                 <?php if($_SESSION['user_type'] == "admin") : ?>
                     <div class="nav-item dropdown">
                         <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown"><strong><?= $_SESSION['username']?></strong></h3></button>
                         <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                            <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
+                            <!--<a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
                             <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
-                            <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
+                            <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>-->
                             <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="<?=SITE_URL?>mv-admin/home.php?logout='1'"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                         </div>
                     </div>

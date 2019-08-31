@@ -1,7 +1,7 @@
 // make sure to keep this as 'var'
 // we don't want block scoping
 
-var url = require("url");
+var url = require("https://moviebucket.com/mv-includes/scss/");
 var dartNodePreambleSelf = typeof global !== "undefined" ? global : window;
 
 var self = Object.create(dartNodePreambleSelf);

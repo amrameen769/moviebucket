@@ -24,6 +24,7 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
                 <div class="buttons"></div>
                 <?php
                 $errors = array();
+                $screens = new Screens;
                 if (isset($_POST['status_btn'])) {
                     $thr_id = mysqli_real_escape_string($dbconn, $_POST['status_btn']);
                     $selectStatus = "SELECT thr_status FROM tbl_theater where thr_id='$thr_id'";
@@ -33,6 +34,9 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
                             $thr_status = $row['thr_status'];
                             if ($thr_status == 0) {
                                 $updateStatus = "UPDATE tbl_theater SET thr_status = TRUE WHERE thr_id='$thr_id'";
+                                if(!$screens->initScreens($thr_id)){
+                                    array_push($errors,"Screens Could Not be Initialized");
+                                }
                             } elseif ($thr_status == 1) {
                                 $updateStatus = "UPDATE tbl_theater SET thr_status = FALSE WHERE thr_id='$thr_id'";
                             }

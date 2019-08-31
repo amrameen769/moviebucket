@@ -11,8 +11,8 @@ html {
 }
 
 .seat-layout{
-  width: 1200px;
-  height: 600px;
+  width: 50%;
+  height: auto;
   background-color: #1d2124;
 }
 
@@ -21,14 +21,14 @@ html {
 }
 
 .screen-img{
-  width: 500px;
+  width: auto;
   border-style: dotted;
   border-radius: 50%;
   height: 25px;
-  position: absolute;
+  position: inherit;
   bottom: 50px;
   text-align: center;
-  margin-left: 350px;
+  margin-left: auto;
 }
 
 ol {

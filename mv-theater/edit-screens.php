@@ -8,7 +8,6 @@ $thr_id = $_POST['thr_id'];
 
 $gd = new getData;
 $screen = new Screens;
-$thr_screens = $gd->getScreenDetails($thr_id);
 $status = $screen->checkScreenInitial($thr_id);
 ?>
 <?php if (!$status) : ?>
@@ -20,27 +19,37 @@ $status = $screen->checkScreenInitial($thr_id);
             <table class="table">
                 <?php
                 $i = 1;
-                while ($i <= $thr_screens) : ?>
-                    <tr id="row-<?=$i?>">
-                        <td>
-                            <input class="form-control field-width" type="text" id="name-<?= $i ?>" name="screen-name"
-                                   placeholder="Screen Name">
-                        </td>
-                        <td>
-                            <input class="form-control field-width" type="number" id="seat-<?= $i ?>" name="screen-seats"
-                                   placeholder="Screen Seats">
-                        </td>
-                        <td>
-                            <button onclick="init(this.id)" class="btn btn-dark" type="button" id="<?= $i ?>">Intialize</button>
-                        </td>
-                    </tr>
-                    <?php $i++; endwhile; ?>
+                $screenProps = $screen->returnScreens($thr_id);
+                if (count($screenProps) > 0) {
+                    foreach($screenProps as $screenProp) : ?>
+                        <tr id="row-<?= $i ?>">
+                            <td>
+                                <label for="<?=$screenProp['thr_screen_id'] ?>"><?=$screenProp['thr_screen_name'] ?></label>
+                                <input class="form-control field-width" type="text" id="<?=$screenProp['thr_screen_id'] ?>"
+                                       name="screen-name"
+                                       placeholder="Screen Name">
+                            </td>
+                            <td>
+                                <label for="seat-<?=$screenProp['thr_screen_id'] ?>">Seats</label>
+                                <input class="form-control field-width" type="number" id="seat-<?=$screenProp['thr_screen_id'] ?>"
+                                       name="screen-seats"
+                                       placeholder="Screen Seats">
+                            </td>
+                            <td>
+                                <button onclick="init(this.id)" class="btn btn-dark" type="button" id="<?=$screenProp['thr_screen_id'] ?>">
+                                    Intialize
+                                </button>
+                            </td>
+                        </tr>
+                    <?php $i++; endforeach;
+                }
+                ?>
             </table>
         </div>
     </form>
-<script>
+    <script>
 
-</script>
+    </script>
 <?php else : ?>
     <h4>All Screens Initialized</h4>
 <?php endif ?>

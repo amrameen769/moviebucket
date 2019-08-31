@@ -152,7 +152,7 @@ $screen = new Screens;
                                 <?php //endwhile ?>
 
                                 <?php
-                                    $selectScreens = "SELECT thr_screen_id,thr_screen_name FROM tbl_screens WHERE thr_id = '$thr_id'";
+                                    $selectScreens = "SELECT thr_screen_id,thr_screen_name FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 1";
                                     $resScreen = $exec ->query($selectScreens);
                                     if(mysqli_num_rows($resScreen) > 0){
                                         while($row = mysqli_fetch_assoc($resScreen)) : ?>

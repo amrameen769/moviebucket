@@ -68,9 +68,9 @@ function loadShow(mv_id) {
 
 function init(sid) {
     //alert(sid);
-    var screenid = "name-" + sid;
+    var screenid = sid;
     var seatid = "seat-" + sid;
-    var screen = $("#" + screenid).val();
+    var screen = $("input[name=screen-name][id="+sid+"]").val();
     var seat = $("#" + seatid).val();
         $.post('https://moviebucket.com/mv-theater/add-screens.php', {
                 screen_name: screen,
