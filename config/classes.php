@@ -96,7 +96,7 @@ class Screens{
 
     function checkScreenExist($thr_id){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
-        $checkScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 1";
+        $checkScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_id = '$thr_id'";
         $resCheckScreen = $dbconn->query($checkScreen);
         if(mysqli_num_rows($resCheckScreen) > 0){
             return false;
