@@ -13,6 +13,9 @@ $thr_screen_id = $screen->returnScreenId($shw_id);
 $seat_number = $screen->returnScreenSeats($thr_screen_id);
 
 ?>
+<head>
+    <script src="<?=SITE_URL?>mv-includes/js/payment.js"></script>
+</head>
 
 <body class="container-fluid">
 <div class="d-flex flex-column" id="content-wrapper">

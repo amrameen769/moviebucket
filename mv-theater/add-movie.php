@@ -158,13 +158,15 @@ $mv_release_date = "";
                             }
                         }
                     } else {
-                        array_push($errors,$_FILES['mv_thumb']['error']);
+                        array_push($errors,$_FILES['mv_thumb']['error']." - Upload Error");
                     }
 
-                    if(!move_uploaded_file($imageProp['tmp_name'],SITE_PATH."mv-theater/mv-thumb/".$imgEncName)){
-                        array_push($errors,"Upload Error");
-                    }
+
                     if(count($errors) == 0){
+                        if(!move_uploaded_file($imageProp['tmp_name'],SITE_PATH."mv-theater/mv-thumb/".$imgEncName)){
+                            array_push($errors,"Upload Error");
+                        }
+
                         $insQuery = "INSERT INTO tbl_movie (mv_name, mv_hero, mv_heroine, mv_lang, mv_director, mv_producer, mv_release_date, mv_thumb, thr_id, rq_status,  mv_status)
                                     VALUES('$mv_name', '$mv_hero', '$mv_heroine', '$mv_lang', '$mv_director', '$mv_producer','$mv_release_date','$imgEncName','$thr_id',0,TRUE)";
                         if (!mysqli_query($dbconn, $insQuery)) {
