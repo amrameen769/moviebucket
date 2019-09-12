@@ -13,9 +13,6 @@ $thr_screen_id = $screen->returnScreenId($shw_id);
 $seat_number = $screen->returnScreenSeats($thr_screen_id);
 
 ?>
-<head>
-    <script src="<?=SITE_URL?>mv-includes/js/payment.js"></script>
-</head>
 
 <body class="container-fluid">
 <div class="d-flex flex-column" id="content-wrapper">
@@ -58,6 +55,6 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
     <div class="screen-img">All Eyes Here!</div>
 </div>
 <div class="en-flex" style="justify-content: center;">
-    <button class="btn btn-primary" id="pay">Payment</button>
+    <button class="btn btn-primary" id="pay" onclick="selectSeat()">Payment</button>
 </div>
 </body>
