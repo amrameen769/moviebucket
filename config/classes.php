@@ -168,6 +168,18 @@ class MovieBook{
         }
         return $shows;
     }
+
+    function returnShowCost($shw_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectShowCost = "SELECT shw_cost FROM tbl_showtime WHERE mv_id='$shw_id' LIMIT 1";
+        $shows = array();
+        $resSelectShow = $dbconn -> query($selectShowCost);
+        if(mysqli_num_rows($resSelectShow) > 0){
+            while($row = mysqli_fetch_assoc($resSelectShow)){
+                return $row['shw_cost'];
+            }
+        }
+    }
 }
 
 

@@ -7,6 +7,10 @@ require(SITE_PATH . "mv-content/header.php");
 
 $shw_id = $_POST['shw_id'];
 
+$mb = new MovieBook;
+
+$shw_cost = $mb->returnShowCost($shw_id);
+
 $screen = new Screens;
 $thr_screen_id = $screen->returnScreenId($shw_id);
 
@@ -25,7 +29,7 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
         </div>
     </div>
 </div>
-<div class="seat-layout mx-auto d-block">
+<div id="confirm-book" class="seat-layout mx-auto d-block">
     <table class="table">
         <tr>
             <td>
@@ -36,15 +40,15 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
 
                 while ($seat = mysqli_fetch_assoc($resSeats)) : ?>
                     <div class="seat">
-                        <input type="checkbox" id="<?= $seat['screen_seat_id'] ?>"
+                        <input type="checkbox" value="<?=$shw_cost ?>" name="seat" id="<?= $seat['screen_seat_id'] ?>"
                             <?php
                             if($seat['seat_book_status'] == 1){
                                 echo "disabled";
                             }
                             ?>
+                                onclick="addpay(this.id, this.value)"
                         >
-                        <label
-                                for="<?= $seat['screen_seat_id'] ?>"><?=$i++; ?></label>
+                        <label for="<?= $seat['screen_seat_id'] ?>"><?=$i++; ?></label>
                     </div>
                     <?php if($i%15 == 0) { echo "</div><div class=\"row row--1 row-margin\" style='justify-content: center;'>";} ?>
                 <?php endwhile; ?>
@@ -55,6 +59,6 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
     <div class="screen-img">All Eyes Here!</div>
 </div>
 <div class="en-flex" style="justify-content: center;">
-    <button class="btn btn-primary" id="pay" onclick="selectSeat()">Payment</button>
+    <button class="btn btn-primary" id="pay" onclick="selectSeat()">Pay</button>
 </div>
 </body>
