@@ -6,6 +6,11 @@ $sec->checkUSign();
 
 require (SITE_PATH."mv-content/header.php");
 ?>
+<head>
+    <title>
+        Book Shows
+    </title>
+</head>
 <div class="row row-margin">
     <?php
     if(isset($_REQUEST['mvid'])){

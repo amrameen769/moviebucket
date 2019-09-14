@@ -18,6 +18,12 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
 
 ?>
 
+<head>
+    <title>
+        Select Seats
+    </title>
+</head>
+
 <body class="container-fluid">
 <div class="d-flex flex-column" id="content-wrapper">
     <div class="highlight-blue">
@@ -29,36 +35,41 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
         </div>
     </div>
 </div>
-<div id="confirm-book" class="seat-layout mx-auto d-block">
-    <table class="table">
-        <tr>
-            <td>
-                <div class="row row--1 row-margin" style="justify-content: center;">
-            <?php
-                $i=1;
-                $resSeats = $screen->returnSeats($thr_screen_id);
+<div id="content">
+    <div id="confirm-book" class="seat-layout mx-auto d-block">
+        <table class="table">
+            <tr>
+                <td>
+                    <div class="row row--1 row-margin" style="justify-content: center;">
+                        <?php
+                        $i = 1;
+                        $resSeats = $screen->returnSeats($thr_screen_id);
 
-                while ($seat = mysqli_fetch_assoc($resSeats)) : ?>
-                    <div class="seat">
-                        <input type="checkbox" value="<?=$shw_cost ?>" name="seat" id="<?= $seat['screen_seat_id'] ?>"
-                            <?php
-                            if($seat['seat_book_status'] == 1){
-                                echo "disabled";
-                            }
-                            ?>
-                                onclick="addpay(this.id, this.value)"
-                        >
-                        <label for="<?= $seat['screen_seat_id'] ?>"><?=$i++; ?></label>
+                        while ($seat = mysqli_fetch_assoc($resSeats)) : ?>
+                            <div class="seat">
+                                <input type="checkbox" value="<?= $shw_cost ?>" name="seat"
+                                       id="<?= $seat['screen_seat_id'] ?>"
+                                    <?php
+                                    if ($seat['seat_book_status'] == 1) {
+                                        echo "disabled";
+                                    }
+                                    ?>
+                                       onclick="addpay(this.id, this.value)"
+                                >
+                                <label for="<?= $seat['screen_seat_id'] ?>"><?= $i++; ?></label>
+                            </div>
+                            <?php if ($i % 15 == 0) {
+                                echo "</div><div class=\"row row--1 row-margin\" style='justify-content: center;'>";
+                            } ?>
+                        <?php endwhile; ?>
                     </div>
-                    <?php if($i%15 == 0) { echo "</div><div class=\"row row--1 row-margin\" style='justify-content: center;'>";} ?>
-                <?php endwhile; ?>
-                    </div>
-            </td>
-        </tr>
-    </table>
-    <div class="screen-img">All Eyes Here!</div>
-</div>
-<div class="en-flex" style="justify-content: center;">
-    <button class="btn btn-primary" id="pay" onclick="selectSeat()">Pay</button>
+                </td>
+            </tr>
+        </table>
+        <div class="screen-img">All Eyes Here!</div>
+    </div>
+    <div class="en-flex" style="justify-content: center;">
+        <button class="btn btn-primary" id="pay" value="<?=$shw_id ?>" onclick="selectSeat()">Pay</button>
+    </div>
 </div>
 </body>

@@ -28,7 +28,7 @@ function loadDoc(str) {
             document.getElementById("book-page").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "book-movie.php?t=" + str, true);
+    xhttp.open("POST", "book-movie.php?t=" + str, true);
     xhttp.send();
 }
 

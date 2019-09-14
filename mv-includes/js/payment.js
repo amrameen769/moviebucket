@@ -6,16 +6,16 @@ function selectSeat(){
             selected_seats.push(seats[i].id);
         }
     }
-    alert(selected_seats);
+    let shw_id = $("button#pay").val();
     let jsonArray = JSON.stringify(selected_seats);
     $.ajax({
         type: "POST",
         url: "https://moviebucket.com/mv-enduser/includes/book-seats.php",
-        data: { data: jsonArray},
+        data: { seats: jsonArray, shw_id: shw_id },
         cache: false,
 
         success: function (response) {
-            document.getElementById('confirm-book').innerHTML = response;
+            document.getElementById('content').innerHTML = response;
         }
     });
 }
