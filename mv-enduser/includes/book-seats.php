@@ -1,6 +1,5 @@
 <?php
-$selected_seats = json_decode(stripcslashes($_POST['seats']));
-$shw_id = json_decode(stripcslashes($_POST['shw_id']));
+require("../../config/autoload.php");
 ?>
 <!doctype html>
 <html lang="en">
@@ -12,7 +11,8 @@ $shw_id = json_decode(stripcslashes($_POST['shw_id']));
     <title>Payment</title>
 </head>
 <?php
-require("../../config/autoload.php");
+$selected_seats = json_decode(stripcslashes($_POST['seats']));
+$shw_id = json_decode(stripcslashes($_POST['shw_id']));
 $username = $_SESSION['username'];
 ?>
 
@@ -30,6 +30,7 @@ $username = $_SESSION['username'];
 
         <div class="container">
             <?php
+            echo date("d-m-Y H:i:s");
             $mv_id = "";
             $shw_time = "";
             $thr_id = "";
@@ -71,15 +72,11 @@ $username = $_SESSION['username'];
                 array_push($errors, "Error Selecting Seats");
             }
 
-            if (count($errors) == 0) {
-                $thr_name = $gd->getTheater($thr_id);
-                $thr_screen_name = $screen->returnScreenName($thr_screen_id);
-            }
-
-            require(SITE_PATH . "mv-content/errors.php");
             ?>
             <?php
             $movieDetails = $mb->selectMovie($mv_id);
+            $thr_name = $gd->getTheater($thr_id);
+            $thr_screen_name = $screen->returnScreenName($thr_screen_id);
             if (is_array($movieDetails)) : ?>
                 <h3>Booking Details</h3>
                 <div class="table-responsive">
@@ -113,7 +110,7 @@ $username = $_SESSION['username'];
                         </tbody>
                     </table>
                 </div>
-            <h3>Show Details</h3>
+                <h3>Show Details</h3>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -134,10 +131,25 @@ $username = $_SESSION['username'];
                         </tbody>
                     </table>
                 </div>
-                <form action="<?=SITE_URL?>/mv-enduser/includes/success.php" method="post">
-                    <button class="btn btn-primary" id="checkout" name="checkout">Proceed Checkout</button>
-                </form>
             <?php endif; ?>
+
+            <?php
+            if (count($errors) == 0) {
+                if ($seatAccess->bookSelectedSeats($selected_seats)) {
+                    $user_id = $gd->returnUserID($username);
+                    foreach ($selected_seats as $selected_seat) {
+                        $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $pay_cost);
+                        if ($bookShow->book($bookDetails)) {
+                            array_push($errors, "Show Booked");
+                        } else {
+                            array_push($errors, "Booking Failed");
+                        }
+                    }
+                }
+            }
+
+            require(SITE_PATH . "mv-content/errors.php");
+            ?>
         </div>
     </div>
 </div>

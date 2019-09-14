@@ -18,6 +18,7 @@ class Booking{
             if($dbconn->query($insertBooking)){
                 return true;
             } else {
+                echo "Unsuccess";
                 return false;
             }
         }
