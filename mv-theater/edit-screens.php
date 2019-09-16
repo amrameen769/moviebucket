@@ -20,30 +20,39 @@ $status = $screen->checkScreenInitial($thr_id);
                 <?php
                 $i = 1;
                 $screenProps = $screen->returnScreens($thr_id);
-                if (count($screenProps) > 0) {
-                    foreach($screenProps as $screenProp) : ?>
-                        <tr id="row-<?= $i ?>">
-                            <td>
-                                <label for="<?=$screenProp['thr_screen_id'] ?>"><?=$screenProp['thr_screen_name'] ?></label>
-                                <input class="form-control field-width" type="text" id="<?=$screenProp['thr_screen_id'] ?>"
-                                       name="screen-name"
-                                       placeholder="Screen Name">
-                            </td>
-                            <td>
-                                <label for="seat-<?=$screenProp['thr_screen_id'] ?>">Seats</label>
-                                <input class="form-control field-width" type="number" id="seat-<?=$screenProp['thr_screen_id'] ?>"
-                                       name="screen-seats"
-                                       placeholder="Screen Seats">
-                            </td>
-                            <td>
-                                <button onclick="init(this.id)" class="btn btn-dark" type="button" id="<?=$screenProp['thr_screen_id'] ?>">
-                                    Intialize
-                                </button>
-                            </td>
-                        </tr>
-                    <?php $i++; endforeach;
-                }
-                ?>
+                if (!is_array($screenProps)) : ?>
+                    <div id=error class="animated fadeInDown delay-02s">
+                        <span>You have Been Revoked or Problem with Screen Initialization. Inform Administrator!</span>
+                    </div>
+                <?php else : ?>
+                    <?php
+                    if (count($screenProps) > 0) {
+                        foreach ($screenProps as $screenProp) : ?>
+                            <tr id="row-<?= $i ?>">
+                                <td>
+                                    <label for="<?= $screenProp['thr_screen_id'] ?>"><?= $screenProp['thr_screen_name'] ?></label>
+                                    <input class="form-control field-width" type="text"
+                                           id="<?= $screenProp['thr_screen_id'] ?>"
+                                           name="screen-name"
+                                           placeholder="Screen Name">
+                                </td>
+                                <td>
+                                    <label for="seat-<?= $screenProp['thr_screen_id'] ?>">Seats</label>
+                                    <input class="form-control field-width" type="number"
+                                           id="seat-<?= $screenProp['thr_screen_id'] ?>"
+                                           name="screen-seats"
+                                           placeholder="Screen Seats">
+                                </td>
+                                <td>
+                                    <button onclick="init(this.id)" class="btn btn-dark" type="button"
+                                            id="<?= $screenProp['thr_screen_id'] ?>">
+                                        Intialize
+                                    </button>
+                                </td>
+                            </tr>
+                            <?php $i++; endforeach;
+                    }
+                endif; ?>
             </table>
         </div>
     </form>

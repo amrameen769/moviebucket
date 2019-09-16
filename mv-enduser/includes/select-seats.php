@@ -10,7 +10,6 @@ $shw_id = $_POST['shw_id'];
 $mb = new MovieBook;
 
 $shw_cost = $mb->returnShowCost($shw_id);
-
 $screen = new Screens;
 $thr_screen_id = $screen->returnScreenId($shw_id);
 
@@ -31,6 +30,7 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
             <div class="intro">
                 <h2 class="text-center">Book Seats</h2>
                 <p class="text-center">Select Your Seats</p>
+                <p class="text-center">Per Booking - <?=$shw_cost ?></p>
             </div>
         </div>
     </div>
@@ -44,14 +44,17 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
                         <?php
                         $i = 1;
                         $resSeats = $screen->returnSeats($thr_screen_id);
+                        $seatsBooked = $screen->checkSeatIfBooked($shw_id);
 
                         while ($seat = mysqli_fetch_assoc($resSeats)) : ?>
                             <div class="seat">
                                 <input type="checkbox" value="<?= $shw_cost ?>" name="seat"
                                        id="<?= $seat['screen_seat_id'] ?>"
                                     <?php
-                                    if ($seat['seat_book_status'] == 1) {
-                                        echo "disabled";
+                                    if (is_array($seatsBooked) && !empty($seatsBooked)) {
+                                        if(in_array($seat['screen_seat_id'],$seatsBooked)){
+                                            echo "disabled";
+                                        }
                                     }
                                     ?>
                                        onclick="addpay(this.id, this.value)"

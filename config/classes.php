@@ -39,7 +39,7 @@ class Seats{
         return $seatsNotBooked;
     }
 
-    function bookSelectedSeats($selectedSeats){
+    /*function bookSelectedSeats($selectedSeats){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $flag = true;
         if(is_array($selectedSeats)){
@@ -53,7 +53,7 @@ class Seats{
             $flag = false;
         }
         return $flag;
-    }
+    }*/
 }
 
 class Screens{
@@ -167,8 +167,8 @@ class Screens{
         $flag = 1;
         while($i<=$seat_number){
             $screen_seat_id = $thr_screen_id."-".$i;
-            $initSeat = "INSERT INTO tbl_seats (thr_screen_id,screen_seat_id, seat_book_status) 
-            VALUES ('$thr_screen_id','$screen_seat_id',false)";
+            $initSeat = "INSERT INTO tbl_seats (thr_screen_id,screen_seat_id) 
+            VALUES ('$thr_screen_id','$screen_seat_id')";
             if(!$dbconn->query($initSeat)){
                 $flag = 0;
                 break;
@@ -181,6 +181,19 @@ class Screens{
             }
             $i++;
         }
+    }
+
+    function checkSeatIfBooked($shw_id){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selBookSeats = "SELECT screen_seat_id FROM tbl_booking WHERE shw_id = '$shw_id'";
+        $resBookSeats = $dbconn->query($selBookSeats);
+        $seatsBooked = array();
+        if(mysqli_num_rows($resBookSeats) > 0){
+            while($row = mysqli_fetch_assoc($resBookSeats)){
+                array_push($seatsBooked,$row['screen_seat_id']);
+            }
+        }
+        return $seatsBooked;
     }
 }
 
@@ -227,8 +240,8 @@ class MovieBook{
 
     function returnShowCost($shw_id){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
-        $selectShowCost = "SELECT shw_cost FROM tbl_showtime WHERE mv_id='$shw_id' LIMIT 1";
-        $shows = array();
+        $selectShowCost = "SELECT shw_cost FROM tbl_showtime WHERE shw_id='$shw_id' LIMIT 1";
+        //$shows = array();
         $resSelectShow = $dbconn -> query($selectShowCost);
         if(mysqli_num_rows($resSelectShow) > 0){
             while($row = mysqli_fetch_assoc($resSelectShow)){

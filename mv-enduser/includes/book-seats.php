@@ -63,9 +63,9 @@ $username = $_SESSION['username'];
             $screen = new Screens;
             $seatAccess = new Seats;
             $bookShow = new Booking;
-            $seatsNotBooked = $seatAccess->seatsNotBooked($thr_screen_id);
-            if (is_array($seatsNotBooked)) {
-                if (!array_diff($selected_seats, array_intersect($selected_seats, $seatsNotBooked)) == null) {
+            $seatsBooked = $screen->checkSeatIfBooked($shw_id);
+            if (is_array($seatsBooked)) {
+                if (array_intersect($selected_seats, $seatsBooked) != null) {
                     array_push($errors, "Seats You Selected are Unavailable");
                 }
             } else {
@@ -135,15 +135,13 @@ $username = $_SESSION['username'];
 
             <?php
             if (count($errors) == 0) {
-                if ($seatAccess->bookSelectedSeats($selected_seats)) {
-                    $user_id = $gd->returnUserID($username);
-                    foreach ($selected_seats as $selected_seat) {
-                        $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $pay_cost);
-                        if ($bookShow->book($bookDetails)) {
-                            array_push($errors, "Show Booked");
-                        } else {
-                            array_push($errors, "Booking Failed");
-                        }
+                $user_id = $gd->returnUserID($username);
+                foreach ($selected_seats as $selected_seat) {
+                    $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $pay_cost);
+                    if ($bookShow->book($bookDetails)) {
+                        array_push($errors, "Show Booked");
+                    } else {
+                        array_push($errors, "Booking Failed");
                     }
                 }
             }
