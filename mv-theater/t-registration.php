@@ -13,6 +13,7 @@ $thr_screens = "";
     <meta charset="utf-8">
     <title>Signup for MovieBucket</title>
   </head>
+  <link rel="stylesheet" href="../mv-includes/fonts/webfontkit/stylesheet.css">
   <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/jquery.slim.min.js"></script>
   <script src="<?=SITE_URL?>mv-includes/bootstrap/jquery/popper.min.js"></script>
   <link rel="stylesheet" href="<?=SITE_URL?>mv-includes/bootstrap/css/bootstrap.min.css">

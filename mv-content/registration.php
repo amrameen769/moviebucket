@@ -10,6 +10,7 @@ $user_pasd_1 = "";
    <head>
      <meta charset="utf-8">
      <title>Signup for MovieBucket</title>
+       <link rel="stylesheet" href="../mv-includes/fonts/webfontkit/stylesheet.css">
        <link href="../mv-includes/images/mvbucket.ico" rel="icon" type="image/ico">
        <script src="../mv-includes/bootstrap/jquery/jquery.slim.min.js"></script>
        <script src="../mv-includes/bootstrap/jquery/popper.min.js"></script>
