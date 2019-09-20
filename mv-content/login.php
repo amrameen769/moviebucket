@@ -48,7 +48,7 @@
                               $results = mysqli_query($dbconn,$logquery);
                               if(mysqli_num_rows($results) > 0){ #if there is a result check if the usertype is admin or user
                                 $_SESSION['username'] = $user_uname;
-                                //$_SESSION['success'] = "Logged in Succesfully";
+                                //$_SESSION['success'] = "Logged in Successfully";
                                 $row = mysqli_fetch_assoc($results);
                                 if($row['user_type'] == 'admin'){
                                     $_SESSION['user_type'] = "admin";
