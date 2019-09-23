@@ -3,6 +3,10 @@ require("../../config/autoload.php");
 if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
     header("location:" . SITE_PATH . "index.php");
 }
+
+$sec = new Secure;
+$sec->checkADSign();
+
 ?>
 
 

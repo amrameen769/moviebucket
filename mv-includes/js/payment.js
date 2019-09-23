@@ -15,7 +15,7 @@ function selectSeat(){
         cache: false,
 
         success: function (response) {
-            document.getElementById('content').innerHTML = response;
+            document.getElementById('pay-content').innerHTML = response;
         }
     });
 }

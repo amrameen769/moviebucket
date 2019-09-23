@@ -8,7 +8,7 @@ require("../../config/autoload.php");
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Payment</title>
+    <title>Payment Receipt</title>
 </head>
 <?php
 $selected_seats = json_decode(stripcslashes($_POST['seats']));
@@ -17,6 +17,15 @@ $username = $_SESSION['username'];
 ?>
 
 <body>
+<div class="d-flex flex-column" id="content-wrapper">
+    <div class="highlight-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Payment Details</h2>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="card shadow border-left-info py-2">
         <div class="container">
