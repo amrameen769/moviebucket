@@ -22,7 +22,12 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
         Select Seats
     </title>
 </head>
-
+<style>
+    body{
+        height: 100%!important;
+        width: 100%!important;
+    }
+</style>
 <body class="container-fluid">
 <div class="d-flex flex-column" id="content-wrapper">
     <div class="highlight-blue">
@@ -37,7 +42,7 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
 </div>
 <div>
     <div id="confirm-book" class="seat-layout mx-auto d-block">
-        <table class="table">
+        <table class="container-fluid table">
             <tr>
                 <td>
                     <div class="row row--1 row-margin" style="justify-content: center; flex-wrap: nowrap!important;">
