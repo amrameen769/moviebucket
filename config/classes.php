@@ -2,26 +2,40 @@
 <?php
 
 class Booking{
+    private $dbconn;
+    function Booking(){
+        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+    }
     function book($bookDetails){
-        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         if(is_array($bookDetails)){
-            $user_id = mysqli_real_escape_string($dbconn, $bookDetails['user_id']);
-            $shw_id = mysqli_real_escape_string($dbconn, $bookDetails['shw_id']);
-            $mv_id = mysqli_real_escape_string($dbconn, $bookDetails['mv_id']);
-            $thr_id = mysqli_real_escape_string($dbconn, $bookDetails['thr_id']);
-            $thr_screen_id = mysqli_real_escape_string($dbconn, $bookDetails['thr_screen_id']);
-            $screen_seat_id = mysqli_real_escape_string($dbconn, $bookDetails['screen_seat_id']);
-            $book_date = mysqli_real_escape_string($dbconn, $bookDetails['book_date']);
-            $book_pay = (double)mysqli_real_escape_string($dbconn, $bookDetails['book_pay']);
+            $user_id = mysqli_real_escape_string($this->dbconn, $bookDetails['user_id']);
+            $shw_id = mysqli_real_escape_string($this->dbconn, $bookDetails['shw_id']);
+            $mv_id = mysqli_real_escape_string($this->dbconn, $bookDetails['mv_id']);
+            $thr_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_id']);
+            $thr_screen_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_screen_id']);
+            $screen_seat_id = mysqli_real_escape_string($this->dbconn, $bookDetails['screen_seat_id']);
+            $book_date = mysqli_real_escape_string($this->dbconn, $bookDetails['book_date']);
+            $book_pay = (double)mysqli_real_escape_string($this->dbconn, $bookDetails['book_pay']);
 
             $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, mv_id, thr_id, thr_screen_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,$mv_id,$thr_id,'$thr_screen_id','$screen_seat_id','$book_date',$book_pay, TRUE)";
-            if($dbconn->query($insertBooking)){
+            if($this->dbconn->query($insertBooking)){
                 return true;
             } else {
                 echo "Unsuccess";
                 return false;
             }
         }
+    }
+
+    function bookingDetails($user_id){
+        $selectBookDetails = "SELECT book_id,mv_id,thr_id,thr_screen_id,screen_seat_id,shw_id FROM tbl_booking WHERE user_id='$user_id'";
+        $bookingDetails = array();
+        $resBookDetails = $this->dbconn->query($selectBookDetails);
+        while($row = mysqli_fetch_assoc($resBookDetails)){
+            array_push($bookingDetails,$row);
+        }
+        return $resBookDetails;
     }
 }
 
@@ -451,6 +465,16 @@ class getData{
         if(mysqli_num_rows($resSelectUserID) > 0){
             $row = mysqli_fetch_assoc($resSelectUserID);
             return $row['user_mail'];
+        }
+    }
+
+    function returnUserDetails($username){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectUserDetails = "SELECT user_mail,user_id,user_name,user_phone FROM tbl_user WHERE user_uname='$username' LIMIT 1";
+        $resSelectUserID = $dbconn->query($selectUserDetails);
+        if(mysqli_num_rows($resSelectUserID) > 0){
+            $row = mysqli_fetch_assoc($resSelectUserID);
+            return $row;
         }
     }
 }
