@@ -203,31 +203,42 @@ $mail->Username = "andrewssan666@gmail.com";
 //Password to use for SMTP authentication
 $mail->Password = "!ronmanlove777";
 //Set who the message is to be sent from
-$mail->setFrom('andrewssan666@gmail.com', 'MovieBucket.com');
+try {
+    $mail->setFrom('andrewssan666@gmail.com', 'MovieBucket.com');
+} catch (\PHPMailer\PHPMailer\Exception $e) {
+    echo $e->getMessage();
+}
 //Set an alternative reply-to address
 //$mail->addReplyTo('replyto@example.com', 'First Last');
 //Set who the message is to be sent to
-$mail->addAddress($user_mail, $username);
+$mail->addAddress("amrameen769@gmail.com", $username);
 //Set the subject line
 $mail->Subject = 'MovieBucket.com Tickets have been Booked';
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
 //$mail->msgHTML(file_get_contents('book-seats.php'));
-$mail->Body = "Your Tickets have been Booked";
+$mail->isHTML(true);
+$mail->Body = "
+    Payment Confirmed, Shows Booked.
+";
 //Replace the plain text body with one created manually
-$mail->AltBody = 'This is a plain-text message body';
+$mail->AltBody = 'Payment Confirmed, Shows Booked';
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
-if (!$mail->send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
-} else {
-    echo "Message sent!";
-    //Section 2: IMAP
-    //Uncomment these to save your message in the 'Sent Mail' folder.
-    /*if (save_mail($mail)) {
-        echo "Message saved!";
-    }*/
+try {
+    if (!$mail->send()) {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    } else {
+        echo "Message sent!";
+        //Section 2: IMAP
+        //Uncomment these to save your message in the 'Sent Mail' folder.
+        /*if (save_mail($mail)) {
+            echo "Message saved!";
+        }*/
+    }
+} catch (\PHPMailer\PHPMailer\Exception $e) {
+    echo $e->getMessage();
 }
 //Section 2: IMAP
 //IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
@@ -244,3 +255,4 @@ if (!$mail->send()) {
     imap_close($imapStream);
     return $result;
 }*/
+?>
