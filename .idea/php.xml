@@ -3,6 +3,10 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/../../php" />
+      <path value="$PROJECT_DIR$/../../php/PEAR" />
+      <path value="$PROJECT_DIR$/../../phpMyAdmin/vendor/composer" />
+      <path value="$PROJECT_DIR$/config/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/config/vendor/composer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

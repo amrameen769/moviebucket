@@ -443,6 +443,16 @@ class getData{
             return $row['user_id'];
         }
     }
+
+    function returnUserMail($username){
+        $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectUserID = "SELECT user_mail FROM tbl_user WHERE user_uname='$username' LIMIT 1";
+        $resSelectUserID = $dbconn->query($selectUserID);
+        if(mysqli_num_rows($resSelectUserID) > 0){
+            $row = mysqli_fetch_assoc($resSelectUserID);
+            return $row['user_mail'];
+        }
+    }
 }
 
 
