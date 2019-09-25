@@ -41,7 +41,7 @@ try {
 //Set an alternative reply-to address
 //$mail->addReplyTo('replyto@example.com', 'First Last');
 //Set who the message is to be sent to
-$mail->addAddress("amrameen769@gmail.com", $username);
+$mail->addAddress($user_mail, $username);
 //Set the subject line
 $mail->Subject = 'MovieBucket.com Tickets have been Booked';
 //Read an HTML message body from an external file, convert referenced images to embedded,

@@ -168,4 +168,4 @@ $user_mail = $gd->returnUserMail($username);
 </body>
 </html>
 
-<?php //require ("../../mv-content/event-mail.php"); ?>
+<?php require ("../../mv-content/event-mail.php"); ?>
