@@ -7,7 +7,8 @@
  */
 //Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
-require '../../config/vendor/autoload.php';
+require ("mailer.php");
+//require '../../config/vendor/autoload.php';
 //Create a new PHPMailer instance
 $mail = new PHPMailer;
 //Tell PHPMailer to use SMTP
@@ -29,12 +30,12 @@ $mail->SMTPSecure = 'tls';
 //Whether to use SMTP authentication
 $mail->SMTPAuth = true;
 //Username to use for SMTP authentication - use full email address for gmail
-$mail->Username = "andrewssan666@gmail.com";
+$mail->Username = "moviebucket777@gmail.com";
 //Password to use for SMTP authentication
 $mail->Password = "!ronmanlove777";
 //Set who the message is to be sent from
 try {
-    $mail->setFrom('andrewssan666@gmail.com', 'MovieBucket.com');
+    $mail->setFrom('moviebucket777@gmail.com', 'MovieBucket.com');
 } catch (\PHPMailer\PHPMailer\Exception $e) {
     echo $e->getMessage();
 }
@@ -48,9 +49,7 @@ $mail->Subject = 'MovieBucket.com Tickets have been Booked';
 //convert HTML into a basic plain-text alternative body
 //$mail->msgHTML(file_get_contents('book-seats.php'));
 $mail->isHTML(true);
-$mail->Body = "
-    Payment Confirmed, Shows Booked.
-";
+$mail->Body = $mail_body;
 //Replace the plain text body with one created manually
 $mail->AltBody = 'Payment Confirmed, Shows Booked';
 //Attach an image file

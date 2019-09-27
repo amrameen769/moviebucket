@@ -63,6 +63,7 @@ $user_pasd_1 = "";
                    if($reg = mysqli_query($dbconn,$regquery)){
                      $_SESSION['username'] = $user_name;
                      $_SESSION['success'] = "Signed Up Succesfully";
+                     //require ("mailchimp-subscribe.php");
                        header("location:login.php");
                      }
                      else { array_push($errors,"Internal Insertion Error");}

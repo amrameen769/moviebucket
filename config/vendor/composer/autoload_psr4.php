@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'DrewM\\MailChimp\\' => array($vendorDir . '/drewm/mailchimp-api/src'),
 );

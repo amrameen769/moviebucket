@@ -19,6 +19,8 @@ $gd = new getData;
 
 
 $user_mail = $gd->returnUserMail($username);
+
+$mail_body = "";
 ?>
 
 <body>
@@ -31,6 +33,10 @@ $user_mail = $gd->returnUserMail($username);
         </div>
     </div>
 </div>
+<?php
+$mail_body = $mail_body."<h3>MovieBucket.com - Seats Booked</h3><br><h4>Details</h4><p>";
+$mail_body = $mail_body."<p><h4>Seats Booked</h4>";
+?>
 <div class="container-fluid">
     <div class="card shadow border-left-info py-2">
         <div class="container">
@@ -38,8 +44,10 @@ $user_mail = $gd->returnUserMail($username);
             <?php foreach ($selected_seats as $selected_seat) : ?>
                 <div>
                     <?= "Seat ID: " . $selected_seat ?>
+                    <?php $mail_body = $mail_body."Seat ID : ".$selected_seat."<br>"; ?>
                 </div>
             <?php endforeach; ?>
+            <?php $mail_body = $mail_body."</p>"; ?>
         </div>
 
         <div class="container">
@@ -109,6 +117,7 @@ $user_mail = $gd->returnUserMail($username);
                         <tr>
                             <td>
                                 <?= $movieDetails['mv_name'] ?>
+                                <?php $mail_body = $mail_body . "Movie : ". $movieDetails['mv_name']."<br>"; ?>
                                 <div class="avatar-upload">
                                     <img class="avatar-preview"
                                          src="<?= SITE_URL ?>/mv-theater/mv-thumb/<?= $movieDetails['mv_thumb'] ?>"
@@ -141,6 +150,14 @@ $user_mail = $gd->returnUserMail($username);
                             <td><?= $thr_screen_id ?></td>
                             <td><?= $shw_date ?></td>
                             <td><?= $shw_time ?></td>
+                            <?php
+                            $mail_body = $mail_body . "Theater : ". $thr_name."<br>";
+                            $mail_body = $mail_body . "Screen : ". $thr_screen_id."<br>";
+                            $mail_body = $mail_body . "Show Date : ". $shw_date."<br>";
+                            $mail_body = $mail_body . "Show Time : ". $shw_time."<br>";
+                            $mail_body = $mail_body . "Show Cost : ". $shw_cost."<br>";
+                            $mail_body = $mail_body . "Total Cost : ". $pay_cost."<br></p></div>";
+                            ?>
                         </tr>
                         </tbody>
                     </table>
@@ -168,4 +185,4 @@ $user_mail = $gd->returnUserMail($username);
 </body>
 </html>
 
-<?php require ("../../mv-content/event-mail.php"); ?>
+<?php //require ("../../mv-content/event-mail.php"); ?>

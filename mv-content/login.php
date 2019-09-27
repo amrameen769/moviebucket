@@ -30,8 +30,13 @@
                 <?php echo $_SESSION['msg']; unset($_SESSION['msg']);?>
               </p>
             <?php endif ?>
+              <?php if(isset($_SESSION['subscription'])) : ?>
+              <p id="login">
+                  <?php echo $_SESSION['subscription']; unset($_SESSION['subscription']);?>
+              </p>
+              <?php endif ?>
             <p id="login">Login to MovieBucket</p>
-          <a href="../index.php"><img id="logo" src="../mv-includes/images/mvbucket.png"></a><br>
+          <a href="../index.php"><img alt="moviebucket.com" id="logo" src="../mv-includes/images/mvbucket.png"></a><br>
 
             <!-- Validation and Login to the respective Home Pages for all users -->
 
@@ -86,7 +91,7 @@
                         ?>
 
             <div class="inp">
-              <input type="username" name="user_uname" placeholder="Enter Username"><br><br>
+              <input type="text" name="user_uname" placeholder="Enter Username"><br><br>
               <input type="password" name="user_pasd" placeholder="Enter Password">
             </div><br>
             <input type="submit" class="btn_login" name="login" value="Login"><br>

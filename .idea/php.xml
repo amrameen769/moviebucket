@@ -7,6 +7,7 @@
       <path value="$PROJECT_DIR$/../../phpMyAdmin/vendor/composer" />
       <path value="$PROJECT_DIR$/config/vendor/phpmailer/phpmailer" />
       <path value="$PROJECT_DIR$/config/vendor/composer" />
+      <path value="$PROJECT_DIR$/config/vendor/drewm/mailchimp-api" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

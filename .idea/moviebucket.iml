@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/config/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/config/vendor/drewm/mailchimp-api" />
       <excludeFolder url="file://$MODULE_DIR$/config/vendor/phpmailer/phpmailer" />
     </content>
     <orderEntry type="inheritedJdk" />
