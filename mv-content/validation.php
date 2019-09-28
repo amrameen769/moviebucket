@@ -31,14 +31,20 @@ class Validation
     private function credentialChecker($field, $value)
     {
         if ($field == "username") {
-            if (strlen($value) <= 5) {
-                array_push($this->errors, "Username Length needs to be more than 6 characters");
+            $upper = preg_match('@[A-Z]@',$value);
+            $spec = preg_match('@[^\w]@',$value);
+            if ($upper || $spec || strlen($value) <= 5) {
+                array_push($this->errors, "Username should not contain uppercase letters or special characters or whitespaces and should be at least 6 characters long");
             }
         }
 
         if ($field == "password") {
-            if (strlen($value) <= 5) {
-                array_push($this->errors,"Password Length needs to be more than 6 characters");
+            $upper = preg_match('@[A-Z]@',$value);
+            $lower = preg_match('@[a-z]@',$value);
+            $num = preg_match('@[0-9]@',$value);
+            $spec = preg_match('@[^\w]@',$value);
+            if (!$upper || !$lower || !$num || !$spec || strlen($value) <= 5) {
+                array_push($this->errors,"Password should contain at least 1 Uppercase, 1 Lowercase , 1 Number, 1 Special Character and Length needs to be more than 6 characters");
             }
         }
 

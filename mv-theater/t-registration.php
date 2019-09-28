@@ -60,11 +60,16 @@ $valid = new Validation();
                             if(empty($thr_screens)) { array_push($errors,"Number of Screens required");}
                             if($thr_pasd_1 != $thr_pasd_2){ array_push($errors, "Passwords Do Not Match");}
 
-                            $formArray = array("username"=>$thr_uname, "password" => $thr_pasd_1, "email"=>$thr_mail);
+                            $hash = mysqli_real_escape_string( md5( $thr_uname + rand( 0,1500 ) ) );
 
-                            $validationErrors = $valid->validate($formArray);
-                            foreach ($validationErrors as $validationError){
-                                array_push($errors,$validationError);
+                            if(count($errors) == 0){
+                                if($thr_pasd_1 == $thr_uname){ array_push($errors, "Username and Password cannot be the same");}
+                                $formArray = array("username"=>$thr_uname, "password" => $thr_pasd_1, "email"=>$thr_mail);
+
+                                $validationErrors = $valid->validate($formArray);
+                                foreach ($validationErrors as $validationError){
+                                    array_push($errors,$validationError);
+                                }
                             }
 
                             //Validate if Theater already exists
@@ -78,11 +83,13 @@ $valid = new Validation();
 
                             if(count($errors) == 0){
                               $psd = md5($thr_pasd_1);
-                              $regquery = "INSERT INTO tbl_theater (thr_name,thr_uname,thr_pasd,thr_phone,thr_mail,thr_screens,thr_location)
-                              VALUES ('$thr_name', '$thr_uname', '$psd', '$thr_phone', '$thr_mail','$thr_screens','$thr_location')";
+                              $regquery = "INSERT INTO tbl_theater (thr_name,thr_uname,thr_pasd,thr_phone,thr_mail,thr_screens,thr_location,hash)
+                              VALUES ('$thr_name', '$thr_uname', '$psd', '$thr_phone', '$thr_mail','$thr_screens','$thr_location','$hash')";
                               if($reg = mysqli_query($dbconn,$regquery)){
                                 $_SESSION['thr_name'] = $thr_uname;
                                 $_SESSION['success'] = "Signed Up Succesfully";
+                                $to_mail = $thr_mail;
+                                require (SITE_PATH."mv-content/event-mail.php");
                                   header("location:../mv-content/login.php");
                                 }
                                 else {

@@ -19,6 +19,7 @@ $gd = new getData;
 
 
 $user_mail = $gd->returnUserMail($username);
+$to_mail = $user_mail;
 
 $mail_body = "";
 ?>
@@ -185,4 +186,4 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
 </body>
 </html>
 
-<?php //require ("../../mv-content/event-mail.php"); ?>
+<?php require ("../../mv-content/event-mail.php"); ?>
