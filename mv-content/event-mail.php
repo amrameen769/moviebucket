@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This example shows settings to use when sending via Google's Gmail servers.
  * This uses traditional id & password authentication - look at the gmail_xoauth.phps
@@ -7,8 +8,8 @@
  */
 //Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
-require ("mailer.php");
-//require '../../config/vendor/autoload.php';
+require SITE_PATH.'config/vendor/autoload.php';
+require (SITE_PATH."mv-content/mailer.php");
 //Create a new PHPMailer instance
 $mail = new PHPMailer;
 //Tell PHPMailer to use SMTP
@@ -42,9 +43,11 @@ try {
 //Set an alternative reply-to address
 //$mail->addReplyTo('replyto@example.com', 'First Last');
 //Set who the message is to be sent to
-$mail->addAddress($to_mail, $username);
+//echo $mailer . " Success";
+
+$mail->addAddress($mailer, $user_name);
 //Set the subject line
-$mail->Subject = 'MovieBucket.com Tickets have been Booked';
+$mail->Subject = $sub;
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
 //$mail->msgHTML(file_get_contents('book-seats.php'));

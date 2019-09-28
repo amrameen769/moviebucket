@@ -3,7 +3,7 @@
 
 class Booking{
     private $dbconn;
-    function Booking(){
+    function __construct(){
         $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
     }
     function book($bookDetails){

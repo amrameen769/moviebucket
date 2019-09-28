@@ -17,7 +17,7 @@ if (isset($listResults)) {
 }
 
 
-$subscriber_hash = MailChimp::subscriberHash($user_mail);
+$subscriber_hash = MailChimp::subscriberHash($mailer);
 $subscription = $bookmail->get("lists/{$list_id}/members/{$subscriber_hash}");
 
 
@@ -29,7 +29,7 @@ $subscription = $bookmail->get("lists/{$list_id}/members/{$subscriber_hash}");
 
 if (!isset($subscription['status']) || $subscription['status'] !== 'subscribed') {
     $updatelog = $bookmail->post("lists/{$list_id}/members",
-        ['email_address' => $user_mail,
+        ['email_address' => $mailer,
             'status' => 'subscribed',
             'merge_fields' => ['FNAME' => $username]
         ]

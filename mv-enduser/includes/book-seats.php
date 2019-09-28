@@ -14,12 +14,12 @@ require("../../config/autoload.php");
 $selected_seats = json_decode(stripcslashes($_POST['seats']));
 $shw_id = json_decode(stripcslashes($_POST['shw_id']));
 $username = $_SESSION['username'];
-
+$user_name = $username;
 $gd = new getData;
 
 
 $user_mail = $gd->returnUserMail($username);
-$to_mail = $user_mail;
+$mailer = $user_mail;
 
 $mail_body = "";
 ?>
@@ -186,4 +186,9 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
 </body>
 </html>
 
-<?php require ("../../mv-content/event-mail.php"); ?>
+<?php
+
+$sub = "MovieBucket.com Tickets have been Booked";
+require ("../../mv-content/event-mail.php");
+
+?>
