@@ -5,6 +5,9 @@ $user_name = "";
 $user_phone = "";
 $user_uname = "";
 $user_pasd_1 = "";
+
+require ("validation.php");
+
  ?>
  <html lang="en" dir="ltr">
    <head>
@@ -32,7 +35,7 @@ $user_pasd_1 = "";
            <form class="login" method="post">
             <a href="#" onclick="goBack()"><i class="fas fa-arrow-circle-left btn_back"></i></a><br>
              <p id=login>Signup for Moviebucket</p>
-             <a href="../index.php"><img id="logo" src="../mv-includes/images/mvbucket.png"></a><br>
+             <a href="../index.php"><img id="logo" src="../mv-includes/images/mvbucket.png" alt="MovieBucket.com"></a><br>
              <?php require("../config/autoload.php");
              $errors = array();
                if(isset($_POST['signup'])){

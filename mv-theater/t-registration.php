@@ -7,6 +7,9 @@ $thr_pasd_1 = "";
 $thr_mail = "";
 $thr_location = "";
 $thr_screens = "";
+require (SITE_PATH."mv-content/validation.php");
+
+$valid = new Validation();
  ?>
 <html lang="en" dir="ltr">
   <head>
@@ -29,8 +32,8 @@ $thr_screens = "";
   <script src="<?=SITE_URL?>mv-includes/js/script.js"></script>
   <body>
     <div id=center class="container-fluid">
-      <div class="col- col-sm col-md col-lg col-xl containera animated fadeInUp delay-02s" style="background: url(../mv-includes/images/thr-bg.jpg) left top repeat !important;">
-        <div class="login_contain animated fadeInDown delay-02s">
+      <div class="col- col-sm col-md col-lg col-xl containera animated fadeInUp delay-02s" style="background: url(../mv-includes/images/thr-bg.jpg) left top repeat !important; width: 1200px;height: 600px;">
+        <div class="login_contain animated fadeInDown delay-02s" style="width: 780px!important;">
           <form class="login" method="post">
             <a href="#" onclick="goBack()"><i class="fas fa-arrow-circle-left btn_back"></i></a><br>
             <p id=login>Signup for MovieBucket</p>
@@ -57,6 +60,13 @@ $thr_screens = "";
                             if(empty($thr_screens)) { array_push($errors,"Number of Screens required");}
                             if($thr_pasd_1 != $thr_pasd_2){ array_push($errors, "Passwords Do Not Match");}
 
+                            $formArray = array("username"=>$thr_uname, "password" => $thr_pasd_1, "email"=>$thr_mail);
+
+                            $validationErrors = $valid->validate($formArray);
+                            foreach ($validationErrors as $validationError){
+                                array_push($errors,$validationError);
+                            }
+
                             //Validate if Theater already exists
                                 $checkExistingQuery = "SELECT thr_uname,thr_mail FROM tbl_theater WHERE thr_uname='$thr_uname' or thr_mail='$thr_mail'";
                                 $results = mysqli_query($dbconn,$checkExistingQuery);
@@ -82,7 +92,7 @@ $thr_screens = "";
                             }
                           require(SITE_PATH."mv-content/errors.php");
                          ?>
-            <div class="inp">
+            <div class="inp" style="width: 100%;">
               <input type="text" name="thr_name" placeholder="Theater Name" value ="<?= $thr_name ?>"><br><br>
               <input type="number" name="thr_phone" placeholder="Mobile" value ="<?= $thr_phone ?>"><br><br>
               <input type="username" name="thr_uname" placeholder="Enter Username" value ="<?= $thr_uname ?>"><br><br>

@@ -68,7 +68,7 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
                                     >
                                     <label for="<?= $seat['screen_seat_id'] ?>"><?= $i++; ?></label>
                                 </div>
-                                <?php if ($i % 15 == 0) {
+                                <?php if ($i % 30 == 0) {
                                     echo "</div><div class=\"row row--1 row-margin\" style='justify-content: center; flex-wrap: nowrap!important;'>";
                                 } ?>
                             <?php endwhile; ?>
