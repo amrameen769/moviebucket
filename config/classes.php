@@ -241,7 +241,7 @@ class MovieBook{
 
     function selectShows($mv_id){
         $dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
-        $selectShows = "SELECT * FROM tbl_showtime WHERE mv_id='$mv_id' ORDER BY shw_date AND shw_time";
+        $selectShows = "SELECT * FROM tbl_showtime WHERE mv_id='$mv_id' AND shw_status = 1 ORDER BY shw_date AND shw_time";
         $shows = array();
         $resSelectShows = $dbconn -> query($selectShows);
         if(mysqli_num_rows($resSelectShows) > 0){

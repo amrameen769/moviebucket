@@ -169,7 +169,7 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
             if (count($errors) == 0) {
                 $user_id = $gd->returnUserID($username);
                 foreach ($selected_seats as $selected_seat) {
-                    $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $pay_cost);
+                    $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $shw_cost);
                     if ($bookShow->book($bookDetails)) {
                         array_push($errors, "Show Booked");
                     } else {
@@ -180,6 +180,7 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
 
             require(SITE_PATH . "mv-content/errors.php");
             ?>
+            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button" onclick="window.print()">Download</button>
         </div>
     </div>
 </div>

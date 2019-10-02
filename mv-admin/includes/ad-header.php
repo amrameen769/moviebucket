@@ -87,7 +87,7 @@
                     </div>
                 </li>-->
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Reports</a>
+                    <a class="nav-link" href="<?=SITE_URL?>mv-admin/includes/reports.php" tabindex="-1">Reports</a>
                 </li>
             </ul>
             <!--<form class="form-inline my-2 my-lg-0">

@@ -6,5 +6,5 @@
 </footer>
 <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
 
-<script src="../assets/js/chart.min.js"></script>
-<script src="../assets/js/bs-charts.js"></script>
+<script src="<?=SITE_URL?>mv-admin/assets/js/chart.min.js"></script>
+<script src="<?=SITE_URL?>mv-admin/assets/js/bs-charts.js"></script>
