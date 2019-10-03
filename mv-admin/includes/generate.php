@@ -1,5 +1,6 @@
 <?php
 require('../../config/autoload.php');
+$gd = new getData;
 
 if (isset($_POST['reportid'])) {
     $report_id = $_POST['reportid'];
@@ -12,17 +13,54 @@ if (isset($_POST['reportid'])) {
                         <h2 class="text-center">Income Reports</h2>
                         <p class="text-center">Annual Income Reports in MovieBucket</p>
                     </div>
-                    <div class="buttons"></div>
                 </div>
             </div>
 
             <?php
 
+            $selectBooking = "SELECT * FROM tbl_booking GROUP BY thr_id";
+            $resBooking = $exec->query($selectBooking);
+            //print_r($resBooking);
+            if (mysqli_num_rows($resBooking)) : ?>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Theater</th>
+                            <th>No: of Shows</th>
+                            <th>Total Earning</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 0; ?>
+                        <?php while ($row = mysqli_fetch_assoc($resBooking)) : ?>
+                            <?php
+                            $thr_id = $row['thr_id'];
+                            $thr_name = $gd->getTheater($thr_id);
+                            $selectPay = "SELECT SUM(book_pay),COUNT(book_pay) FROM tbl_booking WHERE thr_id=$thr_id";
+                            $resultPay = $exec->query($selectPay);
+                            if(mysqli_num_rows($resultPay) > 0){
+                                while ($pay = mysqli_fetch_assoc($resultPay)){
+                                    $income = $pay['SUM(book_pay)'];
+                                    $no_shows = $pay['COUNT(book_pay)'];
+                                }
+                            }
+                            ?>
+                            <tr>
+                                <td><?= ++$i ?></td>
+                                <td><?=$row['thr_id'] ?></td>
+                                <td><?=$no_shows ?></td>
+                                <td><?=$income ?></td>
+                            </tr>
+                        <?php endwhile ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
 
-            ?>
 
-
-            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button">Download</button>
+            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button" onclick="window.print()">Download</button>
         </div>
 
     <?php elseif ($report_id == 'show') : ?>
@@ -34,7 +72,6 @@ if (isset($_POST['reportid'])) {
                         <h2 class="text-center">Show Reports</h2>
                         <p class="text-center">Annual Showtime Reports in MovieBucket</p>
                     </div>
-                    <div class="buttons"></div>
                 </div>
             </div>
 
@@ -74,7 +111,9 @@ if (isset($_POST['reportid'])) {
                     </table>
                 </div>
             <?php endif; ?>
-            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button" onclick="window.print()">Download</button>
+            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button" onclick="window.print()">
+                Download
+            </button>
         </div>
 
     <?php else : ?>

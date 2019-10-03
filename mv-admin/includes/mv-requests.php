@@ -40,6 +40,8 @@ $sec->checkADSign();
                                 $updateStatus = "UPDATE tbl_movie SET rq_status = TRUE WHERE mv_id='$mv_id'";
                                 if ($exec->query($updateStatus)) {
                                     array_push($errors, "Status Updated");
+                                    //$_SESSION['updation'] = "Status Updated, Shows Removed";
+                                    //header("location:mv-requests.php");
                                 }
                             } elseif ($rq_status == 1) {
                                 $flag = 1;
@@ -57,6 +59,8 @@ $sec->checkADSign();
                                 }
                                 if ($exec->query($updateStatus) && $flag == 1) {
                                     array_push($errors, "Status Updated, Shows Removed");
+                                    //$_SESSION['updation'] = "Status Updated, Shows Removed";
+                                    //header("location:".SITE_PATH."mv-admin/includes/mv-requests.php");
                                 }
                             }
                         }
@@ -65,7 +69,15 @@ $sec->checkADSign();
                     }
                 }
                 require(SITE_PATH . "mv-content/errors.php");
-                ?>
+                if (isset($_SESSION['updation'])) : ?>
+                    <div id=error class="animated fadeInDown delay-02s">
+                        <p>
+                            <?php echo $_SESSION['updation'];
+                                unset($_SESSION['updation']);
+                            ?>
+                        </p>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
         <form action="" method="post">
