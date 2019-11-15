@@ -38,7 +38,7 @@ if (isset($_POST['reportid'])) {
                             <?php
                             $thr_id = $row['thr_id'];
                             $thr_name = $gd->getTheater($thr_id);
-                            $selectPay = "SELECT SUM(book_pay),COUNT(book_pay) FROM tbl_booking WHERE thr_id=$thr_id";
+                            $selectPay = "SELECT SUM(book_pay), COUNT(book_pay) FROM tbl_booking WHERE thr_id=$thr_id";
                             $resultPay = $exec->query($selectPay);
                             if(mysqli_num_rows($resultPay) > 0){
                                 while ($pay = mysqli_fetch_assoc($resultPay)){
@@ -49,7 +49,7 @@ if (isset($_POST['reportid'])) {
                             ?>
                             <tr>
                                 <td><?= ++$i ?></td>
-                                <td><?=$row['thr_id'] ?></td>
+                                <td><?=$thr_name ?></td>
                                 <td><?=$no_shows ?></td>
                                 <td><?=$income ?></td>
                             </tr>
