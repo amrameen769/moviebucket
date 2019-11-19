@@ -1,6 +1,6 @@
 <?php
 require ("../config/autoload.php");
-
+require (SITE_PATH."/config/DisplayDet.php");
 $sec = new Secure;
 $sec->checkUSign();
 
@@ -50,14 +50,19 @@ require (SITE_PATH."mv-content/header.php");
             if(!is_array($bookingDetails) && !empty($bookingDetails)) : ?>
         <?php foreach($bookingDetails as $bookingDetail) : ?>
         <tr>
+            <?php
+                $dd = new DisplayDet();
+                $detArray = array( "mv_id" => $bookingDetail['mv_id'], "thr_id" => $bookingDetail['thr_id'], "thr_screen_id" => $bookingDetail['thr_screen_id'], 'shw_id' => $bookingDetail['shw_id']);
+                $detail = $dd->returnBooking($detArray);
+            ?>
             <td><?=$bookingDetail['book_id']?></td>
-            <td><?=$bookingDetail['mv_id']?></td>
-            <td><?=$bookingDetail['thr_id']?></td>
-            <td><?=$bookingDetail['thr_screen_id']?></td>
+            <td><?=$detail['mv_name']?></td>
+            <td><?=$detail['thr_name']?></td>
+            <td><?=$detail['thr_screen_name']?></td>
             <td><?=$bookingDetail['screen_seat_id']?></td>
-            <td><?=$bookingDetail['shw_id']?></td>
-            <td><?=$bookingDetail['shw_id']?></td>
-            <td><?=$bookingDetail['shw_id']?></td>
+            <td><?=$detail['shw_date']?></td>
+            <td><?=$detail['shw_time']?></td>
+            <td><?=$bookingDetail['book_date']?></td>
         </tr>
         <?php endforeach; ?>
         <?php endif; ?>

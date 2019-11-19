@@ -19,7 +19,7 @@ class Booking{
             $book_pay = (double)mysqli_real_escape_string($this->dbconn, $bookDetails['book_pay']);
 
             $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, mv_id, thr_id, thr_screen_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,$mv_id,$thr_id,'$thr_screen_id','$screen_seat_id','$book_date',$book_pay, TRUE)";
-            if(query($insertBooking)){
+            if($this->dbconn->query($insertBooking)){
                 return true;
             } else {
                 echo "Unsuccess";
@@ -29,9 +29,9 @@ class Booking{
     }
 
     function bookingDetails($user_id){
-        $selectBookDetails = "SELECT book_id,mv_id,thr_id,thr_screen_id,screen_seat_id,shw_id FROM tbl_booking WHERE user_id='$user_id'";
+        $selectBookDetails = "SELECT book_id,mv_id,thr_id,thr_screen_id,screen_seat_id,shw_id,book_date FROM tbl_booking WHERE user_id='$user_id'";
         $bookingDetails = array();
-        $resBookDetails = query($selectBookDetails);
+        $resBookDetails = $this->dbconn->query($selectBookDetails);
         while($row = mysqli_fetch_assoc($resBookDetails)){
             array_push($bookingDetails,$row);
         }
