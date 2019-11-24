@@ -11,14 +11,11 @@ class Booking{
         if(is_array($bookDetails)){
             $user_id = mysqli_real_escape_string($this->dbconn, $bookDetails['user_id']);
             $shw_id = mysqli_real_escape_string($this->dbconn, $bookDetails['shw_id']);
-            $mv_id = mysqli_real_escape_string($this->dbconn, $bookDetails['mv_id']);
-            $thr_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_id']);
-            $thr_screen_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_screen_id']);
             $screen_seat_id = mysqli_real_escape_string($this->dbconn, $bookDetails['screen_seat_id']);
             $book_date = mysqli_real_escape_string($this->dbconn, $bookDetails['book_date']);
             $book_pay = (double)mysqli_real_escape_string($this->dbconn, $bookDetails['book_pay']);
 
-            $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, mv_id, thr_id, thr_screen_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,$mv_id,$thr_id,'$thr_screen_id','$screen_seat_id','$book_date',$book_pay, TRUE)";
+            $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,'$screen_seat_id','$book_date',$book_pay, TRUE)";
             if($this->dbconn->query($insertBooking)){
                 return true;
             } else {
@@ -29,7 +26,7 @@ class Booking{
     }
 
     function bookingDetails($user_id){
-        $selectBookDetails = "SELECT book_id,mv_id,thr_id,thr_screen_id,screen_seat_id,shw_id,book_date FROM tbl_booking WHERE user_id='$user_id'";
+        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date FROM tbl_booking WHERE user_id='$user_id'";
         $bookingDetails = array();
         $resBookDetails = $this->dbconn->query($selectBookDetails);
         while($row = mysqli_fetch_assoc($resBookDetails)){

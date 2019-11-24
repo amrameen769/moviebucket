@@ -189,7 +189,7 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
 
 <?php
 
-$sub = "MovieBucket.com Tickets have been Booked";
-require ("../../mv-content/event-mail.php");
+//$sub = "MovieBucket.com Tickets have been Booked";
+//require ("../../mv-content/event-mail.php");
 
 ?>
