@@ -40,8 +40,10 @@ use Mpdf\Mpdf;
                     </li>
                 </ul>
             </div>
+            <div class="jumbotron text-center" id="not-found"><h1>No Reports to Show!</h1></div>
             <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                <p class="container" id="report-body"></p>
+                <p class="container" id="report-body">
+                </p>
             </div>
         </div>
     </div>
@@ -68,6 +70,7 @@ use Mpdf\Mpdf;
 
         xhttp.onload = function () {
             document.getElementById('report-body').innerHTML = this.responseText;
+            document.getElementById('not-found').style.display = "none";
         }
 
         xhttp.send(report);
@@ -82,6 +85,7 @@ use Mpdf\Mpdf;
 
         xhttp.onload = function () {
             document.getElementById('report-body').innerHTML = this.responseText;
+            document.getElementById('not-found').style.display = "none";
         }
 
         xhttp.send(report);

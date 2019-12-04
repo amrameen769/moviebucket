@@ -11,17 +11,19 @@ class Booking{
         if(is_array($bookDetails)){
             $user_id = mysqli_real_escape_string($this->dbconn, $bookDetails['user_id']);
             $shw_id = mysqli_real_escape_string($this->dbconn, $bookDetails['shw_id']);
-            $screen_seat_id = mysqli_real_escape_string($this->dbconn, $bookDetails['screen_seat_id']);
             $book_date = mysqli_real_escape_string($this->dbconn, $bookDetails['book_date']);
             $book_pay = (double)mysqli_real_escape_string($this->dbconn, $bookDetails['book_pay']);
+            $thr_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_id']);
 
-            $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,'$screen_seat_id','$book_date',$book_pay, TRUE)";
-            if($this->dbconn->query($insertBooking)){
-                return true;
-            } else {
-                echo "Unsuccess";
-                return false;
+            $selectedSeats = $bookDetails['selected_seats'];
+            foreach ($selectedSeats as $selectedSeat){
+                $screen_seat_id = mysqli_real_escape_string($this->dbconn,$selectedSeat);
+                $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, thr_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,$thr_id, '$screen_seat_id','$book_date',$book_pay, TRUE)";
+                if(!$this->dbconn->query($insertBooking)) {
+                    return false;
+                }
             }
+            return true;
         }
     }
 
@@ -272,6 +274,17 @@ class MovieBook{
             }
         }
     }
+
+    function returnMovie($mv_id){
+        $selMovie = "SELECT mv_name FROM tbl_movie where mv_id=$mv_id LIMIT 1";
+        $resMovie = $this->dbconn->query($selMovie);
+
+        if(mysqli_num_rows($resMovie) > 0){
+            $row = mysqli_fetch_assoc($resMovie);
+            return $row['mv_name'];
+        }
+    }
+
 }
 
 

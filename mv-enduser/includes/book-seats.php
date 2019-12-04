@@ -35,8 +35,8 @@ $mail_body = "";
     </div>
 </div>
 <?php
-$mail_body = $mail_body."<h3>MovieBucket.com - Seats Booked</h3><br><h4>Details</h4><p>";
-$mail_body = $mail_body."<p><h4>Seats Booked</h4>";
+$mail_body = $mail_body . "<h3>MovieBucket.com - Seats Booked</h3><br><h4>Details</h4><p>";
+$mail_body = $mail_body . "<p><h4>Seats Booked</h4>";
 ?>
 <div class="container-fluid">
     <div class="card shadow border-left-info py-2">
@@ -45,10 +45,10 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
             <?php foreach ($selected_seats as $selected_seat) : ?>
                 <div>
                     <?= "Seat ID: " . $selected_seat ?>
-                    <?php $mail_body = $mail_body."Seat ID : ".$selected_seat."<br>"; ?>
+                    <?php $mail_body = $mail_body . "Seat ID : " . $selected_seat . "<br>"; ?>
                 </div>
             <?php endforeach; ?>
-            <?php $mail_body = $mail_body."</p>"; ?>
+            <?php $mail_body = $mail_body . "</p>"; ?>
         </div>
 
         <div class="container">
@@ -87,7 +87,7 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
             $seatAccess = new Seats;
             $bookShow = new Booking;
             $seatsBooked = $screen->checkSeatIfBooked($shw_id);
-            if (is_array($seatsBooked)) {
+            if (is_array($seatsBooked) and count($errors) == 0) {
                 if (array_intersect($selected_seats, $seatsBooked) != null) {
                     array_push($errors, "Seats You Selected are Unavailable");
                 }
@@ -97,99 +97,101 @@ $mail_body = $mail_body."<p><h4>Seats Booked</h4>";
 
             ?>
             <?php
-            $movieDetails = $mb->selectMovie($mv_id);
-            $thr_name = $gd->getTheater($thr_id);
-            $thr_screen_name = $screen->returnScreenName($thr_screen_id);
-            if (is_array($movieDetails)) : ?>
-                <h3>Booking Details</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Movie Name</th>
-                            <th>Hero</th>
-                            <th>Heroine</th>
-                            <th>Language</th>
-                            <th>Director</th>
-                            <th>Producer</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <?= $movieDetails['mv_name'] ?>
-                                <?php $mail_body = $mail_body . "Movie : ". $movieDetails['mv_name']."<br>"; ?>
-                                <div class="avatar-upload">
-                                    <img class="avatar-preview"
-                                         src="<?= SITE_URL ?>/mv-theater/mv-thumb/<?= $movieDetails['mv_thumb'] ?>"
-                                         alt="movie_thumb">
-                                </div>
-                            </td>
-                            <td><?= $movieDetails['mv_hero'] ?></td>
-                            <td><?= $movieDetails['mv_heroine'] ?></td>
-                            <td><?= $movieDetails['mv_lang'] ?></td>
-                            <td><?= $movieDetails['mv_director'] ?></td>
-                            <td><?= $movieDetails['mv_producer'] ?></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <h3>Show Details</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Theater</th>
-                            <th>Screen ID</th>
-                            <th>Show Date</th>
-                            <th>Show Time</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><?= $thr_name ?></td>
-                            <td><?= $thr_screen_id ?></td>
-                            <td><?= $shw_date ?></td>
-                            <td><?= $shw_time ?></td>
-                            <?php
-                            $mail_body = $mail_body . "Theater : ". $thr_name."<br>";
-                            $mail_body = $mail_body . "Screen : ". $thr_screen_id."<br>";
-                            $mail_body = $mail_body . "Show Date : ". $shw_date."<br>";
-                            $mail_body = $mail_body . "Show Time : ". $shw_time."<br>";
-                            $mail_body = $mail_body . "Show Cost : ". $shw_cost."<br>";
-                            $mail_body = $mail_body . "Total Cost : ". $pay_cost."<br></p></div>";
-                            ?>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            <?php endif; ?>
+            if(count($errors) == 0) {
+                $movieDetails = $mb->selectMovie($mv_id);
+                $thr_name = $gd->getTheater($thr_id);
+                $thr_screen_name = $screen->returnScreenName($thr_screen_id);
+                if (is_array($movieDetails)) : ?>
+                    <h3>Booking Details</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Movie Name</th>
+                                <th>Hero</th>
+                                <th>Heroine</th>
+                                <th>Language</th>
+                                <th>Director</th>
+                                <th>Producer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <?= $movieDetails['mv_name'] ?>
+                                    <?php $mail_body = $mail_body . "Movie : " . $movieDetails['mv_name'] . "<br>"; ?>
+                                    <div class="avatar-upload">
+                                        <img class="avatar-preview"
+                                             src="<?= SITE_URL ?>/mv-theater/mv-thumb/<?= $movieDetails['mv_thumb'] ?>"
+                                             alt="movie_thumb">
+                                    </div>
+                                </td>
+                                <td><?= $movieDetails['mv_hero'] ?></td>
+                                <td><?= $movieDetails['mv_heroine'] ?></td>
+                                <td><?= $movieDetails['mv_lang'] ?></td>
+                                <td><?= $movieDetails['mv_director'] ?></td>
+                                <td><?= $movieDetails['mv_producer'] ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Show Details</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Theater</th>
+                                <th>Screen ID</th>
+                                <th>Show Date</th>
+                                <th>Show Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><?= $thr_name ?></td>
+                                <td><?= $thr_screen_id ?></td>
+                                <td><?= $shw_date ?></td>
+                                <td><?= $shw_time ?></td>
+                                <?php
+                                $mail_body = $mail_body . "Theater : " . $thr_name . "<br>";
+                                $mail_body = $mail_body . "Screen : " . $screen->returnScreenName($thr_screen_id) . "<br>";
+                                $mail_body = $mail_body . "Show Date : " . $shw_date . "<br>";
+                                $mail_body = $mail_body . "Show Time : " . $shw_time . "<br>";
+                                $mail_body = $mail_body . "Show Cost : " . $shw_cost . "<br>";
+                                $mail_body = $mail_body . "Total Cost : " . $pay_cost . "<br></p></div>";
+                                ?>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
 
-            <?php
+                <?php
+            }
             if (count($errors) == 0) {
                 $user_id = $gd->returnUserID($username);
-                foreach ($selected_seats as $selected_seat) {
-                    $bookDetails = array('user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'screen_seat_id' => $selected_seat, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $shw_cost);
-                    if ($bookShow->book($bookDetails)) {
-                        array_push($errors, "Show Booked");
-                    } else {
-                        array_push($errors, "Booking Failed");
-                    }
+//                    foreach ($selected_seats as $selected_seat) {
+                $bookDetails = array('selected_seats' => $selected_seats, 'user_id' => $user_id, 'shw_id' => $shw_id, 'mv_id' => $mv_id, 'thr_id' => $thr_id, 'thr_screen_id' => $thr_screen_id, 'book_date' => date("Y-m-d H:i:s"), 'book_pay' => $shw_cost);
+                if ($bookShow->book($bookDetails)) {
+                    array_push($errors, "All Seats Successfully Booked");
+                    ?>
+                    <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button"
+                            onclick="window.print()">
+                        Download
+                    </button>
+                    <?php
+//                    $sub = "MovieBucket.com Tickets have been Booked";
+//                    require("../../mv-content/event-mail.php");
+                } else {
+                    array_push($errors, "Booking Failed");
                 }
+//                    }
             }
 
             require(SITE_PATH . "mv-content/errors.php");
             ?>
-            <button class="btn btn-primary btn-sm d-none d-sm-inline-block" id="d-button" onclick="window.print()">Download</button>
         </div>
     </div>
 </div>
 </body>
 </html>
-
-<?php
-
-//$sub = "MovieBucket.com Tickets have been Booked";
-//require ("../../mv-content/event-mail.php");
-
-?>

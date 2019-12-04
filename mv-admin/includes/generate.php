@@ -1,6 +1,8 @@
 <?php
 require('../../config/autoload.php');
-$gd = new getData;
+$gd = new getData();
+$screen = new Screens();
+$movieb = new MovieBook();
 
 if (isset($_POST['reportid'])) {
     $report_id = $_POST['reportid'];
@@ -28,7 +30,7 @@ if (isset($_POST['reportid'])) {
                         <tr>
                             <th>Sl.No</th>
                             <th>Theater</th>
-                            <th>No: of Shows</th>
+                            <th>No: of Bookings</th>
                             <th>Total Earning</th>
                         </tr>
                         </thead>
@@ -98,13 +100,13 @@ if (isset($_POST['reportid'])) {
                         <?php while ($row = mysqli_fetch_assoc($resShow)) : ?>
                             <tr>
                                 <td><?= $row['shw_id'] ?></td>
-                                <td><?= $row['mv_id'] ?></td>
+                                <td><?= $movieb->returnMovie($row['mv_id']) ?></td>
                                 <td><?= $row['shw_time'] ?></td>
-                                <td><?= $row['thr_id'] ?></td>
-                                <td><?= $row['thr_screen_id'] ?></td>
+                                <td><?= $gd->getTheater($row['thr_id']) ?></td>
+                                <td><?= $screen->returnScreenName($row['thr_screen_id']) ?></td>
                                 <td><?= $row['shw_date'] ?></td>
                                 <td><?= $row['shw_cost'] ?></td>
-                                <td><?= $row['shw_status'] ?></td>
+                                <td><?php if($row['shw_status'] == 1) echo "Running"; else echo "Not Running"; ?></td>
                             </tr>
                         <?php endwhile; ?>
                         </tbody>
