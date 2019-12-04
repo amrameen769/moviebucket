@@ -28,7 +28,7 @@ class Booking{
     }
 
     function bookingDetails($user_id){
-        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date FROM tbl_booking WHERE user_id='$user_id'";
+        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id'";
         $bookingDetails = array();
         $resBookDetails = $this->dbconn->query($selectBookDetails);
         while($row = mysqli_fetch_assoc($resBookDetails)){

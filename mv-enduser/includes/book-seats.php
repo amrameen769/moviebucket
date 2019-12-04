@@ -37,7 +37,10 @@ $mail_body = "";
 <?php
 $mail_body = $mail_body . "<h3>MovieBucket.com - Seats Booked</h3><br><h4>Details</h4><p>";
 $mail_body = $mail_body . "<p><h4>Seats Booked</h4>";
-?>
+
+if(count($selected_seats) == 0) : ?>
+<div class="jumbotron text-center" id="not-found"><h1>No Seats Selected!</h1></div>
+<?php exit(0); endif; ?>
 <div class="container-fluid">
     <div class="card shadow border-left-info py-2">
         <div class="container">

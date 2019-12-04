@@ -39,7 +39,7 @@ function loadShow(mv_id) {
             document.getElementById("book-page").innerHTML = this.responseText;
         }
     }
-    xhttp.open("GET","book-show.php?mvid=" + mv_id,true);
+    xhttp.open("POST","book-show.php?mvid=" + mv_id,true);
     xhttp.send();
 }
 

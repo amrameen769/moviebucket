@@ -2,7 +2,7 @@ function selectSeat(){
     let seats = document.getElementsByName('seat');
     let selected_seats = [];
     for(let i = 0; i<seats.length; i++){
-        if(seats[i].type=='checkbox' && seats[i].checked == true){
+        if(seats[i].type ==='checkbox' && seats[i].checked === true){
             selected_seats.push(seats[i].id);
         }
     }
