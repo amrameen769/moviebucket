@@ -52,7 +52,17 @@ if (isset($_GET['logout'])) {
                                     <div class="col mr-2">
                                         <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Earnings (monthly)</span>
                                         </div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>$40,000</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><span>
+                                                <?php
+                                                $dateToday = date('Y-m-d');
+                                                $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 month")), 'Y-m-d');
+
+                                                $allBookMonth = $dbconn->query("select sum(book_pay) as tot_pay from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateToday'") or die("Error AllBook");
+                                                $resAllBook = mysqli_fetch_assoc($allBookMonth);
+                                                print "₹" . $resAllBook['tot_pay'];
+
+                                                ?>
+                                            </span></div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                 </div>
@@ -66,7 +76,14 @@ if (isset($_GET['logout'])) {
                                     <div class="col mr-2">
                                         <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Earnings (annual)</span>
                                         </div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>$215,000</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><span>
+                                                <?php
+                                                $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
+                                                $allBookYear = $dbconn->query("select sum(book_pay) as tot_pay_month from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateToday'");
+                                                $resAllBook = mysqli_fetch_assoc($allBookYear);
+                                                print "₹" . $resAllBook['tot_pay_month'];
+                                                ?>
+                                            </span></div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                                 </div>
@@ -120,7 +137,7 @@ if (isset($_GET['logout'])) {
                                                 <div class="text-dark font-weight-bold h5 mb-0 mr-3">
                                                             <span>
                                                                 <?php
-                                                                $get = new getData;
+                                                                //$get = new getData;
                                                                 echo $get->getNumReqs(1);
                                                                 ?>
                                                             </span>
@@ -149,24 +166,46 @@ if (isset($_GET['logout'])) {
                         <div class="card shadow mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="text-primary font-weight-bold m-0">Earnings Overview</h6>
-                                <div class="dropdown no-arrow">
-                                    <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false" type="button"><i
-                                                class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
-                                         role="menu">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a
-                                                class="dropdown-item" role="presentation" href="#">&nbsp;Action</a><a
-                                                class="dropdown-item" role="presentation" href="#">&nbsp;Another
-                                            action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" role="presentation" href="#">&nbsp;Something else
-                                            here</a></div>
-                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart-area">
-                                    <canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}]}}}"></canvas>
+                                    <?php
+                                    $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
+                                    $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date) as month from tbl_booking where book_status = 1 group by MONTH(book_date)") or die("Error All Book Year");
+                                    $months = array();
+                                    $monthnames = array();
+                                    while ($row = mysqli_fetch_assoc($allBookYear)) {
+//                                        $months += [$row['book_date'] => $row['tot_pay_per_month']];
+                                        array_push($months, $row['tot_pay_per_month']);
+                                        array_push($monthnames, $row['month']);
+                                    }
+
+                                    //print_r($months);
+
+
+                                    ?>
+                                    <canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Start&quot;,<?php
+                                    $i = 0;
+                                    while($i < count($monthnames)){
+                                        if($i == count($monthnames) - 1 or count($monthnames) == 1){
+                                            echo "&quot;" . $monthnames[$i] . "&quot;";
+                                        } else {
+                                            echo "&quot;" . $monthnames[$i] . "&quot;,";
+                                        }
+                                        $i++;
+                                    }
+                                    ?>],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,<?php
+                                    $i = 0;
+                                    while($i < count($months)){
+                                        if($i == count($months) - 1){
+                                            echo "&quot;" . (int)$months[$i] . "&quot;";
+                                        } else {
+                                            echo "&quot;" . (int)$months[$i] . "&quot;,";
+                                        }
+                                        $i++;
+                                    }
+
+                                    ?>],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}]}}}"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -175,20 +214,6 @@ if (isset($_GET['logout'])) {
                         <div class="card shadow mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="text-primary font-weight-bold m-0">Revenue Sources</h6>
-                                <div class="dropdown no-arrow">
-                                    <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false" type="button"><i
-                                                class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
-                                         role="menu">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a
-                                                class="dropdown-item" role="presentation" href="#">&nbsp;Action</a><a
-                                                class="dropdown-item" role="presentation" href="#">&nbsp;Another
-                                            action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" role="presentation" href="#">&nbsp;Something else
-                                            here</a></div>
-                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart-area">
@@ -205,151 +230,11 @@ if (isset($_GET['logout'])) {
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="text-primary font-weight-bold m-0">Projects</h6>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="small font-weight-bold">Server migration<span class="float-right">20%</span>
-                                </h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0"
-                                         aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Sales tracking<span class="float-right">40%</span>
-                                </h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0"
-                                         aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Customer Database<span class="float-right">60%</span>
-                                </h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0"
-                                         aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Payout Details<span class="float-right">80%</span>
-                                </h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-info" aria-valuenow="80" aria-valuemin="0"
-                                         aria-valuemax="100" style="width: 80%;"><span class="sr-only">80%</span></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Account setup<span
-                                            class="float-right">Complete!</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0"
-                                         aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="text-primary font-weight-bold m-0">Todo List</h6>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col mr-2">
-                                            <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">10:30 AM</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-checkbox"><input
-                                                        class="custom-control-input" type="checkbox"
-                                                        id="formCheck-1"><label class="custom-control-label"
-                                                                                for="formCheck-1"></label></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col mr-2">
-                                            <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">11:30 AM</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-checkbox"><input
-                                                        class="custom-control-input" type="checkbox"
-                                                        id="formCheck-2"><label class="custom-control-label"
-                                                                                for="formCheck-2"></label></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col mr-2">
-                                            <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">12:30 AM</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-checkbox"><input
-                                                        class="custom-control-input" type="checkbox"
-                                                        id="formCheck-3"><label class="custom-control-label"
-                                                                                for="formCheck-3"></label></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row">
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-primary shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Primary</p>
-                                        <p class="text-white-50 small m-0">#4e73df</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-success shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Success</p>
-                                        <p class="text-white-50 small m-0">#1cc88a</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-info shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Info</p>
-                                        <p class="text-white-50 small m-0">#36b9cc</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-warning shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Warning</p>
-                                        <p class="text-white-50 small m-0">#f6c23e</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-danger shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Danger</p>
-                                        <p class="text-white-50 small m-0">#e74a3b</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <div class="card text-white bg-secondary shadow">
-                                    <div class="card-body">
-                                        <p class="m-0">Secondary</p>
-                                        <p class="text-white-50 small m-0">#858796</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Copyright © Brand 2019</span></div>
+                <div class="text-center my-auto copyright"><span>Copyright © AMR Solutions LTD 2019</span></div>
             </div>
         </footer>
     </div>
