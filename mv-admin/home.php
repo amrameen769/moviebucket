@@ -55,9 +55,10 @@ if (isset($_GET['logout'])) {
                                         <div class="text-dark font-weight-bold h5 mb-0"><span>
                                                 <?php
                                                 $dateToday = date('Y-m-d');
+                                                $dateTomorrow = date_format(date_add(date_create($dateToday), date_interval_create_from_date_string("1 day")), 'Y-m-d');
                                                 $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 month")), 'Y-m-d');
 
-                                                $allBookMonth = $dbconn->query("select sum(book_pay) as tot_pay from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateToday'") or die("Error AllBook");
+                                                $allBookMonth = $dbconn->query("select sum(book_pay) as tot_pay from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateTomorrow'") or die("Error AllBook");
                                                 $resAllBook = mysqli_fetch_assoc($allBookMonth);
                                                 print "₹" . $resAllBook['tot_pay'];
 
@@ -79,7 +80,7 @@ if (isset($_GET['logout'])) {
                                         <div class="text-dark font-weight-bold h5 mb-0"><span>
                                                 <?php
                                                 $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
-                                                $allBookYear = $dbconn->query("select sum(book_pay) as tot_pay_month from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateToday'");
+                                                $allBookYear = $dbconn->query("select sum(book_pay) as tot_pay_month from tbl_booking where book_status = 1 and book_date > '$dateThen' and book_date <= '$dateTomorrow'");
                                                 $resAllBook = mysqli_fetch_assoc($allBookYear);
                                                 print "₹" . $resAllBook['tot_pay_month'];
                                                 ?>
@@ -171,7 +172,7 @@ if (isset($_GET['logout'])) {
                                 <div class="chart-area">
                                     <?php
                                     $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
-                                    $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date) as month from tbl_booking where book_status = 1 group by MONTH(book_date)") or die("Error All Book Year");
+                                    $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date) as month from tbl_booking where book_status = 1 group by MONTH(book_date) order by year(book_date)") or die("Error All Book Year");
                                     $months = array();
                                     $monthnames = array();
                                     while ($row = mysqli_fetch_assoc($allBookYear)) {
@@ -186,8 +187,8 @@ if (isset($_GET['logout'])) {
                                     ?>
                                     <canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Start&quot;,<?php
                                     $i = 0;
-                                    while($i < count($monthnames)){
-                                        if($i == count($monthnames) - 1 or count($monthnames) == 1){
+                                    while ($i < count($monthnames)) {
+                                        if ($i == count($monthnames) - 1 or count($monthnames) == 1) {
                                             echo "&quot;" . $monthnames[$i] . "&quot;";
                                         } else {
                                             echo "&quot;" . $monthnames[$i] . "&quot;,";
@@ -196,8 +197,8 @@ if (isset($_GET['logout'])) {
                                     }
                                     ?>],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,<?php
                                     $i = 0;
-                                    while($i < count($months)){
-                                        if($i == count($months) - 1){
+                                    while ($i < count($months)) {
+                                        if ($i == count($months) - 1) {
                                             echo "&quot;" . (int)$months[$i] . "&quot;";
                                         } else {
                                             echo "&quot;" . (int)$months[$i] . "&quot;,";

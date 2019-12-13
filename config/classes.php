@@ -1,14 +1,18 @@
-
 <?php
 
-class Booking{
+class Booking
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function book($bookDetails){
+
+    function book($bookDetails)
+    {
         ////$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
-        if(is_array($bookDetails)){
+        if (is_array($bookDetails)) {
             $user_id = mysqli_real_escape_string($this->dbconn, $bookDetails['user_id']);
             $shw_id = mysqli_real_escape_string($this->dbconn, $bookDetails['shw_id']);
             $book_date = mysqli_real_escape_string($this->dbconn, $bookDetails['book_date']);
@@ -16,10 +20,10 @@ class Booking{
             $thr_id = mysqli_real_escape_string($this->dbconn, $bookDetails['thr_id']);
 
             $selectedSeats = $bookDetails['selected_seats'];
-            foreach ($selectedSeats as $selectedSeat){
-                $screen_seat_id = mysqli_real_escape_string($this->dbconn,$selectedSeat);
+            foreach ($selectedSeats as $selectedSeat) {
+                $screen_seat_id = mysqli_real_escape_string($this->dbconn, $selectedSeat);
                 $insertBooking = "INSERT INTO tbl_booking(user_id, shw_id, thr_id, screen_seat_id, book_date, book_pay, book_status) VALUES ($user_id, $shw_id,$thr_id, '$screen_seat_id','$book_date',$book_pay, TRUE)";
-                if(!$this->dbconn->query($insertBooking)) {
+                if (!$this->dbconn->query($insertBooking)) {
                     return false;
                 }
             }
@@ -27,30 +31,36 @@ class Booking{
         }
     }
 
-    function bookingDetails($user_id){
+    function bookingDetails($user_id)
+    {
         $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id'";
         $bookingDetails = array();
         $resBookDetails = $this->dbconn->query($selectBookDetails);
-        while($row = mysqli_fetch_assoc($resBookDetails)){
-            array_push($bookingDetails,$row);
+        while ($row = mysqli_fetch_assoc($resBookDetails)) {
+            array_push($bookingDetails, $row);
         }
         return $resBookDetails;
     }
 }
 
-class Seats{
+class Seats
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function seatsNotBooked($thr_screen_id){
+
+    function seatsNotBooked($thr_screen_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectSeats = "SELECT screen_seat_id FROM tbl_seats WHERE thr_screen_id='$thr_screen_id'";
         $resSeats = $this->dbconn->query($selectSeats);
         $seatsNotBooked = array();
-        if(mysqli_num_rows($resSeats) > 0){
-            while($row = mysqli_fetch_assoc($resSeats)){
-                array_push($seatsNotBooked,$row['screen_seat_id']);
+        if (mysqli_num_rows($resSeats) > 0) {
+            while ($row = mysqli_fetch_assoc($resSeats)) {
+                array_push($seatsNotBooked, $row['screen_seat_id']);
             }
         }
         return $seatsNotBooked;
@@ -73,145 +83,168 @@ class Seats{
     }*/
 }
 
-class Screens{
+class Screens
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function checkScreenInitial($thr_id){
+
+    function editShows($thr_id)
+    {
+        if (isset($_POST['edit_shw'])) {
+            $_SESSION['edit-show-id'] = $_POST['edit_shw'];
+            header("location:edit-show.php");
+        }
+    }
+
+    function checkScreenInitial($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreen = "SELECT thr_screen_id FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 1";
         $resScreen = $this->dbconn->query($selectScreen);
         $gd = new getData;
         $thr_screens = $gd->getScreenDetails($thr_id);
-        if(mysqli_num_rows($resScreen) < $thr_screens){
+        if (mysqli_num_rows($resScreen) < $thr_screens) {
             return false;
         } else return true;
     }
 
-    function initScreens($thr_id){
+
+    function initScreens($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $gd = new getData;
         $thr_screens = $gd->getScreenDetails($thr_id);
         $thr_uname = $gd->getTheaterUname($thr_id);
         $i = 1;
         $flag = '';
-        if($this->checkScreenExist($thr_id)){
-            while($i <= $thr_screens){
-                $thr_screen_id = $thr_uname.$i;
-                $thr_screen_name = "Screen-".$i;
+        if ($this->checkScreenExist($thr_id)) {
+            while ($i <= $thr_screens) {
+                $thr_screen_id = $thr_uname . $i;
+                $thr_screen_name = "Screen-" . $i;
                 $initScreens = "INSERT INTO tbl_screens (thr_id, thr_screen_id, seat_number, thr_screen_name, thr_screen_status) 
                                                 VALUES ('$thr_id','$thr_screen_id',0,'$thr_screen_name',0)";
-                if($this->dbconn->query($initScreens)){
+                if ($this->dbconn->query($initScreens)) {
                     $flag = 1;
                 } else {
                     $flag = 0;
                 }
                 $i++;
             }
-            if($flag == 1){
+            if ($flag == 1) {
                 return true;
             } else {
                 return false;
             }
-        } else{
+        } else {
             return false;
         }
     }
 
-    function returnScreenName($thr_screen_id){
+    function returnScreenName($thr_screen_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreen = "SELECT thr_screen_name FROM tbl_screens WHERE thr_screen_id = '$thr_screen_id'";
         $resScreen = $this->dbconn->query($selectScreen);
-        if(mysqli_num_rows($resScreen) > 0){
+        if (mysqli_num_rows($resScreen) > 0) {
             $row = mysqli_fetch_assoc($resScreen);
             return $row['thr_screen_name'];
         }
     }
 
-    function returnScreens($thr_id){
+    function returnScreens($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreen = "SELECT thr_screen_id,thr_screen_name FROM tbl_screens WHERE thr_id = '$thr_id' AND thr_screen_status = 0";
         $resScreen = $this->dbconn->query($selectScreen);
         $screenProp = array();
-        if(mysqli_num_rows($resScreen) > 0){
-            while($row = mysqli_fetch_assoc($resScreen)){
-                array_push($screenProp,$row);
+        if (mysqli_num_rows($resScreen) > 0) {
+            while ($row = mysqli_fetch_assoc($resScreen)) {
+                array_push($screenProp, $row);
             }
             return $screenProp;
         }
     }
 
-    function returnSeats($thr_screen_id){
+    function returnSeats($thr_screen_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectSeats = "SELECT * FROM tbl_seats WHERE thr_screen_id = '$thr_screen_id'";
         $resSeats = $this->dbconn->query($selectSeats);
-        if(mysqli_num_rows($resSeats) > 0){
+        if (mysqli_num_rows($resSeats) > 0) {
             return $resSeats;
         }
     }
 
-    function returnScreenSeats($thr_screen_id){
+    function returnScreenSeats($thr_screen_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreen = "SELECT seat_number FROM tbl_screens WHERE thr_screen_id = '$thr_screen_id'";
         $resScreen = $this->dbconn->query($selectScreen);
-        if(mysqli_num_rows($resScreen) > 0){
+        if (mysqli_num_rows($resScreen) > 0) {
             $row = mysqli_fetch_assoc($resScreen);
             return $row['seat_number'];
         }
     }
 
-    function returnScreenId($shw_id){
+    function returnScreenId($shw_id)
+    {
         //$dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
-        $selectScreen ="SELECT thr_screen_id FROM tbl_showtime WHERE shw_id='$shw_id'";
+        $selectScreen = "SELECT thr_screen_id FROM tbl_showtime WHERE shw_id='$shw_id'";
         $resScreen = $this->dbconn->query($selectScreen);
-        if(mysqli_num_rows($resScreen) > 0){
+        if (mysqli_num_rows($resScreen) > 0) {
             $row = mysqli_fetch_assoc($resScreen);
             return $row['thr_screen_id'];
         }
     }
 
-    function checkScreenExist($thr_id){
+    function checkScreenExist($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $checkScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_id = '$thr_id'";
         $resCheckScreen = $this->dbconn->query($checkScreen);
-        if(mysqli_num_rows($resCheckScreen) > 0){
+        if (mysqli_num_rows($resCheckScreen) > 0) {
             return false;
         } else {
             return true;
         }
     }
 
-    function initSeats($thr_screen_id,$seat_number){
+    function initSeats($thr_screen_id, $seat_number)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $i = 1;
         $flag = 1;
-        while($i<=$seat_number){
-            $screen_seat_id = $thr_screen_id."-".$i;
+        while ($i <= $seat_number) {
+            $screen_seat_id = $thr_screen_id . "-" . $i;
             $initSeat = "INSERT INTO tbl_seats (thr_screen_id,screen_seat_id) 
             VALUES ('$thr_screen_id','$screen_seat_id')";
-            if(!$this->dbconn->query($initSeat)){
+            if (!$this->dbconn->query($initSeat)) {
                 $flag = 0;
                 break;
             }
-            if($flag == 0){
+            if ($flag == 0) {
                 return "Seat Initialization Failed";
             }
-            if($i == $seat_number){
+            if ($i == $seat_number) {
                 return "Seats Initialized Succesfully";
             }
             $i++;
         }
     }
 
-    function checkSeatIfBooked($shw_id){
+    function checkSeatIfBooked($shw_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selBookSeats = "SELECT screen_seat_id FROM tbl_booking WHERE shw_id = '$shw_id'";
         $resBookSeats = $this->dbconn->query($selBookSeats);
         $seatsBooked = array();
-        if(mysqli_num_rows($resBookSeats) > 0){
-            while($row = mysqli_fetch_assoc($resBookSeats)){
-                array_push($seatsBooked,$row['screen_seat_id']);
+        if (mysqli_num_rows($resBookSeats) > 0) {
+            while ($row = mysqli_fetch_assoc($resBookSeats)) {
+                array_push($seatsBooked, $row['screen_seat_id']);
             }
         }
         return $seatsBooked;
@@ -219,67 +252,78 @@ class Screens{
 }
 
 
-class MovieBook{
+class MovieBook
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function selectMovies(){
+
+    function selectMovies()
+    {
         $movies = array();
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectMovie = "SELECT mv_id, mv_name,mv_hero,mv_heroine,mv_lang,mv_director,mv_producer,mv_release_date,mv_thumb 
                         FROM tbl_movie WHERE mv_status = 1 AND rq_status = 1 ORDER BY mv_release_date DESC";
         $resSelectMovie = $this->dbconn->query($selectMovie);
-        if(mysqli_num_rows($resSelectMovie) > 0){
-            while($row = mysqli_fetch_assoc($resSelectMovie)){
-                if(!array_push($movies,$row)){echo "Array Insertion Unsuccess";}
+        if (mysqli_num_rows($resSelectMovie) > 0) {
+            while ($row = mysqli_fetch_assoc($resSelectMovie)) {
+                if (!array_push($movies, $row)) {
+                    echo "Array Insertion Unsuccess";
+                }
             }
         }
         return $movies;
     }
 
-    function selectMovie($mv_id){
+    function selectMovie($mv_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $row = "";
         $selectMovie = "SELECT mv_name,mv_hero,mv_heroine,mv_lang,mv_director,mv_producer,mv_release_date,mv_thumb
                         FROM tbl_movie WHERE mv_id = '$mv_id' LIMIT 1";
         $resSelectMovie = $this->dbconn->query($selectMovie);
-        if(mysqli_num_rows($resSelectMovie) > 0){
+        if (mysqli_num_rows($resSelectMovie) > 0) {
             $row = mysqli_fetch_assoc($resSelectMovie);
         }
         return $row;
     }
 
-    function selectShows($mv_id){
+    function selectShows($mv_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectShows = "SELECT * FROM tbl_showtime WHERE mv_id='$mv_id' AND shw_status = 1 ORDER BY shw_date AND shw_time";
         $shows = array();
         $resSelectShows = $this->dbconn->query($selectShows);
-        if(mysqli_num_rows($resSelectShows) > 0){
-            while($row = mysqli_fetch_assoc($resSelectShows)){
-                array_push($shows,$row);
+        if (mysqli_num_rows($resSelectShows) > 0) {
+            while ($row = mysqli_fetch_assoc($resSelectShows)) {
+                array_push($shows, $row);
             }
         }
         return $shows;
     }
 
-    function returnShowCost($shw_id){
+    function returnShowCost($shw_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectShowCost = "SELECT shw_cost FROM tbl_showtime WHERE shw_id='$shw_id' LIMIT 1";
         //$shows = array();
         $resSelectShow = $this->dbconn->query($selectShowCost);
-        if(mysqli_num_rows($resSelectShow) > 0){
-            while($row = mysqli_fetch_assoc($resSelectShow)){
+        if (mysqli_num_rows($resSelectShow) > 0) {
+            while ($row = mysqli_fetch_assoc($resSelectShow)) {
                 return $row['shw_cost'];
             }
         }
     }
 
-    function returnMovie($mv_id){
+    function returnMovie($mv_id)
+    {
         $selMovie = "SELECT mv_name FROM tbl_movie where mv_id=$mv_id LIMIT 1";
         $resMovie = $this->dbconn->query($selMovie);
 
-        if(mysqli_num_rows($resMovie) > 0){
+        if (mysqli_num_rows($resMovie) > 0) {
             $row = mysqli_fetch_assoc($resMovie);
             return $row['mv_name'];
         }
@@ -288,21 +332,23 @@ class MovieBook{
 }
 
 
-
-class Secure{
+class Secure
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function checkTSign(){
-        if(isset($_SESSION['thr_uname']) && $_SESSION['user_type'] == 'theater'){
+
+    function checkTSign()
+    {
+        if (isset($_SESSION['thr_uname']) && $_SESSION['user_type'] == 'theater') {
             $_SESSION['success'] = "Logged in Successfully";
             //$_SESSION['root'] = "home.php";
-        }
+        } //else redirect to login page
 
-        //else redirect to login page
-
-        else{
+        else {
             $_SESSION['msg'] = "You must login first to view this page.";
             unset($_SESSION['success']);
             header("location:../mv-content/login.php");
@@ -310,29 +356,28 @@ class Secure{
     }
 
 
-    function checkUSign(){
-        if(isset($_SESSION['username']) && $_SESSION['user_type'] == 'enduser'){
+    function checkUSign()
+    {
+        if (isset($_SESSION['username']) && $_SESSION['user_type'] == 'enduser') {
             $_SESSION['success'] = "Logged in Successfully";
             //$_SESSION['root'] = "home.php";
-        }
+        } //else redirect to login page
 
-        //else redirect to login page
-
-        else{
+        else {
             $_SESSION['msg'] = "You must login first to view this page.";
             unset($_SESSION['success']);
             header("location:../mv-content/login.php");
         }
     }
-    function checkADSign(){
-        if(isset($_SESSION['username'],$_SESSION['user_type']) && $_SESSION['user_type'] == "admin"){
+
+    function checkADSign()
+    {
+        if (isset($_SESSION['username'], $_SESSION['user_type']) && $_SESSION['user_type'] == "admin") {
             $_SESSION['success'] = "Logged in Successfully";
             //$_SESSION['root'] = "home.php";
-        }
+        } //else redirect to login page
 
-        //else redirect to login page
-
-        else{
+        else {
             $_SESSION['msg'] = "You must login first to view this page.";
             unset($_SESSION['success']);
             header("location:https://moviebucket.com/mv-content/login.php");
@@ -341,35 +386,41 @@ class Secure{
 }
 
 
-class RemoveData{
+class RemoveData
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
-    function removeShow($thr_id){
+
+    function removeShow($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
-        if(isset($_POST['remove_shw'])){
+        if (isset($_POST['remove_shw'])) {
             $shw_id = $_POST['remove_shw'];
             //echo "<h1>Removing Data for $shw_id</h1>";
             $delQuery = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = '$shw_id' AND thr_id='$thr_id'";
+            $delBookings = "UPDATE tbl_booking SET book_status = FALSE WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";
             //$delQueryA = "DELETE FROM tbl_showtime where shw_id = '$shw_id'";
             //$delQueryB = "DELETE FROM tbl_shows where shw_id = '$shw_id' AND thr_id='$thr_id'";
             //$delLogA = mysqli_query($dbconn,$delQueryA);
             //$delLogB = mysqli_query($dbconn,$delQueryB);
-            if($this->dbconn->query($delQuery) === true){
-                $_SESSION['remove_shw'] = "Show Time Removed";
-            }
-            else{
+            if ($this->dbconn->query($delQuery) === true && $this->dbconn->query($delBookings)) {
+                $_SESSION['remove_shw'] = "Show Time Removed, Bookings Updated.";
+            } else {
                 echo "Sorry";
             }
         }
         $this->dbconn->close();
     }
 
-    function removeMovie($thr_id){
+    function removeMovie($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $flag = 1;
-        if(isset($_POST['remove_mov'])){
+        if (isset($_POST['remove_mov'])) {
             $mv_id = $_POST['remove_mov'];
             //echo "<h1>Removing Data for $shw_id</h1>";
             //$delQueryA = "DELETE FROM tbl_movie where mv_id = '$mv_id' AND thr_id = '$thr_id'";
@@ -377,19 +428,18 @@ class RemoveData{
             //$delLogA = mysqli_query($dbconn,$delQueryA);
             $selectShow = "SELECT shw_id FROM tbl_showtime WHERE mv_id = $mv_id";
             $resShow = $this->dbconn->query($selectShow);
-            if(mysqli_num_rows($resShow)){
-                while($rowShow = mysqli_fetch_assoc($resShow)){
+            if (mysqli_num_rows($resShow)) {
+                while ($rowShow = mysqli_fetch_assoc($resShow)) {
                     $shw_id = $rowShow['shw_id'];
                     $removeShow = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = $shw_id";
-                    if(!$this->dbconn->query($removeShow)){
+                    if (!$this->dbconn->query($removeShow)) {
                         $flag = 0;
                     }
                 }
             }
-            if($this->dbconn->query($delQueryA) === TRUE && $flag == 1){
+            if ($this->dbconn->query($delQueryA) === TRUE && $flag == 1) {
                 $_SESSION['remove_mov'] = "Movie Removed, Shows Updated";
-            }
-            else{
+            } else {
                 $_SESSION['remove_mov'] = "You are Not authorised to remove this Movie";
             }
         }
@@ -397,58 +447,72 @@ class RemoveData{
     }
 }
 
-class StoreData{
+class StoreData
+{
     public $shw_id;
-    function putShow($value){
+
+    function putShow($value)
+    {
         $this->shw_id = $value;
     }
-    function getShow(){
+
+    function getShow()
+    {
         return $this->shw_id;
     }
 }
 
-class getData{
+class getData
+{
     private $dbconn;
-    function __construct(){
-        $this->dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+
+    function __construct()
+    {
+        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
+
     public $thr_name;
     public $thr_uname;
-    function getTheater($thr_id){
+
+    function getTheater($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectTheater = "SELECT thr_name from tbl_theater WHERE thr_id='$thr_id'";
         $results = $this->dbconn->query($selectTheater);
-        if(mysqli_num_rows($results) > 0){
-            if($row = mysqli_fetch_assoc($results)){
+        if (mysqli_num_rows($results) > 0) {
+            if ($row = mysqli_fetch_assoc($results)) {
                 $this->thr_name = $row['thr_name'];
             }
         }
         return $this->thr_name;
     }
 
-    function getTheaterUname($thr_id){
+    function getTheaterUname($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectTheater = "SELECT thr_uname from tbl_theater WHERE thr_id='$thr_id'";
         $results = $this->dbconn->query($selectTheater);
-        if(mysqli_num_rows($results) > 0){
-            if($row = mysqli_fetch_assoc($results)){
+        if (mysqli_num_rows($results) > 0) {
+            if ($row = mysqli_fetch_assoc($results)) {
                 $this->thr_uname = $row['thr_uname'];
             }
         }
         return $this->thr_uname;
     }
 
-    function getScreenDetails($thr_id){
+    function getScreenDetails($thr_id)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectScreenNo = "SELECT thr_screens FROM tbl_theater WHERE thr_id = $thr_id LIMIT 1";
         $resScreen = $this->dbconn->query($selectScreenNo);
-        if(mysqli_num_rows($resScreen) > 0){
+        if (mysqli_num_rows($resScreen) > 0) {
             $row = mysqli_fetch_assoc($resScreen);
             return $row['thr_screens'];
         }
     }
 
-    function getTheaterId($thr_name){
+    function getTheaterId($thr_name)
+    {
         $thr_id = 0;
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selQuery = "SELECT thr_id FROM tbl_theater WHERE thr_uname = '$thr_name'";
@@ -459,8 +523,11 @@ class getData{
         }
         return $thr_id;
     }
+
     private $reqNo;
-    function getNumReqs($n){
+
+    function getNumReqs($n)
+    {
         $numThr = 0;
         $numMov = 0;
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
@@ -471,42 +538,43 @@ class getData{
         $numMov = mysqli_num_rows($resMov);
         $numThr = mysqli_num_rows($resThr);
         $this->reqNo = $numMov + $numThr;
-        if($n == 1){
+        if ($n == 1) {
             return $numMov;
-        }
-        elseif ($n == 2){
+        } elseif ($n == 2) {
             return $numThr;
-        }
-        elseif ($n == 3){
+        } elseif ($n == 3) {
             return $this->reqNo;
         }
     }
 
-    function returnUserID($username){
+    function returnUserID($username)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectUserID = "SELECT user_id FROM tbl_user WHERE user_uname='$username' LIMIT 1";
         $resSelectUserID = $this->dbconn->query($selectUserID);
-        if(mysqli_num_rows($resSelectUserID) > 0){
+        if (mysqli_num_rows($resSelectUserID) > 0) {
             $row = mysqli_fetch_assoc($resSelectUserID);
             return $row['user_id'];
         }
     }
 
-    function returnUserMail($username){
+    function returnUserMail($username)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectUserID = "SELECT user_mail FROM tbl_user WHERE user_uname='$username' LIMIT 1";
         $resSelectUserID = $this->dbconn->query($selectUserID);
-        if(mysqli_num_rows($resSelectUserID) > 0){
+        if (mysqli_num_rows($resSelectUserID) > 0) {
             $row = mysqli_fetch_assoc($resSelectUserID);
             return $row['user_mail'];
         }
     }
 
-    function returnUserDetails($username){
+    function returnUserDetails($username)
+    {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectUserDetails = "SELECT user_mail,user_id,user_name,user_phone FROM tbl_user WHERE user_uname='$username' LIMIT 1";
         $resSelectUserID = $this->dbconn->query($selectUserDetails);
-        if(mysqli_num_rows($resSelectUserID) > 0){
+        if (mysqli_num_rows($resSelectUserID) > 0) {
             $row = mysqli_fetch_assoc($resSelectUserID);
             return $row;
         }
