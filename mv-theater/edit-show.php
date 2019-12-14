@@ -66,7 +66,7 @@ if (isset($_POST['shw_id'])) {
                         shw_time = '$shw_time', shw_date = '$shw_date', shw_cost = '$shw_cost', shw_status = TRUE where shw_id = '$shw_id' and thr_id = '$thr_id'")
             or die("Error Updating Show");
             if ($dbconn->affected_rows == 0) {
-                array_push($errors, "Invalid Theater Access");
+                array_push($errors, "No Changes Made");
             } else {
                 array_push($errors, "Show Time Updated"); ?>
                 <button class="btn btn-primary" onclick="window.history.go(-2)">Return</button>

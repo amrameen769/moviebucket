@@ -15,7 +15,7 @@ if (isset($_POST)) {
     $thr_uname = $_SESSION['thr_uname'];
     $gd = new getData;
     $thr_id = $gd->getTheaterId($thr_uname);
-    echo $thr_screen_id;
+    $thr_screen_id;
     $selectScreen = "SELECT def_screen_id FROM tbl_screens WHERE thr_screen_id = '$thr_screen_id' AND thr_screen_status = 1";
     $resScreen = $exec->query($selectScreen);
     if(mysqli_num_rows($resScreen) > 0) {
@@ -45,6 +45,5 @@ require (SITE_PATH."mv-content/errors.php");
     <title>Document</title>
 </head>
 <body>
-    <h3>How</h3>
 </body>
 </html>
