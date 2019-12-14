@@ -14,9 +14,13 @@ if (mysqli_num_rows($results) > 0) {
 $rem = new RemoveData;
 $rem->removeMovie($thr_id);
 
-function findLang($languages,$lang_id){
-    foreach ($languages as $code=>$language){
-        if($code == $lang_id){
+$mov = new MovieBook();
+$mov->editMovie($thr_id);
+
+function findLang($languages, $lang_id)
+{
+    foreach ($languages as $code => $language) {
+        if ($code == $lang_id) {
             return $language;
         }
     }
@@ -52,20 +56,20 @@ $mv_release_date = "";
         <p class="heading">Update Movie</p>
         <br>
         <?php
-        $languages=array(
-                "default"=>"",
-                "ar"=>"Arabic",
-            "zh"=>"Chinese",
-            "en"=>"English",
-            "fr"=>"French",
-            "de"=>"German",
-            "hi"=>"Hindi",
-            "ja"=>"Japanese",
-            "kn"=>"Kannada",
-            "ko"=>"Korean",
-            "ml"=>"Malayalam",
-            "ta"=>"Tamil",
-            "te"=>"Telugu"
+        $languages = array(
+            "default" => "",
+            "ar" => "Arabic",
+            "zh" => "Chinese",
+            "en" => "English",
+            "fr" => "French",
+            "de" => "German",
+            "hi" => "Hindi",
+            "ja" => "Japanese",
+            "kn" => "Kannada",
+            "ko" => "Korean",
+            "ml" => "Malayalam",
+            "ta" => "Tamil",
+            "te" => "Telugu"
         );
         $errors = array();
         if (isset($_POST['request'])) {
@@ -74,7 +78,7 @@ $mv_release_date = "";
             $mv_hero = mysqli_real_escape_string($dbconn, $_POST['mv_hero']);
             $mv_heroine = mysqli_real_escape_string($dbconn, $_POST['mv_heroine']);
             $lang_id = $_POST['mv_lang'];
-            $mv_lang=mysqli_real_escape_string($dbconn, findLang($languages,$lang_id));
+            $mv_lang = mysqli_real_escape_string($dbconn, findLang($languages, $lang_id));
             $mv_director = mysqli_real_escape_string($dbconn, $_POST['mv_director']);
             $mv_producer = mysqli_real_escape_string($dbconn, $_POST['mv_producer']);
             $mv_release_date = mysqli_real_escape_string($dbconn, $_POST['mv_release_date']);
@@ -109,7 +113,7 @@ $mv_release_date = "";
             } else if (count($errors) == 0) {
                 $statusQuery = "SELECT mv_status FROM tbl_movie WHERE mv_name = '$mv_name' AND mv_hero = '$mv_hero'
                     AND mv_heroine = '$mv_heroine' AND mv_lang = '$mv_lang' AND mv_director = '$mv_director' AND mv_producer = '$mv_producer'";
-                    $status = $exec->query($statusQuery);
+                $status = $exec->query($statusQuery);
                 if (mysqli_num_rows($status) > 0) {
                     if ($mv_status = mysqli_fetch_assoc($status)) {
                         //echo $mv_status['mv_status'];
@@ -152,35 +156,36 @@ $mv_release_date = "";
                         }
 
                         if (in_array($imgType, $validExts)) {
-                            $imgEncName = md5($imageProp['name']).".".$extension;
-                            if (file_exists(SITE_PATH."mv-theater/mv-thumb/".$imgEncName)) {
+                            $imgEncName = md5($imageProp['name']) . "." . $extension;
+                            if (file_exists(SITE_PATH . "mv-theater/mv-thumb/" . $imgEncName)) {
                                 array_push($errors, "Image Already Exists");
                             }
                         }
                     } else {
-                        array_push($errors,$_FILES['mv_thumb']['error']." - Upload Error");
+                        array_push($errors, $_FILES['mv_thumb']['error'] . " - Upload Error");
                     }
 
 
-                    if(count($errors) == 0){
-                        if(!move_uploaded_file($imageProp['tmp_name'],SITE_PATH."mv-theater/mv-thumb/".$imgEncName)){
-                            array_push($errors,"Upload Error");
+                    if (count($errors) == 0) {
+                        if (!move_uploaded_file($imageProp['tmp_name'], SITE_PATH . "mv-theater/mv-thumb/" . $imgEncName)) {
+                            array_push($errors, "Upload Error");
                         }
-
-                        $insQuery = "INSERT INTO tbl_movie (mv_name, mv_hero, mv_heroine, mv_lang, mv_director, mv_producer, mv_release_date, mv_thumb, thr_id, rq_status,  mv_status)
+                        if (count($errors) == 0) {
+                            $insQuery = "INSERT INTO tbl_movie (mv_name, mv_hero, mv_heroine, mv_lang, mv_director, mv_producer, mv_release_date, mv_thumb, thr_id, rq_status,  mv_status)
                                     VALUES('$mv_name', '$mv_hero', '$mv_heroine', '$mv_lang', '$mv_director', '$mv_producer','$mv_release_date','$imgEncName','$thr_id',0,TRUE)";
-                        if (!mysqli_query($dbconn, $insQuery)) {
-                            array_push($errors, "Internal Insertion Error");
-                        } else {
-                            $_SESSION['addmovie'] = "Movie Added";
-                            //header("location:add-movie.php");
-                            $mv_name = "";
-                            $mv_hero = "";
-                            $mv_heroine = "";
-                            $mv_lang = "";
-                            $mv_director = "";
-                            $mv_producer = "";
-                            $mv_release_date = "";
+                            if (!mysqli_query($dbconn, $insQuery)) {
+                                array_push($errors, "Internal Insertion Error");
+                            } else {
+                                $_SESSION['addmovie'] = "Movie Added";
+                                //header("location:add-movie.php");
+                                $mv_name = "";
+                                $mv_hero = "";
+                                $mv_heroine = "";
+                                $mv_lang = "";
+                                $mv_director = "";
+                                $mv_producer = "";
+                                $mv_release_date = "";
+                            }
                         }
                     }
                 }
@@ -237,9 +242,9 @@ $mv_release_date = "";
                         <label for="formGroupExampleInput">Language</label>
                         <select class="form-control field-width" id="formGroupExampleInput" type="text" name="mv_lang">
                             <optgroup label="Select Language">
-                            <?php foreach($languages as $code => $lang) : ?>
-                            <option value="<?=$code?>"><?=$lang?></option>
-                            <?php endforeach;?>
+                                <?php foreach ($languages as $code => $lang) : ?>
+                                    <option value="<?= $code ?>"><?= $lang ?></option>
+                                <?php endforeach; ?>
                             </optgroup>
                         </select><br><br>
                     </td>
@@ -306,6 +311,9 @@ $mv_release_date = "";
                         <td>
                             <button class="btn btn-primary" type="submit" name="remove_mov"
                                     value="<?= $row['mv_id'] ?>">Remove Movie
+                            </button>
+                            <button class="btn btn-primary" type="submit" name="edit_mov"
+                                    value="<?= $row['mv_id'] ?>">Edit Movie
                             </button>
                         </td>
                     </tr>
