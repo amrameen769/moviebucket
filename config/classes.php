@@ -487,6 +487,14 @@ class getData
         return $this->thr_name;
     }
 
+    function returnShow($shw_id)
+    {
+        $selShow = $this->dbconn->query("select * from tbl_showtime where shw_id = '$shw_id' LIMIT 1");
+        if(mysqli_num_rows($selShow) > 0){
+            return $row = mysqli_fetch_assoc($selShow);
+        }
+    }
+
     function getTheaterUname($thr_id)
     {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
