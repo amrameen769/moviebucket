@@ -172,7 +172,8 @@ if (isset($_GET['logout'])) {
                                 <div class="chart-area">
                                     <?php
                                     $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
-                                    $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date) as month from tbl_booking where book_status = 1 group by MONTH(book_date) order by year(book_date)") or die("Error All Book Year");
+                                    $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date)
+                                    as month from tbl_booking where book_status = 1 group by MONTH(book_date) order by year(book_date), month(book_date)") or die("Error All Book Year");
                                     $months = array();
                                     $monthnames = array();
                                     while ($row = mysqli_fetch_assoc($allBookYear)) {
