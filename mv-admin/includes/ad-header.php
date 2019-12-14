@@ -49,8 +49,8 @@
 
 
 <!-- Navigation Bar -->
-<header>
-    <nav id="nav-bar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+<header class="sticky-top">
+    <nav id="nav-bar" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <a class="navbar-brand" href="http://www.moviebucket.com"><img src="<?=SITE_URL?>mv-includes/images/mvbucket.ico" alt="MovieBucket">MovieBucket.com</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

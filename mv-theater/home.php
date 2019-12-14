@@ -37,12 +37,12 @@ if(isset($_GET['logout'])){
         </h3>
       </div>
     <?php endif ?>
-
-    <!--if user logged in Successfully-->
     <?php if(isset($_SESSION['thr_uname'])) : ?>
-      <div class="jumbotron"><h3>Welcome <strong><?= $_SESSION['thr_uname']?></strong></h3></div>
-      <a href="add-movie.php"><button type="button" class="btn btn-primary" value="addmovie"><span class="badge badge-dark">1</span> &nbsp;Update Movie List</button></a>
-      <a href="add-show.php"><button type="button" class="btn btn-primary" value="addshow"><span class="badge badge-dark">2</span> &nbsp;Update Shows</button></a>
+        <div class="jumbotron"><h3>Welcome <strong><?= $_SESSION['thr_uname']?></strong></h3></div>
+        <a href="add-movie.php"><button type="button" class="btn btn-primary" value="addmovie""><span class="badge badge-dark">1</span> &nbsp;Update Movie List</button></a>
+        <a href="add-show.php"><button type="button" class="btn btn-primary" value="addshow"><span class="badge badge-dark">2</span> &nbsp;Update Shows</button></a>
     <?php endif ?>
+    <!--if user logged in Successfully-->
+
   <?php require(SITE_PATH."mv-content/footer.php");?>
 </html>

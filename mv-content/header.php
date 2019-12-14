@@ -54,7 +54,7 @@
 <body class="animated fadeInDown delay-02s">
 
 <!-- Navigation Bar -->
-<header>
+<header class="sticky-top">
     <nav id="nav-bar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="http://www.moviebucket.com"><img
                     src="<?= SITE_URL ?>mv-includes/images/mvbucket.ico" alt="MovieBucket">MovieBucket.com</a>
@@ -67,7 +67,9 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="
-          <?php if (isset($_SESSION['user_type'])) {
+          <?php
+                    $gd = new getData();
+                    if (isset($_SESSION['user_type'])) {
                         if ($_SESSION['user_type'] == 'enduser') {
                             echo SITE_URL . "mv-enduser/home.php";
                         } elseif ($_SESSION['user_type'] == 'admin') {
@@ -102,7 +104,12 @@
             </ul>
             <div class="nav-item dropdown">
                 <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown">
-                    <strong><?= $_SESSION['thr_uname'] ?></strong></h3></button>
+                    <strong><?php
+                        $thr_uname = $_SESSION['thr_uname'];
+                        $thr_id = $gd->getTheaterId($thr_uname);
+                        $thr_name = $gd->getTheater($thr_id);
+                        echo $thr_name;
+                        ?></strong></h3></button>
                 <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
                     <a class="dropdown-item" role="presentation" href="<?= SITE_URL ?>mv-theater/profile.php"><i
                                 class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
@@ -128,12 +135,16 @@
                 </div>
             <?php elseif ($_SESSION['user_type'] == "enduser") : ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=SITE_URL?>mv-enduser/cancel-tickets.php">Bookings</a>
+                    <a class="nav-link" href="<?= SITE_URL ?>mv-enduser/cancel-tickets.php">Bookings</a>
                 </li>
                 </ul>
                 <div class="nav-item dropdown">
                     <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown">
-                        <strong><?= $_SESSION['username'] ?></strong></h3></button>
+                        <strong><?php
+                            $username = $_SESSION['username'];
+                            $userDet = $gd->returnUserDetails($username);
+                            echo $userDet['user_name'];
+                            ?></strong></h3></button>
                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
                         <a class="dropdown-item" role="presentation"
                            href="<?= SITE_URL ?>mv-enduser/cancel-tickets.php"><i

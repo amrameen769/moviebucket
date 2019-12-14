@@ -27,14 +27,14 @@ if (isset($_GET['logout'])) {
 <!--Header-->
 <?php //require(SITE_PATH."mv-content/header.php"); ?>
 <?php if (isset($_SESSION['success'])) : ?>
-    <div class="">
-        <h3>
-            <?php
-            //echo $_SESSION['success'];
-            //unset($_SESSION['success']);
-            ?>
-        </h3>
-    </div>
+<!--    <div class="">-->
+<!--        <h3>-->
+<!--            --><?php
+//            //echo $_SESSION['success'];
+//            //unset($_SESSION['success']);
+//            ?>
+<!--        </h3>-->
+<!--    </div>-->
 <?php endif ?>
 
 <!--if Admin logged in Successfully-->
