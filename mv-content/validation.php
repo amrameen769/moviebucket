@@ -55,7 +55,7 @@ class Validation
         }
     }
 
-    function checkShowInterval($thr_id, $thr_screen_id, $timeOfNewShow, $dateOfNewShow){
+    function checkShowInterval($thr_screen_id, $timeOfNewShow, $dateOfNewShow){
         $dateTimeOfNewShow = $dateOfNewShow." ".$timeOfNewShow;
             $selectTimeDifferenceBef = $this->conn->query("SELECT TIMEDIFF('$dateTimeOfNewShow', (SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
             WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time < '$timeOfNewShow' 
@@ -64,6 +64,24 @@ class Validation
 
         $selectTimeDifferenceAft = $this->conn->query("SELECT TIMEDIFF((SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
         WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time > '$timeOfNewShow' 
+        ORDER BY shw_time LIMIT 1)),'$dateTimeOfNewShow') as timeInterval")
+        or die("Error Selecting Time Difference");
+
+        $bef = mysqli_fetch_assoc($selectTimeDifferenceBef);
+        $Aft = mysqli_fetch_assoc($selectTimeDifferenceAft);
+        return $intervalArray = array("bef"=>$bef['timeInterval'], "aft"=>$Aft['timeInterval']);
+
+    }
+
+    function checkShowIntervalEdit($shw_id, $thr_screen_id, $timeOfNewShow, $dateOfNewShow){
+        $dateTimeOfNewShow = $dateOfNewShow." ".$timeOfNewShow;
+        $selectTimeDifferenceBef = $this->conn->query("SELECT TIMEDIFF('$dateTimeOfNewShow', (SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
+            WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_id != '$shw_id' and shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time < '$timeOfNewShow' 
+            ORDER BY shw_time DESC LIMIT 1))) as timeInterval")
+        or die("Error Selecting Time Difference");
+
+        $selectTimeDifferenceAft = $this->conn->query("SELECT TIMEDIFF((SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
+        WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_id != '$shw_id' and shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time > '$timeOfNewShow' 
         ORDER BY shw_time LIMIT 1)),'$dateTimeOfNewShow') as timeInterval")
         or die("Error Selecting Time Difference");
 

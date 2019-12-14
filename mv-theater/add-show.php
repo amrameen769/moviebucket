@@ -97,7 +97,7 @@ $screen->editShows($thr_id);
 
             require(SITE_PATH . "mv-content/validation.php");
             $validator = new Validation();
-            $timeInterval = $validator->checkShowInterval($thr_id, $thr_screen_id, $shw_time, $shw_date);
+            $timeInterval = $validator->checkShowInterval($thr_screen_id, $shw_time, $shw_date);
             $minInterval = date("H", mktime(4));
 
             $timeInterval['bef'];
