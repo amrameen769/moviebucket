@@ -1,0 +1,6 @@
+CREATE DEFINER=`root`@`localhost` 
+EVENT `remove_expired_shows` 
+ON SCHEDULE EVERY 2 HOUR STARTS '2019-12-14 23:58:00' 
+ON COMPLETION PRESERVE ENABLE 
+DO 
+UPDATE tbl_showtime SET shw_status = 0 WHERE (SELECT concat(tbl_showtime.shw_date, " ", tbl_showtime.shw_time)) < NOW()

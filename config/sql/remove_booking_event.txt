@@ -1,0 +1,6 @@
+CREATE DEFINER=`root`@`localhost` 
+EVENT `remove_booking` 
+ON SCHEDULE EVERY 2 HOUR STARTS '2019-12-14 23:59:00' 
+ON COMPLETION PRESERVE ENABLE 
+DO 
+CALL remove_expired_booking

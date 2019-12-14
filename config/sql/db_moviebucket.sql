@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2019 at 03:37 PM
+-- Generation Time: Dec 14, 2019 at 07:52 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -22,6 +22,28 @@ SET time_zone = "+00:00";
 -- Database: `db_moviebucket`
 --
 
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_expired_booking` ()  MODIFIES SQL DATA
+BEGIN
+
+DECLARE done INT DEFAULT FALSE;
+DECLARE show_id INT;
+DECLARE curShows CURSOR FOR SELECT shw_id FROM tbl_showtime WHERE shw_status = 0;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+OPEN curShows;
+updateBook: LOOP
+	FETCH curShows INTO show_id;
+    UPDATE tbl_booking SET book_status = 2 WHERE shw_id = show_id AND book_status = 1;
+END LOOP updateBook;
+CLOSE curShows;
+
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -32,32 +54,99 @@ CREATE TABLE `tbl_booking` (
   `book_id` int(10) NOT NULL,
   `user_id` int(11) NOT NULL,
   `shw_id` int(11) NOT NULL,
-  `mv_id` int(11) NOT NULL,
-  `thr_id` int(11) NOT NULL,
-  `thr_screen_id` varchar(20) NOT NULL,
   `screen_seat_id` varchar(255) NOT NULL,
   `book_date` datetime NOT NULL,
   `book_pay` double NOT NULL,
-  `book_status` tinyint(1) NOT NULL
+  `book_status` tinyint(1) NOT NULL,
+  `thr_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_booking`
 --
 
-INSERT INTO `tbl_booking` (`book_id`, `user_id`, `shw_id`, `mv_id`, `thr_id`, `thr_screen_id`, `screen_seat_id`, `book_date`, `book_pay`, `book_status`) VALUES
-(1, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-74', '2019-10-03 00:01:00', 100, 1),
-(2, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-75', '2019-10-03 00:01:00', 100, 1),
-(3, 4, 1, 3, 1, 'casanova1', 'casanova1-5', '2019-10-03 00:02:48', 180.26, 1),
-(4, 4, 1, 3, 1, 'casanova1', 'casanova1-6', '2019-10-03 00:02:48', 180.26, 1),
-(5, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-43', '2019-10-03 00:04:14', 100, 1),
-(6, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-44', '2019-10-03 00:04:14', 100, 1),
-(7, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-45', '2019-10-03 00:04:14', 100, 1),
-(8, 4, 3, 3, 5, 'redcarpetcarn2', 'redcarpetcarn2-46', '2019-10-03 00:04:14', 100, 1),
-(9, 9, 1, 3, 1, 'casanova1', 'casanova1-3', '2019-10-03 13:27:39', 180.26, 1),
-(10, 9, 1, 3, 1, 'casanova1', 'casanova1-4', '2019-10-03 13:27:39', 180.26, 1),
-(11, 9, 1, 3, 1, 'casanova1', 'casanova1-7', '2019-10-03 13:27:39', 180.26, 1),
-(12, 9, 1, 3, 1, 'casanova1', 'casanova1-8', '2019-10-03 13:27:39', 180.26, 1);
+INSERT INTO `tbl_booking` (`book_id`, `user_id`, `shw_id`, `screen_seat_id`, `book_date`, `book_pay`, `book_status`, `thr_id`) VALUES
+(9, 10, 1, 'casanova1-1', '2019-11-18 10:45:57', 180.26, 2, 1),
+(10, 10, 1, 'casanova1-2', '2019-12-04 10:45:57', 180.26, 0, 1),
+(11, 10, 1, 'casanova1-3', '2019-12-04 10:45:57', 180.26, 0, 1),
+(12, 10, 4, 'redcarpetcarn1-464', '2019-12-04 10:46:23', 250.26, 0, 5),
+(13, 10, 4, 'redcarpetcarn1-465', '2019-12-04 10:46:23', 250.26, 0, 5),
+(14, 10, 4, 'redcarpetcarn1-466', '2019-12-04 10:46:23', 250.26, 0, 5),
+(15, 4, 1, 'casanova1-4', '2019-12-04 10:50:09', 180.26, 0, 1),
+(16, 4, 1, 'casanova1-5', '2019-12-04 10:50:09', 180.26, 0, 1),
+(17, 4, 1, 'casanova1-6', '2019-12-04 10:50:09', 180.26, 2, 1),
+(18, 4, 1, 'casanova1-7', '2019-12-04 10:50:42', 180.26, 2, 1),
+(19, 4, 1, 'casanova1-8', '2019-12-04 10:50:42', 180.26, 2, 1),
+(20, 3, 4, 'redcarpetcarn1-490', '2019-12-04 15:14:11', 250.26, 2, 5),
+(21, 3, 4, 'redcarpetcarn1-491', '2019-12-04 15:14:11', 250.26, 2, 5),
+(22, 3, 4, 'redcarpetcarn1-492', '2019-12-04 15:14:11', 250.26, 2, 5),
+(23, 3, 4, 'redcarpetcarn1-493', '2019-12-04 15:14:11', 250.26, 2, 5),
+(24, 3, 4, 'redcarpetcarn1-494', '2019-12-04 15:14:11', 250.26, 2, 5),
+(25, 3, 4, 'redcarpetcarn1-495', '2019-12-04 15:14:11', 250.26, 2, 5),
+(26, 10, 4, 'redcarpetcarn1-7', '2019-12-04 15:17:06', 250.26, 0, 5),
+(27, 10, 4, 'redcarpetcarn1-37', '2019-12-04 15:17:06', 250.26, 0, 5),
+(28, 10, 4, 'redcarpetcarn1-68', '2019-12-04 15:17:06', 250.26, 0, 5),
+(29, 10, 4, 'redcarpetcarn1-99', '2019-12-04 15:17:06', 250.26, 0, 5),
+(30, 3, 4, 'redcarpetcarn1-8', '2019-12-04 15:22:36', 250.26, 2, 5),
+(31, 3, 4, 'redcarpetcarn1-9', '2019-12-04 15:22:36', 250.26, 2, 5),
+(32, 3, 4, 'redcarpetcarn1-10', '2019-12-04 15:22:36', 250.26, 2, 5),
+(33, 3, 4, 'redcarpetcarn1-11', '2019-12-04 15:22:36', 250.26, 2, 5),
+(34, 3, 4, 'redcarpetcarn1-12', '2019-12-04 15:22:36', 250.26, 2, 5),
+(35, 3, 4, 'redcarpetcarn1-13', '2019-12-04 15:22:36', 250.26, 2, 5),
+(36, 3, 4, 'redcarpetcarn1-14', '2019-12-04 15:22:36', 250.26, 2, 5),
+(37, 3, 4, 'redcarpetcarn1-15', '2019-12-04 15:22:36', 250.26, 2, 5),
+(38, 3, 4, 'redcarpetcarn1-16', '2019-12-04 15:22:36', 250.26, 2, 5),
+(39, 3, 4, 'redcarpetcarn1-17', '2019-12-04 15:22:36', 250.26, 2, 5),
+(40, 3, 4, 'redcarpetcarn1-18', '2019-12-04 15:22:36', 250.26, 2, 5),
+(41, 3, 4, 'redcarpetcarn1-19', '2019-12-04 15:22:36', 250.26, 2, 5),
+(42, 3, 4, 'redcarpetcarn1-20', '2019-12-04 15:22:36', 250.26, 2, 5),
+(43, 3, 4, 'redcarpetcarn1-21', '2019-12-04 15:22:36', 250.26, 2, 5),
+(44, 3, 4, 'redcarpetcarn1-22', '2019-12-04 15:22:36', 250.26, 2, 5),
+(45, 3, 4, 'redcarpetcarn1-23', '2019-12-04 15:22:36', 250.26, 2, 5),
+(46, 3, 4, 'redcarpetcarn1-24', '2019-12-04 15:22:36', 250.26, 2, 5),
+(47, 3, 4, 'redcarpetcarn1-25', '2019-12-04 15:22:36', 250.26, 2, 5),
+(48, 3, 4, 'redcarpetcarn1-26', '2019-12-04 15:22:36', 250.26, 2, 5),
+(49, 3, 4, 'redcarpetcarn1-27', '2019-12-04 15:22:36', 250.26, 2, 5),
+(50, 3, 4, 'redcarpetcarn1-28', '2019-12-04 15:22:36', 250.26, 2, 5),
+(51, 3, 4, 'redcarpetcarn1-29', '2019-12-04 15:22:36', 250.26, 2, 5),
+(52, 10, 1, 'casanova1-10', '2019-12-04 15:32:48', 180.26, 0, 1),
+(53, 12, 4, 'redcarpetcarn1-42', '2019-12-04 19:59:51', 250.26, 0, 5),
+(54, 12, 4, 'redcarpetcarn1-43', '2019-12-04 19:59:51', 250.26, 0, 5),
+(55, 12, 4, 'redcarpetcarn1-600', '2019-12-04 19:59:51', 250.26, 0, 5),
+(56, 12, 4, 'redcarpetcarn1-556', '2019-12-04 20:01:38', 250.26, 0, 5),
+(57, 12, 4, 'redcarpetcarn1-585', '2019-12-04 20:01:38', 250.26, 0, 5),
+(58, 12, 4, 'redcarpetcarn1-586', '2019-12-04 20:01:38', 250.26, 0, 5),
+(59, 12, 4, 'redcarpetcarn1-551', '2019-12-04 20:03:03', 250.26, 0, 5),
+(60, 12, 4, 'redcarpetcarn1-552', '2019-12-04 20:03:03', 250.26, 0, 5),
+(61, 12, 4, 'redcarpetcarn1-553', '2019-12-04 20:03:03', 250.26, 0, 5),
+(62, 12, 4, 'redcarpetcarn1-554', '2019-12-04 20:03:03', 250.26, 0, 5),
+(63, 12, 4, 'redcarpetcarn1-66', '2019-12-04 20:07:43', 250.26, 0, 5),
+(64, 12, 4, 'redcarpetcarn1-67', '2019-12-04 20:07:43', 250.26, 0, 5),
+(65, 12, 4, 'redcarpetcarn1-96', '2019-12-04 20:07:43', 250.26, 0, 5),
+(66, 12, 4, 'redcarpetcarn1-547', '2019-12-04 20:07:43', 250.26, 0, 5),
+(67, 12, 4, 'redcarpetcarn1-548', '2019-12-04 20:07:43', 250.26, 0, 5),
+(68, 12, 4, 'redcarpetcarn1-549', '2019-12-04 20:07:43', 250.26, 0, 5),
+(69, 12, 4, 'redcarpetcarn1-525', '2019-12-04 20:11:29', 250.26, 0, 5),
+(70, 12, 4, 'redcarpetcarn1-526', '2019-12-04 20:11:29', 250.26, 0, 5),
+(71, 12, 4, 'redcarpetcarn1-527', '2019-12-04 20:11:29', 250.26, 0, 5),
+(72, 12, 4, 'redcarpetcarn1-555', '2019-12-04 20:11:29', 250.26, 0, 5),
+(73, 12, 5, 'redcarpetcarn2-91', '2019-12-04 20:11:55', 146.66, 0, 5),
+(74, 12, 5, 'redcarpetcarn2-92', '2019-12-04 20:11:55', 146.66, 0, 5),
+(75, 12, 5, 'redcarpetcarn2-93', '2019-12-04 20:11:55', 146.66, 0, 5),
+(76, 12, 5, 'redcarpetcarn2-74', '2019-12-04 23:47:54', 146.66, 0, 5),
+(77, 12, 5, 'redcarpetcarn2-75', '2019-12-04 23:47:54', 146.66, 0, 5),
+(78, 12, 5, 'redcarpetcarn2-76', '2019-12-04 23:47:54', 146.66, 0, 5),
+(79, 12, 4, 'redcarpetcarn1-70', '2019-12-13 20:20:01', 250.26, 0, 5),
+(80, 12, 4, 'redcarpetcarn1-71', '2019-12-13 20:20:01', 250.26, 0, 5),
+(81, 12, 4, 'redcarpetcarn1-72', '2019-12-13 20:20:01', 250.26, 2, 5),
+(82, 12, 5, 'redcarpetcarn2-42', '2019-12-13 20:24:34', 146.66, 2, 5),
+(83, 12, 5, 'redcarpetcarn2-43', '2019-12-13 20:24:34', 146.66, 2, 5),
+(84, 12, 5, 'redcarpetcarn2-44', '2019-12-13 20:24:34', 146.66, 2, 5),
+(85, 12, 3, 'redcarpetcarn2-91', '2019-12-13 20:30:18', 100, 2, 5),
+(86, 12, 3, 'redcarpetcarn2-92', '2019-12-13 20:30:18', 100, 2, 5),
+(87, 12, 3, 'redcarpetcarn2-93', '2020-01-12 20:30:18', 100, 2, 5),
+(92, 12, 7, 'casanova1-5', '2019-12-14 14:27:20', 230, 1, 1),
+(93, 12, 7, 'casanova1-6', '2019-12-14 14:27:20', 230, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -85,11 +174,15 @@ CREATE TABLE `tbl_movie` (
 --
 
 INSERT INTO `tbl_movie` (`mv_id`, `mv_name`, `mv_hero`, `mv_heroine`, `mv_lang`, `mv_director`, `mv_producer`, `mv_release_date`, `mv_thumb`, `thr_id`, `mv_status`, `rq_status`) VALUES
-(1, 'Saaho', 'Prabhas', 'Shradhha Kapoor', 'Telugu', 'Sujeeth', 'Vamshi', '2019-08-30', '67445633a1646935a30e59f366ae01de.jpg', 2, 1, 1),
+(1, 'Saaho', 'Prabhas', 'Shradhha Kapoor', 'Telugu', 'Sujeeth', 'Vamshi', '2019-08-30', '67445633a1646935a30e59f366ae01de.jpg', 2, 1, 0),
 (2, 'Spiderman', 'Natham', 'Rosy', 'English', 'Disney', 'Dan Lin', '2019-08-28', '1faf5206880ff9e27ca02e0c83562293.jpg', 1, 1, 1),
-(3, 'Mamangam', 'Mammootty', 'Anu Sithara', 'Malayalam', 'M. Padmakumar', 'Kavya Films', '2019-10-31', '43b380b1c064dd973af305c3b14341f5.jpg', 1, 1, 1),
-(4, 'KGF 2', 'Yash', 'Amira', 'Kannada', 'Prashanth Neel', 'Yash Rangineni', '2020-01-14', '7fdc1a630c238af0815181f9faa190f5.jpg', 1, 1, 1),
-(5, 'Love Action Drama', 'Nivin Pauly', 'Nayanthara', 'Malayalam', 'Dhyaan Shreenivasan', 'Aju Varghese', '2019-09-05', '7338ab04e198911e6ec3d027180b7011.jpg', 5, 1, 1);
+(3, 'Mamangam', 'Mammootty', 'Anu Sithara', 'Malayalam', 'M. Padmakumar', 'Kavya Films', '2019-10-31', '43b380b1c064dd973af305c3b14341f5.jpg', 1, 1, 0),
+(4, 'KGF 2', 'Yash', 'Amira', 'Kannada', 'Prashanth Neel', 'Yash Rangineni', '2020-01-14', '7fdc1a630c238af0815181f9faa190f5.jpg', 1, 1, 0),
+(5, 'Love Action Drama', 'Nivin Pauly', 'Nayanthara', 'Malayalam', 'Dhyaan Shreenivasan', 'Aju Varghese', '2019-09-05', '7338ab04e198911e6ec3d027180b7011.jpg', 5, 1, 1),
+(6, 'Ala Vaikunthapurramloo', 'Allu Arjun', 'Pooja Hegde', 'Telugu', 'Trivikram Srinivas', 'Allu Aravind', '2020-01-13', '5bef0fdde53e3c226244312d50c20df4.jpg', 3, 1, 1),
+(7, 'Darbar', 'Rajinikanth', 'Nayanthara', 'Tamil', 'AR Murugadoss', ' Lyca Productions', '2020-01-15', '50633652d4ac2283260f8bd39bd4fb55.jpg', 3, 1, 0),
+(8, 'Pattas', 'Dhanush Aishwarya', 'Mehreen Pirzada', 'Tamil', 'R. S. Durai Senthilkumar', 'Sathya Jyothi Films', '2020-01-14', '504bcbff5a0c35135503bf55708fc88d.jpg', 3, 1, 0),
+(9, 'Black Widow', 'Scarlett Johansson', 'David Harbour', 'English', 'Cate Shortland', 'Marvel Studios', '2020-05-01', '9ab6adfcb124387703b33e45958235cf.jpg', 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -128,18 +221,18 @@ INSERT INTO `tbl_screens` (`def_screen_id`, `thr_id`, `thr_screen_id`, `seat_num
 (2, 1, 'casanova2', 0, 'Screen-2', 0),
 (3, 1, 'casanova3', 0, 'Screen-3', 0),
 (4, 1, 'casanova4', 0, 'Screen-4', 0),
-(5, 2, 'carnival3901', 0, 'Screen-1', 0),
+(5, 2, 'carnival3901', 100, 'Carn Screen 1', 1),
 (6, 2, 'carnival3902', 0, 'Screen-2', 0),
 (7, 2, 'carnival3903', 0, 'Screen-3', 0),
-(8, 3, 'aries7881', 0, 'Screen-1', 0),
-(9, 3, 'aries7882', 0, 'Screen-2', 0),
+(8, 3, 'aries7881', 120, 'Aries PLex A', 1),
+(9, 3, 'aries7882', 140, 'Aries PLex B', 1),
 (10, 3, 'aries7883', 0, 'Screen-3', 0),
 (11, 3, 'aries7884', 0, 'Screen-4', 0),
 (12, 3, 'aries7885', 0, 'Screen-5', 0),
 (13, 4, 'wiltern111', 0, 'Screen-1', 0),
 (14, 4, 'wiltern112', 0, 'Screen-2', 0),
 (15, 5, 'redcarpetcarn1', 600, 'RedCarpet Class C', 1),
-(16, 5, 'redcarpetcarn2', 100, 'Carpet 1', 1),
+(16, 5, 'redcarpetcarn2', 100, 'RedCarpet Class B', 1),
 (17, 5, 'redcarpetcarn3', 0, 'Screen-3', 0),
 (18, 5, 'redcarpetcarn4', 0, 'Screen-4', 0),
 (19, 5, 'redcarpetcarn5', 0, 'Screen-5', 0),
@@ -875,7 +968,367 @@ INSERT INTO `tbl_seats` (`def_seat_id`, `thr_screen_id`, `screen_seat_id`) VALUE
 (707, 'redcarpetcarn1', 'redcarpetcarn1-597'),
 (708, 'redcarpetcarn1', 'redcarpetcarn1-598'),
 (709, 'redcarpetcarn1', 'redcarpetcarn1-599'),
-(710, 'redcarpetcarn1', 'redcarpetcarn1-600');
+(710, 'redcarpetcarn1', 'redcarpetcarn1-600'),
+(711, 'aries7881', 'aries7881-1'),
+(712, 'aries7881', 'aries7881-2'),
+(713, 'aries7881', 'aries7881-3'),
+(714, 'aries7881', 'aries7881-4'),
+(715, 'aries7881', 'aries7881-5'),
+(716, 'aries7881', 'aries7881-6'),
+(717, 'aries7881', 'aries7881-7'),
+(718, 'aries7881', 'aries7881-8'),
+(719, 'aries7881', 'aries7881-9'),
+(720, 'aries7881', 'aries7881-10'),
+(721, 'aries7881', 'aries7881-11'),
+(722, 'aries7881', 'aries7881-12'),
+(723, 'aries7881', 'aries7881-13'),
+(724, 'aries7881', 'aries7881-14'),
+(725, 'aries7881', 'aries7881-15'),
+(726, 'aries7881', 'aries7881-16'),
+(727, 'aries7881', 'aries7881-17'),
+(728, 'aries7881', 'aries7881-18'),
+(729, 'aries7881', 'aries7881-19'),
+(730, 'aries7881', 'aries7881-20'),
+(731, 'aries7881', 'aries7881-21'),
+(732, 'aries7881', 'aries7881-22'),
+(733, 'aries7881', 'aries7881-23'),
+(734, 'aries7881', 'aries7881-24'),
+(735, 'aries7881', 'aries7881-25'),
+(736, 'aries7881', 'aries7881-26'),
+(737, 'aries7881', 'aries7881-27'),
+(738, 'aries7881', 'aries7881-28'),
+(739, 'aries7881', 'aries7881-29'),
+(740, 'aries7881', 'aries7881-30'),
+(741, 'aries7881', 'aries7881-31'),
+(742, 'aries7881', 'aries7881-32'),
+(743, 'aries7881', 'aries7881-33'),
+(744, 'aries7881', 'aries7881-34'),
+(745, 'aries7881', 'aries7881-35'),
+(746, 'aries7881', 'aries7881-36'),
+(747, 'aries7881', 'aries7881-37'),
+(748, 'aries7881', 'aries7881-38'),
+(749, 'aries7881', 'aries7881-39'),
+(750, 'aries7881', 'aries7881-40'),
+(751, 'aries7881', 'aries7881-41'),
+(752, 'aries7881', 'aries7881-42'),
+(753, 'aries7881', 'aries7881-43'),
+(754, 'aries7881', 'aries7881-44'),
+(755, 'aries7881', 'aries7881-45'),
+(756, 'aries7881', 'aries7881-46'),
+(757, 'aries7881', 'aries7881-47'),
+(758, 'aries7881', 'aries7881-48'),
+(759, 'aries7881', 'aries7881-49'),
+(760, 'aries7881', 'aries7881-50'),
+(761, 'aries7881', 'aries7881-51'),
+(762, 'aries7881', 'aries7881-52'),
+(763, 'aries7881', 'aries7881-53'),
+(764, 'aries7881', 'aries7881-54'),
+(765, 'aries7881', 'aries7881-55'),
+(766, 'aries7881', 'aries7881-56'),
+(767, 'aries7881', 'aries7881-57'),
+(768, 'aries7881', 'aries7881-58'),
+(769, 'aries7881', 'aries7881-59'),
+(770, 'aries7881', 'aries7881-60'),
+(771, 'aries7881', 'aries7881-61'),
+(772, 'aries7881', 'aries7881-62'),
+(773, 'aries7881', 'aries7881-63'),
+(774, 'aries7881', 'aries7881-64'),
+(775, 'aries7881', 'aries7881-65'),
+(776, 'aries7881', 'aries7881-66'),
+(777, 'aries7881', 'aries7881-67'),
+(778, 'aries7881', 'aries7881-68'),
+(779, 'aries7881', 'aries7881-69'),
+(780, 'aries7881', 'aries7881-70'),
+(781, 'aries7881', 'aries7881-71'),
+(782, 'aries7881', 'aries7881-72'),
+(783, 'aries7881', 'aries7881-73'),
+(784, 'aries7881', 'aries7881-74'),
+(785, 'aries7881', 'aries7881-75'),
+(786, 'aries7881', 'aries7881-76'),
+(787, 'aries7881', 'aries7881-77'),
+(788, 'aries7881', 'aries7881-78'),
+(789, 'aries7881', 'aries7881-79'),
+(790, 'aries7881', 'aries7881-80'),
+(791, 'aries7881', 'aries7881-81'),
+(792, 'aries7881', 'aries7881-82'),
+(793, 'aries7881', 'aries7881-83'),
+(794, 'aries7881', 'aries7881-84'),
+(795, 'aries7881', 'aries7881-85'),
+(796, 'aries7881', 'aries7881-86'),
+(797, 'aries7881', 'aries7881-87'),
+(798, 'aries7881', 'aries7881-88'),
+(799, 'aries7881', 'aries7881-89'),
+(800, 'aries7881', 'aries7881-90'),
+(801, 'aries7881', 'aries7881-91'),
+(802, 'aries7881', 'aries7881-92'),
+(803, 'aries7881', 'aries7881-93'),
+(804, 'aries7881', 'aries7881-94'),
+(805, 'aries7881', 'aries7881-95'),
+(806, 'aries7881', 'aries7881-96'),
+(807, 'aries7881', 'aries7881-97'),
+(808, 'aries7881', 'aries7881-98'),
+(809, 'aries7881', 'aries7881-99'),
+(810, 'aries7881', 'aries7881-100'),
+(811, 'aries7881', 'aries7881-101'),
+(812, 'aries7881', 'aries7881-102'),
+(813, 'aries7881', 'aries7881-103'),
+(814, 'aries7881', 'aries7881-104'),
+(815, 'aries7881', 'aries7881-105'),
+(816, 'aries7881', 'aries7881-106'),
+(817, 'aries7881', 'aries7881-107'),
+(818, 'aries7881', 'aries7881-108'),
+(819, 'aries7881', 'aries7881-109'),
+(820, 'aries7881', 'aries7881-110'),
+(821, 'aries7881', 'aries7881-111'),
+(822, 'aries7881', 'aries7881-112'),
+(823, 'aries7881', 'aries7881-113'),
+(824, 'aries7881', 'aries7881-114'),
+(825, 'aries7881', 'aries7881-115'),
+(826, 'aries7881', 'aries7881-116'),
+(827, 'aries7881', 'aries7881-117'),
+(828, 'aries7881', 'aries7881-118'),
+(829, 'aries7881', 'aries7881-119'),
+(830, 'aries7881', 'aries7881-120'),
+(831, 'aries7882', 'aries7882-1'),
+(832, 'aries7882', 'aries7882-2'),
+(833, 'aries7882', 'aries7882-3'),
+(834, 'aries7882', 'aries7882-4'),
+(835, 'aries7882', 'aries7882-5'),
+(836, 'aries7882', 'aries7882-6'),
+(837, 'aries7882', 'aries7882-7'),
+(838, 'aries7882', 'aries7882-8'),
+(839, 'aries7882', 'aries7882-9'),
+(840, 'aries7882', 'aries7882-10'),
+(841, 'aries7882', 'aries7882-11'),
+(842, 'aries7882', 'aries7882-12'),
+(843, 'aries7882', 'aries7882-13'),
+(844, 'aries7882', 'aries7882-14'),
+(845, 'aries7882', 'aries7882-15'),
+(846, 'aries7882', 'aries7882-16'),
+(847, 'aries7882', 'aries7882-17'),
+(848, 'aries7882', 'aries7882-18'),
+(849, 'aries7882', 'aries7882-19'),
+(850, 'aries7882', 'aries7882-20'),
+(851, 'aries7882', 'aries7882-21'),
+(852, 'aries7882', 'aries7882-22'),
+(853, 'aries7882', 'aries7882-23'),
+(854, 'aries7882', 'aries7882-24'),
+(855, 'aries7882', 'aries7882-25'),
+(856, 'aries7882', 'aries7882-26'),
+(857, 'aries7882', 'aries7882-27'),
+(858, 'aries7882', 'aries7882-28'),
+(859, 'aries7882', 'aries7882-29'),
+(860, 'aries7882', 'aries7882-30'),
+(861, 'aries7882', 'aries7882-31'),
+(862, 'aries7882', 'aries7882-32'),
+(863, 'aries7882', 'aries7882-33'),
+(864, 'aries7882', 'aries7882-34'),
+(865, 'aries7882', 'aries7882-35'),
+(866, 'aries7882', 'aries7882-36'),
+(867, 'aries7882', 'aries7882-37'),
+(868, 'aries7882', 'aries7882-38'),
+(869, 'aries7882', 'aries7882-39'),
+(870, 'aries7882', 'aries7882-40'),
+(871, 'aries7882', 'aries7882-41'),
+(872, 'aries7882', 'aries7882-42'),
+(873, 'aries7882', 'aries7882-43'),
+(874, 'aries7882', 'aries7882-44'),
+(875, 'aries7882', 'aries7882-45'),
+(876, 'aries7882', 'aries7882-46'),
+(877, 'aries7882', 'aries7882-47'),
+(878, 'aries7882', 'aries7882-48'),
+(879, 'aries7882', 'aries7882-49'),
+(880, 'aries7882', 'aries7882-50'),
+(881, 'aries7882', 'aries7882-51'),
+(882, 'aries7882', 'aries7882-52'),
+(883, 'aries7882', 'aries7882-53'),
+(884, 'aries7882', 'aries7882-54'),
+(885, 'aries7882', 'aries7882-55'),
+(886, 'aries7882', 'aries7882-56'),
+(887, 'aries7882', 'aries7882-57'),
+(888, 'aries7882', 'aries7882-58'),
+(889, 'aries7882', 'aries7882-59'),
+(890, 'aries7882', 'aries7882-60'),
+(891, 'aries7882', 'aries7882-61'),
+(892, 'aries7882', 'aries7882-62'),
+(893, 'aries7882', 'aries7882-63'),
+(894, 'aries7882', 'aries7882-64'),
+(895, 'aries7882', 'aries7882-65'),
+(896, 'aries7882', 'aries7882-66'),
+(897, 'aries7882', 'aries7882-67'),
+(898, 'aries7882', 'aries7882-68'),
+(899, 'aries7882', 'aries7882-69'),
+(900, 'aries7882', 'aries7882-70'),
+(901, 'aries7882', 'aries7882-71'),
+(902, 'aries7882', 'aries7882-72'),
+(903, 'aries7882', 'aries7882-73'),
+(904, 'aries7882', 'aries7882-74'),
+(905, 'aries7882', 'aries7882-75'),
+(906, 'aries7882', 'aries7882-76'),
+(907, 'aries7882', 'aries7882-77'),
+(908, 'aries7882', 'aries7882-78'),
+(909, 'aries7882', 'aries7882-79'),
+(910, 'aries7882', 'aries7882-80'),
+(911, 'aries7882', 'aries7882-81'),
+(912, 'aries7882', 'aries7882-82'),
+(913, 'aries7882', 'aries7882-83'),
+(914, 'aries7882', 'aries7882-84'),
+(915, 'aries7882', 'aries7882-85'),
+(916, 'aries7882', 'aries7882-86'),
+(917, 'aries7882', 'aries7882-87'),
+(918, 'aries7882', 'aries7882-88'),
+(919, 'aries7882', 'aries7882-89'),
+(920, 'aries7882', 'aries7882-90'),
+(921, 'aries7882', 'aries7882-91'),
+(922, 'aries7882', 'aries7882-92'),
+(923, 'aries7882', 'aries7882-93'),
+(924, 'aries7882', 'aries7882-94'),
+(925, 'aries7882', 'aries7882-95'),
+(926, 'aries7882', 'aries7882-96'),
+(927, 'aries7882', 'aries7882-97'),
+(928, 'aries7882', 'aries7882-98'),
+(929, 'aries7882', 'aries7882-99'),
+(930, 'aries7882', 'aries7882-100'),
+(931, 'aries7882', 'aries7882-101'),
+(932, 'aries7882', 'aries7882-102'),
+(933, 'aries7882', 'aries7882-103'),
+(934, 'aries7882', 'aries7882-104'),
+(935, 'aries7882', 'aries7882-105'),
+(936, 'aries7882', 'aries7882-106'),
+(937, 'aries7882', 'aries7882-107'),
+(938, 'aries7882', 'aries7882-108'),
+(939, 'aries7882', 'aries7882-109'),
+(940, 'aries7882', 'aries7882-110'),
+(941, 'aries7882', 'aries7882-111'),
+(942, 'aries7882', 'aries7882-112'),
+(943, 'aries7882', 'aries7882-113'),
+(944, 'aries7882', 'aries7882-114'),
+(945, 'aries7882', 'aries7882-115'),
+(946, 'aries7882', 'aries7882-116'),
+(947, 'aries7882', 'aries7882-117'),
+(948, 'aries7882', 'aries7882-118'),
+(949, 'aries7882', 'aries7882-119'),
+(950, 'aries7882', 'aries7882-120'),
+(951, 'aries7882', 'aries7882-121'),
+(952, 'aries7882', 'aries7882-122'),
+(953, 'aries7882', 'aries7882-123'),
+(954, 'aries7882', 'aries7882-124'),
+(955, 'aries7882', 'aries7882-125'),
+(956, 'aries7882', 'aries7882-126'),
+(957, 'aries7882', 'aries7882-127'),
+(958, 'aries7882', 'aries7882-128'),
+(959, 'aries7882', 'aries7882-129'),
+(960, 'aries7882', 'aries7882-130'),
+(961, 'aries7882', 'aries7882-131'),
+(962, 'aries7882', 'aries7882-132'),
+(963, 'aries7882', 'aries7882-133'),
+(964, 'aries7882', 'aries7882-134'),
+(965, 'aries7882', 'aries7882-135'),
+(966, 'aries7882', 'aries7882-136'),
+(967, 'aries7882', 'aries7882-137'),
+(968, 'aries7882', 'aries7882-138'),
+(969, 'aries7882', 'aries7882-139'),
+(970, 'aries7882', 'aries7882-140'),
+(971, 'carnival3901', 'carnival3901-1'),
+(972, 'carnival3901', 'carnival3901-2'),
+(973, 'carnival3901', 'carnival3901-3'),
+(974, 'carnival3901', 'carnival3901-4'),
+(975, 'carnival3901', 'carnival3901-5'),
+(976, 'carnival3901', 'carnival3901-6'),
+(977, 'carnival3901', 'carnival3901-7'),
+(978, 'carnival3901', 'carnival3901-8'),
+(979, 'carnival3901', 'carnival3901-9'),
+(980, 'carnival3901', 'carnival3901-10'),
+(981, 'carnival3901', 'carnival3901-11'),
+(982, 'carnival3901', 'carnival3901-12'),
+(983, 'carnival3901', 'carnival3901-13'),
+(984, 'carnival3901', 'carnival3901-14'),
+(985, 'carnival3901', 'carnival3901-15'),
+(986, 'carnival3901', 'carnival3901-16'),
+(987, 'carnival3901', 'carnival3901-17'),
+(988, 'carnival3901', 'carnival3901-18'),
+(989, 'carnival3901', 'carnival3901-19'),
+(990, 'carnival3901', 'carnival3901-20'),
+(991, 'carnival3901', 'carnival3901-21'),
+(992, 'carnival3901', 'carnival3901-22'),
+(993, 'carnival3901', 'carnival3901-23'),
+(994, 'carnival3901', 'carnival3901-24'),
+(995, 'carnival3901', 'carnival3901-25'),
+(996, 'carnival3901', 'carnival3901-26'),
+(997, 'carnival3901', 'carnival3901-27'),
+(998, 'carnival3901', 'carnival3901-28'),
+(999, 'carnival3901', 'carnival3901-29'),
+(1000, 'carnival3901', 'carnival3901-30'),
+(1001, 'carnival3901', 'carnival3901-31'),
+(1002, 'carnival3901', 'carnival3901-32'),
+(1003, 'carnival3901', 'carnival3901-33'),
+(1004, 'carnival3901', 'carnival3901-34'),
+(1005, 'carnival3901', 'carnival3901-35'),
+(1006, 'carnival3901', 'carnival3901-36'),
+(1007, 'carnival3901', 'carnival3901-37'),
+(1008, 'carnival3901', 'carnival3901-38'),
+(1009, 'carnival3901', 'carnival3901-39'),
+(1010, 'carnival3901', 'carnival3901-40'),
+(1011, 'carnival3901', 'carnival3901-41'),
+(1012, 'carnival3901', 'carnival3901-42'),
+(1013, 'carnival3901', 'carnival3901-43'),
+(1014, 'carnival3901', 'carnival3901-44'),
+(1015, 'carnival3901', 'carnival3901-45'),
+(1016, 'carnival3901', 'carnival3901-46'),
+(1017, 'carnival3901', 'carnival3901-47'),
+(1018, 'carnival3901', 'carnival3901-48'),
+(1019, 'carnival3901', 'carnival3901-49'),
+(1020, 'carnival3901', 'carnival3901-50'),
+(1021, 'carnival3901', 'carnival3901-51'),
+(1022, 'carnival3901', 'carnival3901-52'),
+(1023, 'carnival3901', 'carnival3901-53'),
+(1024, 'carnival3901', 'carnival3901-54'),
+(1025, 'carnival3901', 'carnival3901-55'),
+(1026, 'carnival3901', 'carnival3901-56'),
+(1027, 'carnival3901', 'carnival3901-57'),
+(1028, 'carnival3901', 'carnival3901-58'),
+(1029, 'carnival3901', 'carnival3901-59'),
+(1030, 'carnival3901', 'carnival3901-60'),
+(1031, 'carnival3901', 'carnival3901-61'),
+(1032, 'carnival3901', 'carnival3901-62'),
+(1033, 'carnival3901', 'carnival3901-63'),
+(1034, 'carnival3901', 'carnival3901-64'),
+(1035, 'carnival3901', 'carnival3901-65'),
+(1036, 'carnival3901', 'carnival3901-66'),
+(1037, 'carnival3901', 'carnival3901-67'),
+(1038, 'carnival3901', 'carnival3901-68'),
+(1039, 'carnival3901', 'carnival3901-69'),
+(1040, 'carnival3901', 'carnival3901-70'),
+(1041, 'carnival3901', 'carnival3901-71'),
+(1042, 'carnival3901', 'carnival3901-72'),
+(1043, 'carnival3901', 'carnival3901-73'),
+(1044, 'carnival3901', 'carnival3901-74'),
+(1045, 'carnival3901', 'carnival3901-75'),
+(1046, 'carnival3901', 'carnival3901-76'),
+(1047, 'carnival3901', 'carnival3901-77'),
+(1048, 'carnival3901', 'carnival3901-78'),
+(1049, 'carnival3901', 'carnival3901-79'),
+(1050, 'carnival3901', 'carnival3901-80'),
+(1051, 'carnival3901', 'carnival3901-81'),
+(1052, 'carnival3901', 'carnival3901-82'),
+(1053, 'carnival3901', 'carnival3901-83'),
+(1054, 'carnival3901', 'carnival3901-84'),
+(1055, 'carnival3901', 'carnival3901-85'),
+(1056, 'carnival3901', 'carnival3901-86'),
+(1057, 'carnival3901', 'carnival3901-87'),
+(1058, 'carnival3901', 'carnival3901-88'),
+(1059, 'carnival3901', 'carnival3901-89'),
+(1060, 'carnival3901', 'carnival3901-90'),
+(1061, 'carnival3901', 'carnival3901-91'),
+(1062, 'carnival3901', 'carnival3901-92'),
+(1063, 'carnival3901', 'carnival3901-93'),
+(1064, 'carnival3901', 'carnival3901-94'),
+(1065, 'carnival3901', 'carnival3901-95'),
+(1066, 'carnival3901', 'carnival3901-96'),
+(1067, 'carnival3901', 'carnival3901-97'),
+(1068, 'carnival3901', 'carnival3901-98'),
+(1069, 'carnival3901', 'carnival3901-99'),
+(1070, 'carnival3901', 'carnival3901-100');
 
 -- --------------------------------------------------------
 
@@ -899,11 +1352,20 @@ CREATE TABLE `tbl_showtime` (
 --
 
 INSERT INTO `tbl_showtime` (`shw_id`, `mv_id`, `shw_time`, `thr_id`, `thr_screen_id`, `shw_date`, `shw_cost`, `shw_status`) VALUES
-(1, 3, '09:00:00', 1, 'casanova1', '2019-09-10', 180.26, 1),
-(2, 2, '19:00:00', 1, 'casanova1', '2019-09-17', 250, 1),
-(3, 3, '12:00:00', 5, 'redcarpetcarn2', '2019-09-18', 100, 1),
-(4, 4, '14:00:00', 5, 'redcarpetcarn1', '2019-09-28', 250.26, 1),
-(5, 5, '17:00:00', 5, 'redcarpetcarn2', '2019-10-11', 146.66, 1);
+(1, 3, '09:00:00', 1, 'casanova1', '2019-09-10', 180.26, 0),
+(2, 2, '19:00:00', 1, 'casanova1', '2019-09-17', 250, 0),
+(3, 3, '12:00:00', 5, 'redcarpetcarn2', '2019-09-18', 100, 0),
+(4, 4, '14:00:00', 5, 'redcarpetcarn1', '2019-09-28', 250.26, 0),
+(5, 5, '17:00:00', 5, 'redcarpetcarn2', '2019-10-11', 146.66, 0),
+(7, 9, '10:00:00', 1, 'casanova1', '2020-05-01', 230, 1),
+(8, 1, '14:00:00', 2, 'carnival3901', '2019-12-17', 100, 1),
+(10, 3, '10:00:00', 1, 'casanova1', '2019-09-10', 180.26, 0),
+(19, 2, '07:00:00', 3, 'aries7881', '2019-12-15', 200, 1),
+(21, 5, '03:00:00', 3, 'aries7881', '2019-12-15', 200, 1),
+(23, 6, '12:45:00', 3, 'aries7881', '2019-12-15', 170, 1),
+(24, 6, '16:45:00', 3, 'aries7881', '2019-12-15', 180, 1),
+(25, 5, '07:00:00', 3, 'aries7882', '2019-12-15', 180, 1),
+(26, 6, '07:00:00', 3, 'aries7881', '2019-12-16', 200, 1);
 
 -- --------------------------------------------------------
 
@@ -921,7 +1383,7 @@ CREATE TABLE `tbl_theater` (
   `thr_screens` tinyint(3) NOT NULL,
   `thr_location` varchar(255) NOT NULL,
   `thr_status` tinyint(1) NOT NULL COMMENT 'true => Existing, false => Deleted',
-  `hash` varchar(255) NOT NULL,
+  `hash` varchar(255) DEFAULT NULL,
   `verified` varchar(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -935,7 +1397,7 @@ INSERT INTO `tbl_theater` (`thr_id`, `thr_name`, `thr_uname`, `thr_pasd`, `thr_p
 (3, 'Aries', 'aries788', '54e553e1f26aba4f435548bd9645811a', 7845456544, 'aries788@gmail.com', 5, 'Trivandrum', 1, '', 'ACTIVE'),
 (4, 'The Wiltern', 'wiltern11', 'b025accb97d7e77ce4fd87af71dd0fc8', 45635333, 'contact@wiltern.com', 2, '3790 Wilshire Blvd, Los Angeles, CA 90010, USA', 1, '', 'ACTIVE'),
 (5, 'Carnival RedCarpet', 'redcarpetcarn', '7c0ac50e95a235bea887b7a50df55346', 7845123654, 'redcarpetcarnival@outlook.com', 5, 'Kariyad', 1, '', 'ACTIVE'),
-(6, 'Kavitha Screens', 'kavitha', '01cd93dddf5f2beb2b118a2b8d4e459d', 7412589630, 'kavitha123@gmail.com', 2, 'Ernakulam', 0, '', 'ACTIVE'),
+(6, 'Kavitha Screens', 'kavitha', 'e533230c983503026fc4c142c1d55c9c', 7412589630, 'kavitha123@gmail.com', 2, 'Ernakulam', 0, '', 'ACTIVE'),
 (7, '7Max Theaters', '7max', 'f35fe3a9044bc0b5a51d43d4de50007f', 9874563210, 'sevenmax@gmail.com', 3, 'Kochi', 1, '', 'ACTIVE'),
 (8, 'San Screens', 'san666', '0b2994d4c7e7790b1b0b60097441e3ad', 8943199646, 'andrewssan666@gmail.com', 5, 'Moscow', 0, '8b1bd2ddfe4d0a6db8b808cfeece64fa', 'ACTIVE');
 
@@ -964,7 +1426,7 @@ CREATE TABLE `tbl_user` (
 INSERT INTO `tbl_user` (`user_id`, `user_name`, `user_uname`, `user_pasd`, `user_mail`, `user_phone`, `user_type`, `hash`, `verified`) VALUES
 (1, 'Al Ameen AR', 'amrameen769', 'cf0d02ec99e61a64137b8a2c3b03e030', 'amrameen769@gmail.com', 8943199646, 'admin', NULL, 'ACTIVE'),
 (2, 'Sibin', 'sibin29', '89cc7b7b2e7d21ad45d883771d795ed2', 'sibin292000@gmail.com', 9496332052, 'enduser', NULL, 'ACTIVE'),
-(3, 'AB Dullah', 'dulla', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'ab@du.lla', 7559869362, 'enduser', NULL, 'ACTIVE'),
+(3, 'AB Dullah', 'dulla', '1a1dc91c907325c69271ddf0c944bc72', 'abduvjd@gmail.com', 7559869362, 'enduser', NULL, 'ACTIVE'),
 (4, 'Alphin Felix', 'alphin123', 'd7217b5d7925ec0a9163d1b7a7dbb606', 'alphinmay30@gmail.com', 7560843461, 'enduser', NULL, 'ACTIVE'),
 (5, 'Sanju', 'sanju07', 'c24526bfc0fe42d8b09a314e64d7b0d9', 'sanju@gmail.com', 9495117707, 'enduser', NULL, 'ACTIVE'),
 (6, 'Abijith', 'abi', '315eb115d98fcbad39ffc5edebd669c9', 'abijithtjayan@gmail.com', 8330045217, 'enduser', NULL, 'ACTIVE'),
@@ -1038,13 +1500,13 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_booking`
 --
 ALTER TABLE `tbl_booking`
-  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `tbl_movie`
 --
 ALTER TABLE `tbl_movie`
-  MODIFY `mv_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `mv_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_review`
@@ -1062,13 +1524,13 @@ ALTER TABLE `tbl_screens`
 -- AUTO_INCREMENT for table `tbl_seats`
 --
 ALTER TABLE `tbl_seats`
-  MODIFY `def_seat_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=711;
+  MODIFY `def_seat_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1071;
 
 --
 -- AUTO_INCREMENT for table `tbl_showtime`
 --
 ALTER TABLE `tbl_showtime`
-  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_theater`
@@ -1081,6 +1543,16 @@ ALTER TABLE `tbl_theater`
 --
 ALTER TABLE `tbl_user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `remove_expired_shows` ON SCHEDULE EVERY 2 HOUR STARTS '2019-12-14 23:58:00' ON COMPLETION PRESERVE ENABLE DO UPDATE tbl_showtime SET shw_status = 0 WHERE (SELECT concat(tbl_showtime.shw_date, " ", tbl_showtime.shw_time)) < NOW()$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `remove_booking` ON SCHEDULE EVERY 2 HOUR STARTS '2019-12-14 23:59:00' ON COMPLETION PRESERVE ENABLE DO CALL remove_expired_booking$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
