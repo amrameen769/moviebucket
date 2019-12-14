@@ -9,3 +9,4 @@
 
   </div>
 <?php endif ?>
+<?php //ob_end_flush() ?>

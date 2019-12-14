@@ -6,6 +6,8 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
 
 $sec = new Secure;
 $sec->checkADSign();
+
+ob_start();
 ?>
 
 
@@ -45,8 +47,10 @@ $sec->checkADSign();
                             }
                             if ($exec->query($updateStatus)) {
                                 array_push($errors, "Status Updated");
+                                header("location:".$_SERVER['REQUEST_URI']);
                             } else {
                                 array_push($errors, "Status Updated");
+                                header("location:".$_SERVER['REQUEST_URI']);
                             }
                         }
                     }
@@ -108,4 +112,5 @@ $sec->checkADSign();
     </div>
     </body>
 <?php endif ?>
+<?php ob_end_flush() ?>
 </html>

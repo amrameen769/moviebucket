@@ -7,13 +7,15 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'admin') {
 $sec = new Secure;
 $sec->checkADSign();
 
+$book = new Booking();
 ?>
 
 
 <!DOCTYPE html>
 <html>
 
-<?php //require(SITE_PATH . "mv-content/header.php");?>
+<?php //require(SITE_PATH . "mv-content/header.php");
+ob_start() ?>
 <title>Movie Requests</title>
 <?php if (isset($_SESSION['username'])) : ?>
     <?php require(SITE_PATH . "mv-admin/includes/ad-header.php"); ?>
@@ -41,7 +43,7 @@ $sec->checkADSign();
                                 if ($exec->query($updateStatus)) {
                                     array_push($errors, "Status Updated");
                                     //$_SESSION['updation'] = "Status Updated, Shows Removed";
-                                    //header("location:mv-requests.php");
+                                    header("location:mv-requests.php");
                                 }
                             } elseif ($rq_status == 1) {
                                 $flag = 1;
@@ -55,12 +57,15 @@ $sec->checkADSign();
                                         if (!$exec->query($removeShow)) {
                                             $flag = 0;
                                         }
+                                        if(!$book->cancelBooking($shw_id)){
+                                            $flag = 0;
+                                        }
                                     }
                                 }
                                 if ($exec->query($updateStatus) && $flag == 1) {
                                     array_push($errors, "Status Updated, Shows Removed");
                                     //$_SESSION['updation'] = "Status Updated, Shows Removed";
-                                    //header("location:".SITE_PATH."mv-admin/includes/mv-requests.php");
+                                    header("location:mv-requests.php");
                                 }
                             }
                         }
@@ -147,4 +152,5 @@ $sec->checkADSign();
     </div>
     </body>
 <?php endif ?>
+<?php ob_end_flush() ?>
 </html>

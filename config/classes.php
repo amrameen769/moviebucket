@@ -9,6 +9,15 @@ class Booking
         $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
+    function cancelBooking($shw_id){
+        $cancelBooking = "UPDATE tbl_booking set book_status = FALSE where shw_id = '$shw_id' and book_status = 1";
+        if($this->dbconn->query($cancelBooking)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function book($bookDetails)
     {
         ////$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
