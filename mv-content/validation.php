@@ -6,7 +6,7 @@ class Validation
     private $errors = array();
     function __construct()
     {
-        $conn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Connection Error");
+        $this->conn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Connection Error");
     }
 
     function validate($formArray)
@@ -55,5 +55,21 @@ class Validation
         }
     }
 
+    function checkShowInterval($thr_id, $thr_screen_id, $timeOfNewShow, $dateOfNewShow){
+        $dateTimeOfNewShow = $dateOfNewShow." ".$timeOfNewShow;
+            $selectTimeDifferenceBef = $this->conn->query("SELECT TIMEDIFF('$dateTimeOfNewShow', (SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
+            WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time < '$timeOfNewShow' 
+            ORDER BY shw_time DESC LIMIT 1))) as timeInterval")
+        or die("Error Selecting Time Difference");
 
+        $selectTimeDifferenceAft = $this->conn->query("SELECT TIMEDIFF((SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
+        WHERE shw_id =  (SELECT shw_id from tbl_showtime where shw_status = 1 and thr_screen_id = '$thr_screen_id' AND shw_date = '$dateOfNewShow' AND shw_time > '$timeOfNewShow' 
+        ORDER BY shw_time LIMIT 1)),'$dateTimeOfNewShow') as timeInterval")
+        or die("Error Selecting Time Difference");
+
+        $bef = mysqli_fetch_assoc($selectTimeDifferenceBef);
+        $Aft = mysqli_fetch_assoc($selectTimeDifferenceAft);
+        return $intervalArray = array("bef"=>$bef['timeInterval'], "aft"=>$Aft['timeInterval']);
+
+    }
 }
