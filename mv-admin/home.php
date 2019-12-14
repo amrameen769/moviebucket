@@ -58,7 +58,7 @@ if (isset($_GET['logout'])) {
                                                 $dateTomorrow = date_format(date_add(date_create($dateToday), date_interval_create_from_date_string("1 day")), 'Y-m-d');
                                                 $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 month")), 'Y-m-d');
 
-                                                $allBookMonth = $dbconn->query("select sum(book_pay) as tot_pay from tbl_booking where book_status = 1 and book_date between '$dateThen' and '$dateTomorrow'") or die("Error AllBook");
+                                                $allBookMonth = $dbconn->query("select sum(book_pay) as tot_pay from tbl_booking where book_status != 0 and book_date between '$dateThen' and '$dateTomorrow'") or die("Error AllBook");
                                                 $resAllBook = mysqli_fetch_assoc($allBookMonth);
                                                 print "₹" . $resAllBook['tot_pay'];
 
@@ -80,7 +80,8 @@ if (isset($_GET['logout'])) {
                                         <div class="text-dark font-weight-bold h5 mb-0"><span>
                                                 <?php
                                                 $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
-                                                $allBookYear = $dbconn->query("select sum(book_pay) as tot_pay_month from tbl_booking where book_status = 1 and book_date > '$dateThen' and book_date <= '$dateTomorrow'");
+                                                $allBookYear = $dbconn->query("select sum(book_pay) as tot_pay_month from tbl_booking where book_status != 0 
+                                                and book_date > '$dateThen' and book_date <= '$dateTomorrow'");
                                                 $resAllBook = mysqli_fetch_assoc($allBookYear);
                                                 print "₹" . $resAllBook['tot_pay_month'];
                                                 ?>
@@ -173,7 +174,7 @@ if (isset($_GET['logout'])) {
                                     <?php
                                     $dateThen = date_format(date_sub(date_create($dateToday), date_interval_create_from_date_string("1 year")), 'Y-m-d');
                                     $allBookYear = $dbconn->query("select book_date, sum(book_pay)  as tot_pay_per_month, MONTHNAME(book_date)
-                                    as month from tbl_booking where book_status = 1 group by MONTH(book_date) order by year(book_date), month(book_date)") or die("Error All Book Year");
+                                    as month from tbl_booking where book_status != 0 group by MONTH(book_date) order by year(book_date), month(book_date)") or die("Error All Book Year");
                                     $months = array();
                                     $monthnames = array();
                                     while ($row = mysqli_fetch_assoc($allBookYear)) {

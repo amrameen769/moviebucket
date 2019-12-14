@@ -78,8 +78,10 @@ require(SITE_PATH . "mv-content/header.php");
                                 <input type="checkbox" id="<?= $bookingDetail['book_id'] ?>"
                                        value="<?= $bookingDetail['book_id'] ?>" name="cancel">
                             </label>
+                        <?php elseif($bookingDetail['book_status'] == 2) : ?>
+                            <button class="btn btn-dark" disabled>Expired</button>
                         <?php else : ?>
-                            <button class="btn-dark" disabled>Cancelled</button>
+                            <button class="btn btn-dark" disabled>Cancelled</button>
                         <?php endif; ?>
                     </td>
                 </tr>

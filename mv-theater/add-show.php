@@ -102,7 +102,7 @@ $screen->editShows($thr_id);
 
             $timeInterval['bef'];
             $timeInterval['aft'];
-            print_r($timeInterval);
+//            print_r($timeInterval);
             if ($timeInterval['bef'] != null) {
                 if ($timeInterval['bef'] < $minInterval) {
                     array_push($errors, "Incomplete Show Exists Before Current Show");
