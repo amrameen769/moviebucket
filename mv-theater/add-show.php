@@ -97,22 +97,32 @@ $screen->editShows($thr_id);
 
             require(SITE_PATH . "mv-content/validation.php");
             $validator = new Validation();
-            $timeInterval = $validator->checkShowInterval($thr_screen_id, $shw_time, $shw_date);
-            $minInterval = date("H", mktime(4));
 
-            $timeInterval['bef'];
-            $timeInterval['aft'];
-//            print_r($timeInterval);
-            if ($timeInterval['bef'] != null) {
-                if ($timeInterval['bef'] < $minInterval) {
-                    array_push($errors, "Incomplete Show Exists Before Current Show");
-                }
-            } elseif ($timeInterval['aft'] != null) {
-                if ($timeInterval['aft'] < $minInterval) {
-                    array_push($errors, "Current Show May Be Incomplete");
-                }
+            if (!$validator->checkRelease($mv_id, $shw_date)) {
+                array_push($errors, "The movie is not yet released!");
             }
 
+            if (!$validator->dateCheck($shw_date)) {
+                array_push($errors, "Show cannot be added on the selected date");
+            }
+
+            if (count($errors) == 0) {
+                $timeInterval = $validator->checkShowInterval($thr_screen_id, $shw_time, $shw_date);
+                $minInterval = date("H", mktime(4));
+
+                $timeInterval['bef'];
+                $timeInterval['aft'];
+//            print_r($timeInterval);
+                if ($timeInterval['bef'] != null) {
+                    if ($timeInterval['bef'] < $minInterval) {
+                        array_push($errors, "Incomplete Show Exists Before Current Show");
+                    }
+                } elseif ($timeInterval['aft'] != null) {
+                    if ($timeInterval['aft'] < $minInterval) {
+                        array_push($errors, "Current Show May Be Incomplete");
+                    }
+                }
+            }
 
             if (count($errors) == 0) {
                 //$statusQueryA = "SELECT shw_status FROM tbl_shows WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";

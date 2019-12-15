@@ -55,6 +55,24 @@ class Validation
         }
     }
 
+    function checkRelease($mv_id, $shw_date){
+        $selectRelease = $this->conn->query("select mv_release_date from tbl_movie where mv_id = '$mv_id'");
+        $row = mysqli_fetch_assoc($selectRelease);
+        if($shw_date < $row['mv_release_date']){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function dateCheck($shw_date){
+        if($shw_date <= date('Y-m-d')){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     function checkShowInterval($thr_screen_id, $timeOfNewShow, $dateOfNewShow){
         $dateTimeOfNewShow = $dateOfNewShow." ".$timeOfNewShow;
             $selectTimeDifferenceBef = $this->conn->query("SELECT TIMEDIFF('$dateTimeOfNewShow', (SELECT concat(tbl_showtime.shw_date,' ', tbl_showtime.shw_time) from tbl_showtime 
