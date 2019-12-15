@@ -107,7 +107,7 @@
                 <br>
                 <input type="submit" class="btn_login" name="login" value="Login"><br>
                 <a href="registration.php">Don't Have Account? Signup</a><br>
-                <p id="fp">Forgot Password?</p>
+                <a href="reset-account.php"><p id="fp">Forgot Password?</p></a>
 
                 <!--</form>
               </div>

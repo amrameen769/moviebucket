@@ -96,7 +96,7 @@ $mailer="";
                    VALUES ('$user_name', '$user_uname', '$psd', '$user_mail', '$user_phone', 'enduser', '$hash')";
                         if ($reg = mysqli_query($dbconn, $regquery)) {
                             $_SESSION['username'] = $user_name;
-                            $_SESSION['success'] = "Signed Up Succesfully";
+                            $_SESSION['success'] = "Signed Up Successfully";
                             $mail_body = "https://moviebucket.com/mv-content/verify.php?email=" . $mailer . "&hash=" . $hash;
                             require(SITE_PATH . "mv-content/event-mail.php");
                             //require ("mailchimp-subscribe.php");

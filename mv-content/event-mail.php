@@ -6,10 +6,12 @@
  * example to see how to use XOAUTH2.
  * The IMAP section shows how to save this message to the 'Sent Mail' folder using IMAP commands.
  */
+
 //Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
-require SITE_PATH.'config/vendor/autoload.php';
-require (SITE_PATH."mv-content/mailer.php");
+
+require SITE_PATH . 'config/vendor/autoload.php';
+require(SITE_PATH . "mv-content/mailer.php");
 //Create a new PHPMailer instance
 $mail = new PHPMailer;
 //Tell PHPMailer to use SMTP
@@ -54,7 +56,12 @@ $mail->Subject = $sub;
 $mail->isHTML(true);
 $mail->Body = $mail_body;
 //Replace the plain text body with one created manually
-$mail->AltBody = 'Payment Confirmed, Shows Booked';
+if (isset($_SESSION[$username]['reset'])) {
+    $mail->AltBody = $_SESSION[$username]['reset'];
+    unset($_SESSION[$username]['reset']);
+} else {
+    $mail->AltBody = 'Payment Confirmed, Shows Booked';
+}
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
