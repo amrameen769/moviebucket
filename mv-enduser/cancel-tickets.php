@@ -71,13 +71,17 @@ require(SITE_PATH . "mv-content/header.php");
                     <td><?= $detail['shw_time'] ?></td>
                     <td><?= $bookingDetail['book_date'] ?></td>
                     <td>
+                        <style>
+                            .checkbox-width{
+                                width: 20px;
+                                height: 20px;
+                            }
+                        </style>
                         <?php
                         if ($bookingDetail['book_status'] == '1'):
                             ?>
-                            <label for="<?= $bookingDetail['book_id'] ?>">
-                                <input type="checkbox" id="<?= $bookingDetail['book_id'] ?>"
-                                       value="<?= $bookingDetail['book_id'] ?>" name="cancel">
-                            </label>
+                            <label for="<?= $bookingDetail['book_id'] ?>"></label><input class="checkbox-width" type="checkbox" id="<?= $bookingDetail['book_id'] ?>"
+                                                                                         value="<?= $bookingDetail['book_id'] ?>" name="cancel">
                         <?php elseif($bookingDetail['book_status'] == 2) : ?>
                             <button class="btn btn-dark" disabled>Expired</button>
                         <?php else : ?>

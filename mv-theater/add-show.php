@@ -203,8 +203,14 @@ $screen->editShows($thr_id);
                     </td>
                     <td id="05">
                         <label for="formGroupExampleInput">Show Cost</label>
-                        <input class="form-control field-width" id="formGroupExampleInput" type="text" name="shw_cost"
-                               value="">
+                        <div class="input-group field-width">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" id="formGroupExampleInput" type="text"
+                                   name="shw_cost"
+                                   value="">
+                        </div>
                     </td>
                     <td>
                         <button type="submit" name="add_showtime" class="btn btn-primary mx-auto d-block">Add Showtime

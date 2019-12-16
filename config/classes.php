@@ -42,7 +42,7 @@ class Booking
 
     function bookingDetails($user_id)
     {
-        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id'";
+        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id' ORDER BY book_status DESC";
         $bookingDetails = array();
         $resBookDetails = $this->dbconn->query($selectBookDetails);
         while ($row = mysqli_fetch_assoc($resBookDetails)) {
@@ -602,6 +602,38 @@ class getData
             $row = mysqli_fetch_assoc($resSelectUserID);
             return $row;
         }
+    }
+
+    function returnUsername($userid)
+    {
+        //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
+        $selectUserDetails = "SELECT user_name FROM tbl_user WHERE user_id='$userid' LIMIT 1";
+        $resSelectUserID = $this->dbconn->query($selectUserDetails);
+        if (mysqli_num_rows($resSelectUserID) > 0) {
+            $row = mysqli_fetch_assoc($resSelectUserID);
+            return $row['user_name'];
+        }
+    }
+
+    function selectReviews($mv_id){
+        $reviewDetails = array();
+        $eachReview = array();
+        $mb = new MovieBook();
+        $movieDetails = $mb->selectMovie($mv_id);
+        $selReview = $this->dbconn->query("select * from tbl_review where mv_id='$mv_id'");
+        //print_r($selReview);
+        if(mysqli_num_rows($selReview) > 0){
+            while($row = mysqli_fetch_assoc($selReview)){
+                $eachReview += ["user_name" => $this->returnUsername($row['user_id'])];
+                $eachReview += ["mv_name" => $movieDetails['mv_name']];
+                $eachReview += ["review" => $row['mv_review']];
+                $eachReview += ["rating" => $row['mv_rating']];
+                $eachReview += ["date" => $row['review_date']];
+                array_push($reviewDetails,$eachReview);
+                $eachReview = [];
+            }
+        }
+        return $reviewDetails;
     }
 }
 

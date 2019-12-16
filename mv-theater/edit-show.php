@@ -174,9 +174,16 @@ if (isset($_SESSION['edit-show-id'])) : ?>
                                     name="shw_date"/></div>
                     </div>
                     <div class="col">
-                        <div class="form-group"><label for="shw_cost"><strong>Show Cost</strong></label><input
-                                    class="form-control" type="text" value="<?= $showDet['shw_cost'] ?>"
-                                    name="shw_cost"/></div>
+                        <div class="form-group"><label for="shw_cost"><strong>Show Cost</strong></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">₹</span>
+                                </div>
+                                <input
+                                        class="form-control" type="text" value="<?= $showDet['shw_cost'] ?>"
+                                        name="shw_cost"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -189,4 +196,4 @@ if (isset($_SESSION['edit-show-id'])) : ?>
     </div>
 <?php endif ?>
 <?php require(SITE_PATH . "mv-content/errors.php");
-require (SITE_PATH."mv-content/footer.php") ?>
+require(SITE_PATH . "mv-content/footer.php") ?>
