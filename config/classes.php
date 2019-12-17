@@ -9,9 +9,10 @@ class Booking
         $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
-    function cancelBooking($shw_id){
+    function cancelBooking($shw_id)
+    {
         $cancelBooking = "UPDATE tbl_booking set book_status = FALSE where shw_id = '$shw_id' and book_status = 1";
-        if($this->dbconn->query($cancelBooking)){
+        if ($this->dbconn->query($cancelBooking)) {
             return true;
         } else {
             return false;
@@ -270,8 +271,9 @@ class MovieBook
         $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
-    function editMovie($thr_id){
-        if(isset($_POST['edit_mov'])){
+    function editMovie($thr_id)
+    {
+        if (isset($_POST['edit_mov'])) {
             $_SESSION['mv_id'] = $_POST['edit_mov'];
             header("location:edit-movie.php");
         }
@@ -506,7 +508,7 @@ class getData
     function returnShow($shw_id)
     {
         $selShow = $this->dbconn->query("select * from tbl_showtime where shw_id = '$shw_id' LIMIT 1");
-        if(mysqli_num_rows($selShow) > 0){
+        if (mysqli_num_rows($selShow) > 0) {
             return $row = mysqli_fetch_assoc($selShow);
         }
     }
@@ -615,25 +617,37 @@ class getData
         }
     }
 
-    function selectReviews($mv_id){
+    function selectReviews($mv_id)
+    {
         $reviewDetails = array();
         $eachReview = array();
         $mb = new MovieBook();
         $movieDetails = $mb->selectMovie($mv_id);
-        $selReview = $this->dbconn->query("select * from tbl_review where mv_id='$mv_id'");
+        $selReview = $this->dbconn->query("select * from tbl_review where mv_id='$mv_id' order by review_date DESC");
         //print_r($selReview);
-        if(mysqli_num_rows($selReview) > 0){
-            while($row = mysqli_fetch_assoc($selReview)){
+        if (mysqli_num_rows($selReview) > 0) {
+            while ($row = mysqli_fetch_assoc($selReview)) {
                 $eachReview += ["user_name" => $this->returnUsername($row['user_id'])];
                 $eachReview += ["mv_name" => $movieDetails['mv_name']];
                 $eachReview += ["review" => $row['mv_review']];
                 $eachReview += ["rating" => $row['mv_rating']];
                 $eachReview += ["date" => $row['review_date']];
-                array_push($reviewDetails,$eachReview);
+                array_push($reviewDetails, $eachReview);
                 $eachReview = [];
             }
         }
         return $reviewDetails;
+    }
+
+    function selectReviewer($user_id, $mv_id)
+    {
+        $selectReviewer = $this->dbconn->query("select user_id from db_moviebucket.tbl_review where mv_id = '$mv_id' and user_id='$user_id'");
+        if (mysqli_num_rows($selectReviewer) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
 

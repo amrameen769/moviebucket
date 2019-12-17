@@ -1,5 +1,4 @@
-
-    /*@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);*/
+/*@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);*/
 @import url(https://moviebucket.com/mv-includes/fontawesome/css/all.min.css);
 /****** Style Star Rating Widget *****/
 
@@ -52,7 +51,14 @@
     margin-top: 20px;
 }
 
-.margin-post{
+.review-margin {
+    padding: 5px;
+    margin-top: 20px;
+    border: 1px solid #24a5ff;
+    border-radius: 5px;
+}
+
+.margin-post {
     margin-top: 20px;
 }
 

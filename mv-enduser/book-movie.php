@@ -5,6 +5,9 @@ $sec = new Secure;
 $sec->checkUSign();
 
 require(SITE_PATH . "mv-content/header.php");
+
+$disabled = "";
+$user_id = $gd->returnUserID($_SESSION['username']);
 ?>
 <head>
     <title>Book Movies</title>
@@ -15,6 +18,9 @@ require(SITE_PATH . "mv-content/header.php");
     <?php
     if (isset($_POST['btn-mov-book'])) {
     $mv_id = $_POST['btn-mov-book'];
+    if ($gd->selectReviewer($user_id, $mv_id)) {
+        $disabled = 'disabled';
+    }
     $mb = new MovieBook;
     $movie = $mb->selectMovie($mv_id);
     if (!empty($movie)) : ?>
@@ -75,37 +81,37 @@ require(SITE_PATH . "mv-content/header.php");
             <div class="textarea-height">
                 <fieldset class="rating">
                     <span class="heading">Your Rating</span>
-                    <input type="radio" id="star5" name="rating" value="5"/><label class="full"
-                                                                                   for="star5"
-                                                                                   title="Awesome - 5 stars"></label>
+                    <input type="radio" id="star5" name="rating" value="5" <?= $disabled ?>/><label class="full"
+                                                                                                    for="star5"
+                                                                                                    title="Awesome - 5 stars"></label>
                     <!--                                    <input type="radio" id="star4half" name="rating" value="4 and a half"/><label-->
                     <!--                                            class="half"-->
                     <!--                                            for="star4half"-->
                     <!--                                            title="Pretty good - 4.5 stars"></label>-->
-                    <input type="radio" id="star4" name="rating" value="4"/><label class="full"
-                                                                                   for="star4"
-                                                                                   title="Pretty good - 4 stars"></label>
-                    <!--                                    <input type="radio" id="star3half" name="rating" value="3 and a half"/><label-->
+                    <input type="radio" id="star4" name="rating" value="4" <?= $disabled ?>/><label class="full"
+                                                                                                    for="star4"
+                                                                                                    title="Pretty good - 4 stars"></label>
+                    <!--                                    <input  type="radio" id="star3half" name="rating" value="3 and a half"/><label-->
                     <!--                                            class="half"-->
                     <!--                                            for="star3half"-->
-                    <!--                                            title="Meh - 3.5 stars"></label>-->
-                    <input type="radio" id="star3" name="rating" value="3"/><label class="full"
-                                                                                   for="star3"
-                                                                                   title="Meh - 3 stars"></label>
+                    <!--                                            title=" Meh - 3.5 stars"></label>-->
+                    <input type="radio" id="star3" name="rating" value="3" <?= $disabled ?>/><label class="full"
+                                                                                                    for="star3"
+                                                                                                    title="Meh - 3 stars"></label>
                     <!--                                    <input type="radio" id="star2half" name="rating" value="2 and a half"/><label-->
                     <!--                                            class="half"-->
                     <!--                                            for="star2half"-->
                     <!--                                            title="Kinda bad - 2.5 stars"></label>-->
-                    <input type="radio" id="star2" name="rating" value="2"/><label class="full"
-                                                                                   for="star2"
-                                                                                   title="Kinda bad - 2 stars"></label>
+                    <input type="radio" id="star2" name="rating" value="2" <?= $disabled ?>/><label class="full"
+                                                                                                    for="star2"
+                                                                                                    title="Kinda bad - 2 stars"></label>
                     <!--                                    <input type="radio" id="star1half" name="rating" value="1 and a half"/><label-->
                     <!--                                            class="half"-->
                     <!--                                            for="star1half"-->
                     <!--                                            title="Meh - 1.5 stars"></label>-->
-                    <input type="radio" id="star1" name="rating" value="1"/><label class="full"
-                                                                                   for="star1"
-                                                                                   title="Sucks big time - 1 star"></label>
+                    <input type="radio" id="star1" name="rating" value="1" <?= $disabled ?>/><label class="full"
+                                                                                                    for="star1"
+                                                                                                    title="Sucks big time - 1 star"></label>
                     <!--                                    <input type="radio" id="starhalf" name="rating" value="half"/><label-->
                     <!--                                            class="half"-->
                     <!--                                            for="starhalf"-->
@@ -114,10 +120,12 @@ require(SITE_PATH . "mv-content/header.php");
 
                 <div class="input-group textarea-height">
                     <textarea id="review" class="form-control"
-                              aria-label="Add Your Review"></textarea>
+                              aria-label="Add Your Review" <?= $disabled ?>></textarea>
                 </div>
                 <button id="add-review" onclick="updateReview()"
-                        class="btn btn-primary input-group-text">
+                        class="btn btn-primary input-group-text"
+                    <?= $disabled ?>
+                >
                     Add Your Review
                 </button>
             </div>
@@ -127,18 +135,24 @@ require(SITE_PATH . "mv-content/header.php");
                     <div class="col-lg-auto margin-post">
                         <?php $i = 0;
                         $rating = 0; ?>
+                        <span class="heading">User Reviews</span>
                         <?php foreach ($reviewDetails as $reviewDetail) : ?>
-                            <h3><?= $reviewDetail['mv_name'] . " Review: #" . ++$i ?></h3>
-                            <div class="info"><span
-                                        class="text-muted"><?= $reviewDetail['user_name'] . " on " . $reviewDetail['date'] ?></span>
+                            <div class="review-margin">
+                                <h3><?= $reviewDetail['mv_name'] . " Review: #" . ++$i ?></h3>
+                                <div class="info"><span
+                                            class="text-muted"><?= $reviewDetail['user_name'] . " on " . $reviewDetail['date'] ?></span>
+                                </div>
+                                <p><?= $reviewDetail['review'] ?></p>
+                                <?php $rating += $reviewDetail['rating'] ?>
+                                <?php for ($k = 0; $k < $reviewDetail['rating']; $k++) : ?>
+                                    <span class='fa fa-star checked'></span>
+                                <?php endfor ?>
                             </div>
-                            <p><?= $reviewDetail['review'] ?></p>
-                            <?php $rating += $reviewDetail['rating'] ?>
                         <?php endforeach ?>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="rate-movie">
+                    <div class="rate-movie margin-post">
                         <span class="heading">User Rating</span>
                         <?php $avg_rating = floor($rating / count($reviewDetails));
                         $j = 0;
@@ -152,37 +166,37 @@ require(SITE_PATH . "mv-content/header.php");
                     <div class="textarea-height">
                         <fieldset class="rating">
                             <span class="heading">Your Rating</span>
-                            <input type="radio" id="star5" name="rating" value="5"/><label class="full"
-                                                                                           for="star5"
-                                                                                           title="Awesome - 5 stars"></label>
+                            <input type="radio" id="star5" name="rating" value="5" <?= $disabled ?>/><label class="full"
+                                                                                                            for="star5"
+                                                                                                            title="Awesome - 5 stars"></label>
                             <!--                                    <input type="radio" id="star4half" name="rating" value="4 and a half"/><label-->
                             <!--                                            class="half"-->
                             <!--                                            for="star4half"-->
                             <!--                                            title="Pretty good - 4.5 stars"></label>-->
-                            <input type="radio" id="star4" name="rating" value="4"/><label class="full"
-                                                                                           for="star4"
-                                                                                           title="Pretty good - 4 stars"></label>
+                            <input type="radio" id="star4" name="rating" value="4" <?= $disabled ?>/><label class="full"
+                                                                                                            for="star4"
+                                                                                                            title="Pretty good - 4 stars"></label>
                             <!--                                    <input type="radio" id="star3half" name="rating" value="3 and a half"/><label-->
                             <!--                                            class="half"-->
                             <!--                                            for="star3half"-->
                             <!--                                            title="Meh - 3.5 stars"></label>-->
-                            <input type="radio" id="star3" name="rating" value="3"/><label class="full"
-                                                                                           for="star3"
-                                                                                           title="Meh - 3 stars"></label>
+                            <input type="radio" id="star3" name="rating" value="3" <?= $disabled ?>/><label class="full"
+                                                                                                            for="star3"
+                                                                                                            title="Meh - 3 stars"></label>
                             <!--                                    <input type="radio" id="star2half" name="rating" value="2 and a half"/><label-->
                             <!--                                            class="half"-->
                             <!--                                            for="star2half"-->
                             <!--                                            title="Kinda bad - 2.5 stars"></label>-->
-                            <input type="radio" id="star2" name="rating" value="2"/><label class="full"
-                                                                                           for="star2"
-                                                                                           title="Kinda bad - 2 stars"></label>
+                            <input type="radio" id="star2" name="rating" value="2" <?= $disabled ?>/><label class="full"
+                                                                                                            for="star2"
+                                                                                                            title="Kinda bad - 2 stars"></label>
                             <!--                                    <input type="radio" id="star1half" name="rating" value="1 and a half"/><label-->
                             <!--                                            class="half"-->
                             <!--                                            for="star1half"-->
                             <!--                                            title="Meh - 1.5 stars"></label>-->
-                            <input type="radio" id="star1" name="rating" value="1"/><label class="full"
-                                                                                           for="star1"
-                                                                                           title="Sucks big time - 1 star"></label>
+                            <input type="radio" id="star1" name="rating" value="1" <?= $disabled ?>/><label class="full"
+                                                                                                            for="star1"
+                                                                                                            title="Sucks big time - 1 star"></label>
                             <!--                                    <input type="radio" id="starhalf" name="rating" value="half"/><label-->
                             <!--                                            class="half"-->
                             <!--                                            for="starhalf"-->
@@ -191,10 +205,12 @@ require(SITE_PATH . "mv-content/header.php");
 
                         <div class="input-group textarea-height">
                     <textarea id="review" class="form-control"
-                              aria-label="Add Your Review"></textarea>
+                              aria-label="Add Your Review" <?= $disabled ?>></textarea>
                         </div>
                         <button id="add-review" onclick="updateReview()"
-                                class="btn btn-primary input-group-text">
+                                class="btn btn-primary input-group-text"
+                            <?= $disabled ?>
+                        >
                             Add Your Review
                         </button>
                     </div>
