@@ -2,6 +2,7 @@
 
 //check session if any user is logged in
 if(isset($_SESSION['username'])){
+  echo $_SESSION['username'];
   unset($_SESSION['username']);
 }
 //check if any theater is logged in
