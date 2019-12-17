@@ -106,7 +106,7 @@
                 <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown">
                     <strong><?php
                         echo $thr_uname = $_SESSION['thr_uname'];
-                        $thr_id = $gd->getTheaterId($thr_uname);
+                        echo $thr_id = $gd->getTheaterId($thr_uname);
                         $thr_name = $gd->getTheater($thr_id);
                         echo $thr_name;
                         ?></strong></h3></button>
