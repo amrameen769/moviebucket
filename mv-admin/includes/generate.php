@@ -21,7 +21,7 @@ if (isset($_POST['reportid'])) {
             <?php
 
             $selectBooking = "SELECT * FROM tbl_booking GROUP BY thr_id";
-            $resBooking = $exec->query($selectBooking);
+            $resBooking = mysqli_query($dbconn, $selectBooking);
             //print_r($resBooking);
             if (mysqli_num_rows($resBooking)) : ?>
                 <div class="table-responsive">
@@ -41,7 +41,7 @@ if (isset($_POST['reportid'])) {
                             $thr_id = $row['thr_id'];
                             $thr_name = $gd->getTheater($thr_id);
                             $selectPay = "SELECT SUM(book_pay), COUNT(book_pay) FROM tbl_booking WHERE book_status = 1 and thr_id=$thr_id";
-                            $resultPay = $exec->query($selectPay);
+                            $resultPay = mysqli_query($dbconn, $selectPay);
                             if(mysqli_num_rows($resultPay) > 0){
                                 while ($pay = mysqli_fetch_assoc($resultPay)){
                                     $income = $pay['SUM(book_pay)'];
@@ -80,7 +80,7 @@ if (isset($_POST['reportid'])) {
             <?php
             //$date = date('m', mktime(0, 0, 0, 9, 1, 2019)); $selectShow = "SELECT * FROM tbl_showtime WHERE shw_date >= '$date'";
             $selectShow = "SELECT * FROM tbl_showtime";
-            $resShow = $exec->query($selectShow);
+            $resShow = mysqli_query($dbconn, $selectShow);
             if (mysqli_num_rows($resShow) > 0):?>
                 <div class="table-responsive">
                     <table class="table">
