@@ -70,30 +70,6 @@ $screen->editShows($thr_id);
             if (empty($shw_cost)) {
                 array_push($errors, "Please Add Show Cost");
             }
-            $shw_id = '';
-            $shw_status = '';
-
-            $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_id = '$thr_screen_id'
-                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
-            $resShw = mysqli_query($dbconn, $checkShowQuery);
-
-            //$show = new StoreData;
-
-            if (mysqli_num_rows($resShw) > 0) {
-                //echo "There are show ids";
-                $row = mysqli_fetch_assoc($resShw);
-                $shw_id = $row['shw_id'];
-
-                if ($row['shw_status'] == 1) {
-                    array_push($errors, "Show Time already Exists for $thr_uname");
-                    //Checking for Show time already Exists
-                } elseif ($row['shw_status'] == 0) {
-                    $changeStatusQuery = "UPDATE tbl_showtime SET shw_status = TRUE WHERE shw_id = '$shw_id' AND shw_status = 0";
-                    if ($exec->query($changeStatusQuery)) {
-                        array_push($errors, "Show Time Updated");
-                    }
-                }
-            }
 
             require(SITE_PATH . "mv-content/validation.php");
             $validator = new Validation();
@@ -123,6 +99,34 @@ $screen->editShows($thr_id);
                     }
                 }
             }
+
+            $shw_id = '';
+            $shw_status = '';
+
+            if(count($errors) == 0){
+                $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_id = '$thr_screen_id'
+                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
+                $resShw = mysqli_query($dbconn, $checkShowQuery);
+
+                //$show = new StoreData;
+
+                if (mysqli_num_rows($resShw) > 0) {
+                    //echo "There are show ids";
+                    $row = mysqli_fetch_assoc($resShw);
+                    $shw_id = $row['shw_id'];
+
+                    if ($row['shw_status'] == 1) {
+                        array_push($errors, "Show Time already Exists for $thr_uname");
+                        //Checking for Show time already Exists
+                    } elseif ($row['shw_status'] == 0) {
+                        $changeStatusQuery = "UPDATE tbl_showtime SET shw_status = TRUE WHERE shw_id = '$shw_id' AND shw_status = 0";
+                        if ($exec->query($changeStatusQuery)) {
+                            array_push($errors, "Show Time Updated");
+                        }
+                    }
+                }
+            }
+
 
             if (count($errors) == 0) {
                 //$statusQueryA = "SELECT shw_status FROM tbl_shows WHERE shw_id = '$shw_id' AND thr_id = '$thr_id'";
