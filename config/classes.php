@@ -494,7 +494,7 @@ class getData
     {
         //$dbconn = new mysqli('127.0.0.1','amrameen769','7025','db_moviebucket') or die("Couldn't Connect to Database");
         $selectTheater = "SELECT thr_name from tbl_theater WHERE thr_id='$thr_id'";
-        $results = $this->dbconn->query($selectTheater);
+        $results = mysqli_query($dbconn, $selectTheater);
         if (mysqli_num_rows($results) > 0) {
             if ($row = mysqli_fetch_assoc($results)) {
                 $this->thr_name = $row['thr_name'];
