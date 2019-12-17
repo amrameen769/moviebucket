@@ -44,8 +44,36 @@ if (isset($_POST['shw_id'])) {
         array_push($errors, "Please Add Show Cost");
     }
 
+    if (count($errors) == 0) {
+        $checkShowTimeQuery = "SELECT shw_id FROM tbl_showtime WHERE thr_screen_id = '$thr_screen_id'
+                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id' AND shw_status = 1";
+        $resShw = mysqli_query($dbconn, $checkShowTimeQuery);
+        if (mysqli_num_rows($resShw) > 0) {
+            array_push($errors, "Another Show exists in the screen at the same time");
+        }
+    }
+
+    require(SITE_PATH . "mv-content/validation.php");
+    $validator = new Validation();
+
+    $timeInterval = $validator->checkShowIntervalEdit($shw_id, $thr_screen_id, $shw_time, $shw_date);
+    $minInterval = date("H", mktime(4));
+
+//        $timeInterval['bef'];
+//        $timeInterval['aft'];
+//        print_r($timeInterval);
+    if ($timeInterval['bef'] != null) {
+        if ($timeInterval['bef'] < $minInterval) {
+            array_push($errors, "Incomplete Show Exists Before Current Show");
+        }
+    } elseif ($timeInterval['aft'] != null) {
+        if ($timeInterval['aft'] < $minInterval) {
+            array_push($errors, "Current Show May Be Incomplete");
+        }
+    }
+
     $checkShowQuery = "SELECT shw_id,shw_status,thr_id FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_id = '$thr_screen_id'
-                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id' AND shw_cost = $shw_cost";
+                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
     $resShw = mysqli_query($dbconn, $checkShowQuery);
 
     //$show = new StoreData;
@@ -53,33 +81,23 @@ if (isset($_POST['shw_id'])) {
     if (mysqli_num_rows($resShw) > 0) {
         //echo "There are show ids";
         $row = mysqli_fetch_assoc($resShw);
+        $exist_shw_id = $shw_id;
         $shw_id = $row['shw_id'];
 
         if ($row['shw_status'] == 1) {
             array_push($errors, "Show Time with Same Attributes already Exists for $thr_uname");
             //Checking for Show time already Exists
+        } else {
+            $changeStatusEditQuery = "UPDATE tbl_showtime SET shw_status = TRUE WHERE shw_id = '$shw_id' AND shw_status = 0";
+            if ($exec->query($changeStatusEditQuery)) {
+                $changeStatusQuery = "UPDATE tbl_showtime SET shw_status = FALSE WHERE shw_id = '$exist_shw_id' AND shw_status = 1";
+                if($exec->query($changeStatusQuery)){
+                    array_push($errors, "Existing Show Time Updated");
+                }
+            }
         }
     } else {
 //        echo $mv_id ." ". $thr_screen_id ." ". $shw_time ." ". $shw_date ." ". $shw_cost . $shw_id;
-
-        require(SITE_PATH . "mv-content/validation.php");
-        $validator = new Validation();
-        $timeInterval = $validator->checkShowIntervalEdit($shw_id, $thr_screen_id, $shw_time, $shw_date);
-        $minInterval = date("H", mktime(4));
-
-        $timeInterval['bef'];
-        $timeInterval['aft'];
-//        print_r($timeInterval);
-        if ($timeInterval['bef'] != null) {
-            if ($timeInterval['bef'] < $minInterval) {
-                array_push($errors, "Incomplete Show Exists Before Current Show");
-            }
-        } elseif ($timeInterval['aft'] != null) {
-            if ($timeInterval['aft'] < $minInterval) {
-                array_push($errors, "Current Show May Be Incomplete");
-            }
-        }
-
 
         if (count($errors) == 0) {
             $updateShow = $dbconn->query("update tbl_showtime set mv_id = '$mv_id', thr_screen_id = '$thr_screen_id', 
@@ -89,7 +107,7 @@ if (isset($_POST['shw_id'])) {
                 array_push($errors, "No Changes Made");
             } else {
                 array_push($errors, "Show Time Updated"); ?>
-                <button class="btn btn-primary" onclick="window.history.go(-2)">Return</button>
+                <button class="btn btn-primary" onclick="window.history.go(-1)">Return to Show Updates</button>
                 <?php
             }
         }
@@ -195,5 +213,6 @@ if (isset($_SESSION['edit-show-id'])) : ?>
         </div>
     </div>
 <?php endif ?>
+<button class="btn btn-primary" onclick="window.history.go(-1)">Return</button>
 <?php require(SITE_PATH . "mv-content/errors.php");
 require(SITE_PATH . "mv-content/footer.php") ?>

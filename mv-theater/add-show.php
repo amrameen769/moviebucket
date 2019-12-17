@@ -74,36 +74,49 @@ $screen->editShows($thr_id);
             require(SITE_PATH . "mv-content/validation.php");
             $validator = new Validation();
 
-            if (!$validator->checkRelease($mv_id, $shw_date)) {
-                array_push($errors, "The movie is not yet released!");
-            }
-
-            if (!$validator->dateCheck($shw_date)) {
-                array_push($errors, "Show cannot be added on the selected date");
+            if (count($errors) == 0) {
+                $checkShowTimeQuery = "SELECT shw_id FROM tbl_showtime WHERE thr_screen_id = '$thr_screen_id'
+                                    AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id' AND shw_status = 1";
+                $resShw = mysqli_query($dbconn, $checkShowTimeQuery);
+                if (mysqli_num_rows($resShw) > 0) {
+                    array_push($errors, "Another Show exists in the screen at the same time");
+                }
             }
 
             if (count($errors) == 0) {
-                $timeInterval = $validator->checkShowInterval($thr_screen_id, $shw_time, $shw_date);
-                $minInterval = date("H", mktime(4));
+                if (!$validator->checkRelease($mv_id, $shw_date)) {
+                    array_push($errors, "The movie is not yet released!");
+                }
 
-                $timeInterval['bef'];
-                $timeInterval['aft'];
+                if (!$validator->dateCheck($shw_date)) {
+                    array_push($errors, "Show cannot be added on the selected date");
+                }
+
+                if (count($errors) == 0) {
+                    $timeInterval = $validator->checkShowInterval($thr_screen_id, $shw_time, $shw_date);
+                    $minInterval = date("H", mktime(4));
+                    $zeroInterval = date("H", mktime(0));
+
+                    $timeInterval['bef'];
+                    $timeInterval['aft'];
 //            print_r($timeInterval);
-                if ($timeInterval['bef'] != null) {
-                    if ($timeInterval['bef'] < $minInterval) {
-                        array_push($errors, "Incomplete Show Exists Before Current Show");
-                    }
-                } elseif ($timeInterval['aft'] != null) {
-                    if ($timeInterval['aft'] < $minInterval) {
-                        array_push($errors, "Current Show May Be Incomplete");
+                    if ($timeInterval['bef'] != null) {
+                        if ($timeInterval['bef'] < $minInterval) {
+                            array_push($errors, "Incomplete Show Exists Before Current Show");
+                        }
+                    } elseif ($timeInterval['aft'] != null) {
+                        if ($timeInterval['aft'] < $minInterval) {
+                            array_push($errors, "Current Show May Be Incomplete");
+                        }
                     }
                 }
             }
 
+
             $shw_id = '';
             $shw_status = '';
 
-            if(count($errors) == 0){
+            if (count($errors) == 0) {
                 $checkShowQuery = "SELECT shw_id,shw_status FROM tbl_showtime WHERE mv_id = '$mv_id' AND thr_screen_id = '$thr_screen_id'
                                     AND shw_time = '$shw_time' AND shw_date = '$shw_date' AND thr_id='$thr_id'";
                 $resShw = mysqli_query($dbconn, $checkShowQuery);
