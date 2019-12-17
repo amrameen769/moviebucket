@@ -125,7 +125,15 @@ ob_start() ?>
                                 <td>
                                     <?php
                                     $get = new getData;
-                                    echo $get->getTheater($movie['thr_id']);
+                                    $selectTheater = "SELECT thr_name from tbl_theater WHERE thr_id='$thr_id'";
+                                    $results = mysqli_query($dbconn, $selectTheater);
+                                    if (mysqli_num_rows($results) > 0) {
+                                        if ($row = mysqli_fetch_assoc($results)) {
+                                            $thr_name = $row['thr_name'];
+                                        }
+                                    }
+                                    echo $thr_name;
+                                    // echo $get->getTheater($movie['thr_id']);
                                     ?>
                                 </td>
                                 <td>
