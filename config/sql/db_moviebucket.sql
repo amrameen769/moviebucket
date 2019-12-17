@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2019 at 07:52 PM
+-- Generation Time: Dec 16, 2019 at 10:04 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -146,7 +146,14 @@ INSERT INTO `tbl_booking` (`book_id`, `user_id`, `shw_id`, `screen_seat_id`, `bo
 (86, 12, 3, 'redcarpetcarn2-92', '2019-12-13 20:30:18', 100, 2, 5),
 (87, 12, 3, 'redcarpetcarn2-93', '2020-01-12 20:30:18', 100, 2, 5),
 (92, 12, 7, 'casanova1-5', '2019-12-14 14:27:20', 230, 1, 1),
-(93, 12, 7, 'casanova1-6', '2019-12-14 14:27:20', 230, 0, 1);
+(93, 12, 7, 'casanova1-6', '2019-12-14 14:27:20', 230, 0, 1),
+(97, 7, 28, 'aries7881-71', '2019-12-15 23:28:42', 200, 1, 3),
+(98, 7, 28, 'aries7881-72', '2019-12-15 23:28:42', 200, 0, 3),
+(99, 7, 28, 'aries7881-73', '2019-12-15 23:28:42', 200, 0, 3),
+(100, 7, 28, 'aries7881-75', '2019-12-15 23:30:31', 200, 0, 3),
+(101, 7, 28, 'aries7881-76', '2019-12-15 23:30:31', 200, 1, 3),
+(102, 12, 7, 'casanova1-7', '2019-12-17 02:26:35', 230, 1, 1),
+(103, 12, 7, 'casanova1-8', '2019-12-17 02:26:35', 230, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -192,10 +199,19 @@ INSERT INTO `tbl_movie` (`mv_id`, `mv_name`, `mv_hero`, `mv_heroine`, `mv_lang`,
 
 CREATE TABLE `tbl_review` (
   `rvw_id` int(10) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `mv_id` int(10) NOT NULL,
   `mv_review` text NOT NULL,
-  `mv_rating` tinyint(1) NOT NULL
+  `mv_rating` tinyint(1) NOT NULL,
+  `review_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_review`
+--
+
+INSERT INTO `tbl_review` (`rvw_id`, `user_id`, `mv_id`, `mv_review`, `mv_rating`, `review_date`) VALUES
+(1, 12, 2, 'Nice Movie From Marvel, We Appreciate your efforts Tom Holland', 5, '2019-12-17');
 
 -- --------------------------------------------------------
 
@@ -240,7 +256,12 @@ INSERT INTO `tbl_screens` (`def_screen_id`, `thr_id`, `thr_screen_id`, `seat_num
 (21, 6, 'kavitha2', 0, 'Screen-2', 0),
 (22, 7, '7max1', 0, 'Screen-1', 0),
 (23, 7, '7max2', 0, 'Screen-2', 0),
-(24, 7, '7max3', 0, 'Screen-3', 0);
+(24, 7, '7max3', 0, 'Screen-3', 0),
+(25, 8, 'san6661', 0, 'Screen-1', 0),
+(26, 8, 'san6662', 0, 'Screen-2', 0),
+(27, 8, 'san6663', 0, 'Screen-3', 0),
+(28, 8, 'san6664', 0, 'Screen-4', 0),
+(29, 8, 'san6665', 0, 'Screen-5', 0);
 
 -- --------------------------------------------------------
 
@@ -1360,12 +1381,14 @@ INSERT INTO `tbl_showtime` (`shw_id`, `mv_id`, `shw_time`, `thr_id`, `thr_screen
 (7, 9, '10:00:00', 1, 'casanova1', '2020-05-01', 230, 1),
 (8, 1, '14:00:00', 2, 'carnival3901', '2019-12-17', 100, 1),
 (10, 3, '10:00:00', 1, 'casanova1', '2019-09-10', 180.26, 0),
-(19, 2, '07:00:00', 3, 'aries7881', '2019-12-15', 200, 1),
-(21, 5, '03:00:00', 3, 'aries7881', '2019-12-15', 200, 1),
-(23, 6, '12:45:00', 3, 'aries7881', '2019-12-15', 170, 1),
-(24, 6, '16:45:00', 3, 'aries7881', '2019-12-15', 180, 1),
-(25, 5, '07:00:00', 3, 'aries7882', '2019-12-15', 180, 1),
-(26, 6, '07:00:00', 3, 'aries7881', '2019-12-16', 200, 1);
+(19, 2, '07:00:00', 3, 'aries7881', '2019-12-15', 200, 0),
+(21, 5, '03:00:00', 3, 'aries7881', '2019-12-15', 200, 0),
+(23, 6, '12:45:00', 3, 'aries7881', '2019-12-15', 170, 0),
+(24, 6, '16:45:00', 3, 'aries7881', '2019-12-15', 180, 0),
+(25, 5, '07:00:00', 3, 'aries7882', '2019-12-15', 180, 0),
+(26, 6, '07:00:00', 3, 'aries7881', '2019-12-16', 200, 1),
+(27, 2, '11:00:00', 3, 'aries7881', '2019-12-16', 201, 1),
+(28, 9, '09:00:00', 3, 'aries7881', '2020-05-01', 200, 1);
 
 -- --------------------------------------------------------
 
@@ -1399,7 +1422,7 @@ INSERT INTO `tbl_theater` (`thr_id`, `thr_name`, `thr_uname`, `thr_pasd`, `thr_p
 (5, 'Carnival RedCarpet', 'redcarpetcarn', '7c0ac50e95a235bea887b7a50df55346', 7845123654, 'redcarpetcarnival@outlook.com', 5, 'Kariyad', 1, '', 'ACTIVE'),
 (6, 'Kavitha Screens', 'kavitha', 'e533230c983503026fc4c142c1d55c9c', 7412589630, 'kavitha123@gmail.com', 2, 'Ernakulam', 0, '', 'ACTIVE'),
 (7, '7Max Theaters', '7max', 'f35fe3a9044bc0b5a51d43d4de50007f', 9874563210, 'sevenmax@gmail.com', 3, 'Kochi', 1, '', 'ACTIVE'),
-(8, 'San Screens', 'san666', '0b2994d4c7e7790b1b0b60097441e3ad', 8943199646, 'andrewssan666@gmail.com', 5, 'Moscow', 0, '8b1bd2ddfe4d0a6db8b808cfeece64fa', 'ACTIVE');
+(8, 'San Screens', 'san666', '81dc9bdb52d04dc20036dbd8313ed055', 8943199646, 'andrewssan666@gmail.com', 5, 'Moscow', 1, '3f0af68659d29624c5801edc0477afbc', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -1435,7 +1458,7 @@ INSERT INTO `tbl_user` (`user_id`, `user_name`, `user_uname`, `user_pasd`, `user
 (9, 'Arjun AR', 'bumblebee', '0157f36cc315a161a86b1f9e0c74040d', 'rithwikdancer@gmail.com', 9497188345, 'enduser', NULL, 'ACTIVE'),
 (10, 'Ajesh', 'ajeshta', 'b9d4ee1c44ab7b696da717780426cea6', 'ajeshta02@gmail.com', 9995429368, 'enduser', NULL, 'ACTIVE'),
 (11, 'Nandana Haridas', 'nandu', '4bca8cbee888c6a23e206e7e53f9933d', 'nanduharidas0101@gmail.com', 9400854543, 'enduser', NULL, 'ACTIVE'),
-(12, 'Ameen', 'amrameen', '0b2994d4c7e7790b1b0b60097441e3ad', 'amrameen769@depaul.edu.in', 7025886445, 'enduser', 'a953a4410fdbcee14fdff378c5260710', 'ACTIVE');
+(12, 'Ameen', 'amrameen', '5bec5cd2b7d24b4f7f15e514bf63e2b6', 'amrameen769@depaul.edu.in', 7025886445, 'enduser', '1aa5fe42ebf6aa224e428235c10d4110', 'ACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -1500,7 +1523,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_booking`
 --
 ALTER TABLE `tbl_booking`
-  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `tbl_movie`
@@ -1512,13 +1535,13 @@ ALTER TABLE `tbl_movie`
 -- AUTO_INCREMENT for table `tbl_review`
 --
 ALTER TABLE `tbl_review`
-  MODIFY `rvw_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `rvw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_screens`
 --
 ALTER TABLE `tbl_screens`
-  MODIFY `def_screen_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `def_screen_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `tbl_seats`
@@ -1530,7 +1553,7 @@ ALTER TABLE `tbl_seats`
 -- AUTO_INCREMENT for table `tbl_showtime`
 --
 ALTER TABLE `tbl_showtime`
-  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_theater`
