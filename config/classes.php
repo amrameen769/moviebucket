@@ -42,7 +42,7 @@ class Booking
 
     function bookingDetails($user_id)
     {
-        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id' ORDER BY book_status DESC";
+        $selectBookDetails = "SELECT book_id,screen_seat_id,shw_id,book_date,book_status FROM tbl_booking WHERE user_id='$user_id' ORDER BY book_id DESC";
         $bookingDetails = array();
         $resBookDetails = $this->dbconn->query($selectBookDetails);
         while ($row = mysqli_fetch_assoc($resBookDetails)) {
