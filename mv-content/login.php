@@ -68,7 +68,7 @@
                             } else {
                                 if ($row['user_type'] == 'admin') {
                                     $_SESSION['user_type'] = "admin";
-                                    header("location:../mv-admin/");#To Admin PAge
+                                    header("location:../mv-admin/home.php");#To Admin PAge
                                 } else if ($row['user_type'] == 'enduser') {
                                     $_SESSION['user_type'] = "enduser";
                                     header("location:../mv-enduser/home.php");#To User Home

@@ -1,12 +1,13 @@
 <?php
 
+require ("db.php");
 class Booking
 {
     private $dbconn;
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
     }
 
     function cancelBooking($shw_id){
@@ -98,7 +99,8 @@ class Screens
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        // $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
     }
 
     function editShows($thr_id)
@@ -267,7 +269,8 @@ class MovieBook
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
+        // $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
     function editMovie($thr_id){
@@ -354,7 +357,8 @@ class Secure
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
+        // $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
     function checkTSign()
@@ -408,7 +412,8 @@ class RemoveData
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
+        // $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
     function removeShow($thr_id)
@@ -484,7 +489,8 @@ class getData
 
     function __construct()
     {
-        $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
+        $this->dbconn = new mysqli($server, $username, $password, $dbname) or die("Couldn't Connect to Database");
+        // $this->dbconn = new mysqli('127.0.0.1', 'amrameen769', '7025', 'db_moviebucket') or die("Couldn't Connect to Database");
     }
 
     public $thr_name;
