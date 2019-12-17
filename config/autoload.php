@@ -1,7 +1,7 @@
 <?php
 //Project Path
-define("SITE_URL","https://moviebucket.com/");
-define("SITE_PATH","C:/xampp/htdocs/moviebucket/");
+define("SITE_URL","https://moviebucket-app.herokuapp.com/");
+define("SITE_PATH","/app/");
 
 //Time Zone
 date_default_timezone_set('Asia/Kolkata');
