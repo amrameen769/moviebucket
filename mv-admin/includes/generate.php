@@ -8,7 +8,7 @@ if (isset($_POST['reportid'])) {
     $report_id = $_POST['reportid'];
     ob_start();
     if ($report_id == 'annual') : ?>
-        <div>
+        <div class="animated fadeInDown delay-02s">
             <div class="highlight-blue">
                 <div class="container">
                     <div class="intro">
@@ -40,7 +40,7 @@ if (isset($_POST['reportid'])) {
                             <?php
                             $thr_id = $row['thr_id'];
                             $thr_name = $gd->getTheater($thr_id);
-                            $selectPay = "SELECT SUM(book_pay), COUNT(book_pay) FROM tbl_booking WHERE book_status = 1 and thr_id=$thr_id";
+                            $selectPay = "SELECT SUM(book_pay), COUNT(book_pay) FROM tbl_booking WHERE book_status = 1 or book_status=2 and thr_id=$thr_id";
                             $resultPay = $exec->query($selectPay);
                             if(mysqli_num_rows($resultPay) > 0){
                                 while ($pay = mysqli_fetch_assoc($resultPay)){
@@ -67,7 +67,7 @@ if (isset($_POST['reportid'])) {
 
     <?php elseif ($report_id == 'show') : ?>
 
-        <div>
+        <div class="animated fadeInDown delay-02s">
             <div class="highlight-blue">
                 <div class="container">
                     <div class="intro">

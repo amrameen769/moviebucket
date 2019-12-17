@@ -25,7 +25,7 @@ if (count($shows) == 0) : ?>
     <div class="jumbotron text-center" id="not-found"><h1>No Shows Found!</h1></div>
 <?php exit(0); endif;
 ?>
-<div class="row row-margin">
+<div class="row row-margin animated fadeInDown delay-02s">
 
     <?php
     if (is_array($shows)) : ?>

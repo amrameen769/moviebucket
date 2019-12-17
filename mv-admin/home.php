@@ -27,14 +27,14 @@ if (isset($_GET['logout'])) {
 <!--Header-->
 <?php //require(SITE_PATH."mv-content/header.php"); ?>
 <?php if (isset($_SESSION['success'])) : ?>
-<!--    <div class="">-->
-<!--        <h3>-->
-<!--            --><?php
+    <!--    <div class="">-->
+    <!--        <h3>-->
+    <!--            --><?php
 //            //echo $_SESSION['success'];
 //            //unset($_SESSION['success']);
 //            ?>
-<!--        </h3>-->
-<!--    </div>-->
+    <!--        </h3>-->
+    <!--    </div>-->
 <?php endif ?>
 
 <!--if Admin logged in Successfully-->
@@ -93,74 +93,81 @@ if (isset($_GET['logout'])) {
                         </div>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-info py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Pending Theater Requests</span>
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3">
+                        <a style="text-decoration: none;" href="<?= SITE_URL . "mv-admin/includes/thr-requests.php" ?>">
+                            <div class="card shadow border-left-info py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col mr-2">
+                                            <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Pending Theater Requests</span>
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3">
                                                             <span>
                                                                 <?php
                                                                 $get = new getData;
                                                                 echo $get->getNumReqs(2);
                                                                 ?>
                                                             </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-info"
-                                                         aria-valuenow="<?= $get->getNumReqs(2) ?>" aria-valuemin="0"
-                                                         aria-valuemax="100"
-                                                         style="width: <?= $get->getNumReqs(2) ?>%;"><span
-                                                                class="sr-only"></span></div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-info"
+                                                             aria-valuenow="<?= $get->getNumReqs(2) ?>"
+                                                             aria-valuemin="0"
+                                                             aria-valuemax="100"
+                                                             style="width: <?= $get->getNumReqs(2) ?>%;"><span
+                                                                    class="sr-only"></span></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-warning py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Pending Movie Requests</span>
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3">
+                        <a style="text-decoration: none;" href="<?= SITE_URL . "mv-admin/includes/mv-requests.php" ?>">
+                            <div class="card shadow border-left-warning py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col mr-2">
+                                            <div class="text-uppercase text-warning font-weight-bold text-xs mb-1">
+                                                <span>Pending Movie Requests</span>
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3">
                                                             <span>
                                                                 <?php
                                                                 //$get = new getData;
                                                                 echo $get->getNumReqs(1);
                                                                 ?>
                                                             </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-info"
-                                                         aria-valuenow="<?= $get->getNumReqs(1) ?>" aria-valuemin="0"
-                                                         aria-valuemax="100"
-                                                         style="width: <?= $get->getNumReqs(1) ?>%;"><span
-                                                                class="sr-only"></span></div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-info"
+                                                             aria-valuenow="<?= $get->getNumReqs(1) ?>"
+                                                             aria-valuemin="0"
+                                                             aria-valuemax="100"
+                                                             style="width: <?= $get->getNumReqs(1) ?>%;"><span
+                                                                    class="sr-only"></span></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="row">

@@ -77,8 +77,8 @@ $user_id = $gd->returnUserID($_SESSION['username']);
         $reviewDetails = $gd->selectReviews($mv_id);
 
         if (empty($reviewDetails)) : ?>
-            <div class="jumbotron text-center" id="not-found"><h1>No Reviews Found!</h1></div>
-            <div class="textarea-height">
+            <div class="jumbotron text-center animated fadeInDown delay-02s" id="not-found"><h1>No Reviews Found!</h1></div>
+            <div class="textarea-height animated fadeInDown delay-02s">
                 <fieldset class="rating">
                     <span class="heading">Your Rating</span>
                     <input type="radio" id="star5" name="rating" value="5" <?= $disabled ?>/><label class="full"
@@ -130,14 +130,14 @@ $user_id = $gd->returnUserID($_SESSION['username']);
                 </button>
             </div>
         <?php else : ?>
-            <div class="row">
+            <div class="row animated fadeInDown delay-02s">
                 <div class="col">
                     <div class="col-lg-auto margin-post">
                         <?php $i = 0;
                         $rating = 0; ?>
                         <span class="heading">User Reviews</span>
                         <?php foreach ($reviewDetails as $reviewDetail) : ?>
-                            <div class="review-margin">
+                            <div class="review-margin animated fadeInDown delay-02s">
                                 <h3><?= $reviewDetail['mv_name'] . " Review: #" . ++$i ?></h3>
                                 <div class="info"><span
                                             class="text-muted"><?= $reviewDetail['user_name'] . " on " . $reviewDetail['date'] ?></span>

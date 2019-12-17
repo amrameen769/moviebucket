@@ -41,7 +41,7 @@ $seat_number = $screen->returnScreenSeats($thr_screen_id);
             </div>
         </div>
     </div>
-    <div>
+    <div class="animated fadeInDown delay-02s">
         <div id="confirm-book" class="seat-layout mx-auto d-block">
             <table class="container-fluid table">
                 <tr>

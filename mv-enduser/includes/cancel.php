@@ -13,4 +13,4 @@ foreach ($cancels as $cancel){
 require (SITE_PATH."mv-content/errors.php");
 ?>
 
-<div class="btn btn-primary" onclick="window.history.back()">Return</div>
+<div class="btn btn-primary animated fadeInDown delay-02s" onclick="window.history.go(-2)">Return</div>

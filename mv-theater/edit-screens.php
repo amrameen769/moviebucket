@@ -11,9 +11,9 @@ $screen = new Screens;
 $status = $screen->checkScreenInitial($thr_id);
 ?>
 <?php if (!$status) : ?>
-    <form class="col- col-sm col-md col-lg col-xl form-movie mx-auto d-block">
+    <form class="col- col-sm col-md col-lg col-xl form-movie mx-auto d-block animated fadeInDown delay-02s">
         <div class="add-info table-responsive">
-            <label class="btn btn-danger" id="InitializeScreens">
+            <label class="heading" id="InitializeScreens">
                 Initialize Screens
             </label>
             <table class="table">

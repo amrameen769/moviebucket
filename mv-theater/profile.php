@@ -31,12 +31,12 @@ $thr_screens = $gd->getScreenDetails($thr_id);
         <li class="nav-item">
             <button id ="screens" class="btn nav-link btn-primary" value="<?=$thr_id?>">Screens</button>
         </li>
-        <li class="nav-item">
-            <button id ="details" class="btn nav-link btn-primary" value="<?=$thr_id?>">Theater Details</button>
-        </li>
-        <li class="nav-item">
-            <button id ="contact" class="btn nav-link btn-primary" value="<?=$thr_id?>">Contact</button>
-        </li>
+<!--        <li class="nav-item">-->
+<!--            <button id ="details" class="btn nav-link btn-primary" value="--><?//=$thr_id?><!--">Theater Details</button>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <button id ="contact" class="btn nav-link btn-primary" value="--><?//=$thr_id?><!--">Contact</button>-->
+<!--        </li>-->
     </ul>
 </div>
 <div id="settings">

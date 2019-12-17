@@ -41,7 +41,7 @@ $mail_body = $mail_body . "<p><h4>Seats Booked</h4>";
 if(count($selected_seats) == 0) : ?>
 <div class="jumbotron text-center" id="not-found"><h1>No Seats Selected!</h1></div>
 <?php exit(0); endif; ?>
-<div class="container-fluid">
+<div class="container-fluid animated fadeInDown delay-02s">
     <div class="card shadow border-left-info py-2">
         <div class="container">
             <h3>Selected Seats</h3>

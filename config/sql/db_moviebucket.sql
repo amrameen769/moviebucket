@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2019 at 10:04 PM
+-- Generation Time: Dec 17, 2019 at 10:28 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -145,15 +145,33 @@ INSERT INTO `tbl_booking` (`book_id`, `user_id`, `shw_id`, `screen_seat_id`, `bo
 (85, 12, 3, 'redcarpetcarn2-91', '2019-12-13 20:30:18', 100, 2, 5),
 (86, 12, 3, 'redcarpetcarn2-92', '2019-12-13 20:30:18', 100, 2, 5),
 (87, 12, 3, 'redcarpetcarn2-93', '2020-01-12 20:30:18', 100, 2, 5),
-(92, 12, 7, 'casanova1-5', '2019-12-14 14:27:20', 230, 1, 1),
+(92, 12, 7, 'casanova1-5', '2019-12-14 14:27:20', 230, 0, 1),
 (93, 12, 7, 'casanova1-6', '2019-12-14 14:27:20', 230, 0, 1),
-(97, 7, 28, 'aries7881-71', '2019-12-15 23:28:42', 200, 1, 3),
+(97, 7, 28, 'aries7881-71', '2019-12-15 23:28:42', 200, 0, 3),
 (98, 7, 28, 'aries7881-72', '2019-12-15 23:28:42', 200, 0, 3),
 (99, 7, 28, 'aries7881-73', '2019-12-15 23:28:42', 200, 0, 3),
 (100, 7, 28, 'aries7881-75', '2019-12-15 23:30:31', 200, 0, 3),
-(101, 7, 28, 'aries7881-76', '2019-12-15 23:30:31', 200, 1, 3),
-(102, 12, 7, 'casanova1-7', '2019-12-17 02:26:35', 230, 1, 1),
-(103, 12, 7, 'casanova1-8', '2019-12-17 02:26:35', 230, 1, 1);
+(101, 7, 28, 'aries7881-76', '2019-12-15 23:30:31', 200, 0, 3),
+(102, 12, 7, 'casanova1-7', '2019-12-17 02:26:35', 230, 0, 1),
+(103, 12, 7, 'casanova1-8', '2019-12-17 02:26:35', 230, 0, 1),
+(104, 13, 26, 'aries7881-14', '2019-12-17 09:05:02', 200, 2, 3),
+(105, 12, 27, 'aries7881-72', '2019-12-17 17:49:13', 201, 2, 3),
+(106, 12, 27, 'aries7881-73', '2019-12-17 17:49:13', 201, 2, 3),
+(107, 12, 27, 'aries7881-74', '2019-12-17 17:49:13', 201, 2, 3),
+(108, 12, 27, 'aries7881-103', '2019-12-17 17:49:13', 201, 2, 3),
+(109, 12, 27, 'aries7881-120', '2019-12-17 17:49:13', 201, 2, 3),
+(110, 4, 37, 'aries7882-38', '2019-12-18 02:19:14', 78, 1, 3),
+(111, 4, 37, 'aries7882-39', '2019-12-18 02:19:14', 78, 0, 3),
+(112, 4, 38, 'aries7881-43', '2019-12-18 02:20:15', 75, 0, 3),
+(113, 4, 38, 'aries7881-44', '2019-12-18 02:20:15', 75, 1, 3),
+(114, 4, 38, 'aries7881-103', '2019-12-18 02:22:00', 75, 1, 3),
+(115, 4, 38, 'aries7881-104', '2019-12-18 02:22:00', 75, 1, 3),
+(116, 4, 38, 'aries7881-105', '2019-12-18 02:22:00', 75, 1, 3),
+(117, 2, 38, 'aries7881-73', '2019-12-18 02:31:42', 75, 0, 3),
+(118, 2, 38, 'aries7881-74', '2019-12-18 02:31:42', 75, 0, 3),
+(119, 12, 37, 'aries7882-42', '2019-12-18 02:46:17', 78, 1, 3),
+(120, 12, 37, 'aries7882-43', '2019-12-18 02:46:17', 78, 1, 3),
+(121, 12, 37, 'aries7882-44', '2019-10-17 02:46:17', 78, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -186,7 +204,7 @@ INSERT INTO `tbl_movie` (`mv_id`, `mv_name`, `mv_hero`, `mv_heroine`, `mv_lang`,
 (3, 'Mamangam', 'Mammootty', 'Anu Sithara', 'Malayalam', 'M. Padmakumar', 'Kavya Films', '2019-10-31', '43b380b1c064dd973af305c3b14341f5.jpg', 1, 1, 0),
 (4, 'KGF 2', 'Yash', 'Amira', 'Kannada', 'Prashanth Neel', 'Yash Rangineni', '2020-01-14', '7fdc1a630c238af0815181f9faa190f5.jpg', 1, 1, 0),
 (5, 'Love Action Drama', 'Nivin Pauly', 'Nayanthara', 'Malayalam', 'Dhyaan Shreenivasan', 'Aju Varghese', '2019-09-05', '7338ab04e198911e6ec3d027180b7011.jpg', 5, 1, 1),
-(6, 'Ala Vaikunthapurramloo', 'Allu Arjun', 'Pooja Hegde', 'Telugu', 'Trivikram Srinivas', 'Allu Aravind', '2020-01-13', '5bef0fdde53e3c226244312d50c20df4.jpg', 3, 1, 1),
+(6, 'Ala Vaikunthapurramloo', 'Allu Arjun', 'Pooja Hegde', 'Telugu', 'Trivikram Srinivas', 'Allu Aravind', '2020-01-13', '5bef0fdde53e3c226244312d50c20df4.jpg', 3, 1, 0),
 (7, 'Darbar', 'Rajinikanth', 'Nayanthara', 'Tamil', 'AR Murugadoss', ' Lyca Productions', '2020-01-15', '50633652d4ac2283260f8bd39bd4fb55.jpg', 3, 1, 0),
 (8, 'Pattas', 'Dhanush Aishwarya', 'Mehreen Pirzada', 'Tamil', 'R. S. Durai Senthilkumar', 'Sathya Jyothi Films', '2020-01-14', '504bcbff5a0c35135503bf55708fc88d.jpg', 3, 1, 0),
 (9, 'Black Widow', 'Scarlett Johansson', 'David Harbour', 'English', 'Cate Shortland', 'Marvel Studios', '2020-05-01', '9ab6adfcb124387703b33e45958235cf.jpg', 3, 1, 1);
@@ -211,7 +229,17 @@ CREATE TABLE `tbl_review` (
 --
 
 INSERT INTO `tbl_review` (`rvw_id`, `user_id`, `mv_id`, `mv_review`, `mv_rating`, `review_date`) VALUES
-(1, 12, 2, 'Nice Movie From Marvel, We Appreciate your efforts Tom Holland', 5, '2019-12-17');
+(1, 12, 2, 'Nice Movie From Marvel, We Appreciate your efforts Tom Holland', 5, '2019-12-17'),
+(2, 4, 5, 'Wowww', 3, '2019-12-17'),
+(3, 10, 2, 'Amazing Spiderman - Ironman Combo', 3, '2019-12-18'),
+(4, 12, 5, 'Lovely Onam Block Buster', 3, '2019-12-18'),
+(5, 7, 5, 'Average', 3, '2019-12-18'),
+(6, 7, 2, 'Tom Holland Love', 4, '2019-12-18'),
+(7, 11, 5, 'Onam is Gone - Ichayan Love', 5, '2019-12-18'),
+(8, 11, 2, 'Superhero movies - Yeah Goood', 3, '2019-12-18'),
+(9, 4, 2, 'Love this Movie', 5, '2019-12-18'),
+(10, 10, 5, 'Good Movie', 4, '2019-12-18'),
+(11, 2, 2, 'Far From Home is Far Better', 5, '2019-12-18');
 
 -- --------------------------------------------------------
 
@@ -1379,16 +1407,23 @@ INSERT INTO `tbl_showtime` (`shw_id`, `mv_id`, `shw_time`, `thr_id`, `thr_screen
 (4, 4, '14:00:00', 5, 'redcarpetcarn1', '2019-09-28', 250.26, 0),
 (5, 5, '17:00:00', 5, 'redcarpetcarn2', '2019-10-11', 146.66, 0),
 (7, 9, '10:00:00', 1, 'casanova1', '2020-05-01', 230, 1),
-(8, 1, '14:00:00', 2, 'carnival3901', '2019-12-17', 100, 1),
+(8, 1, '14:00:00', 2, 'carnival3901', '2019-12-17', 100, 0),
 (10, 3, '10:00:00', 1, 'casanova1', '2019-09-10', 180.26, 0),
 (19, 2, '07:00:00', 3, 'aries7881', '2019-12-15', 200, 0),
 (21, 5, '03:00:00', 3, 'aries7881', '2019-12-15', 200, 0),
 (23, 6, '12:45:00', 3, 'aries7881', '2019-12-15', 170, 0),
 (24, 6, '16:45:00', 3, 'aries7881', '2019-12-15', 180, 0),
 (25, 5, '07:00:00', 3, 'aries7882', '2019-12-15', 180, 0),
-(26, 6, '07:00:00', 3, 'aries7881', '2019-12-16', 200, 1),
-(27, 2, '11:00:00', 3, 'aries7881', '2019-12-16', 201, 1),
-(28, 9, '09:00:00', 3, 'aries7881', '2020-05-01', 200, 1);
+(26, 6, '07:00:00', 3, 'aries7881', '2019-12-16', 200, 0),
+(27, 2, '11:00:00', 3, 'aries7881', '2019-12-16', 201, 0),
+(28, 9, '09:00:00', 3, 'aries7881', '2020-05-01', 200, 0),
+(30, 9, '12:30:00', 3, 'aries7881', '2020-05-01', 200, 1),
+(31, 6, '09:30:00', 3, 'aries7882', '2020-05-01', 100, 0),
+(32, 6, '10:00:00', 3, 'aries7882', '2020-05-02', 400, 0),
+(33, 9, '14:30:00', 3, 'aries7881', '2020-05-01', 200, 0),
+(34, 9, '14:30:00', 3, 'aries7882', '2020-05-01', 140, 0),
+(37, 5, '13:30:00', 3, 'aries7882', '2020-05-01', 78, 1),
+(38, 5, '16:30:00', 3, 'aries7881', '2020-05-01', 75, 1);
 
 -- --------------------------------------------------------
 
@@ -1458,7 +1493,8 @@ INSERT INTO `tbl_user` (`user_id`, `user_name`, `user_uname`, `user_pasd`, `user
 (9, 'Arjun AR', 'bumblebee', '0157f36cc315a161a86b1f9e0c74040d', 'rithwikdancer@gmail.com', 9497188345, 'enduser', NULL, 'ACTIVE'),
 (10, 'Ajesh', 'ajeshta', 'b9d4ee1c44ab7b696da717780426cea6', 'ajeshta02@gmail.com', 9995429368, 'enduser', NULL, 'ACTIVE'),
 (11, 'Nandana Haridas', 'nandu', '4bca8cbee888c6a23e206e7e53f9933d', 'nanduharidas0101@gmail.com', 9400854543, 'enduser', NULL, 'ACTIVE'),
-(12, 'Ameen', 'amrameen', '5bec5cd2b7d24b4f7f15e514bf63e2b6', 'amrameen769@depaul.edu.in', 7025886445, 'enduser', '1aa5fe42ebf6aa224e428235c10d4110', 'ACTIVE');
+(12, 'Ameen', 'amrameen', '5bec5cd2b7d24b4f7f15e514bf63e2b6', 'amrameen769@depaul.edu.in', 7025886445, 'enduser', '1aa5fe42ebf6aa224e428235c10d4110', 'ACTIVE'),
+(13, 'Mithun Kumar M', 'mithunkumarm', '33a2f81445433fb77074973534d7f186', 'mithunkumarm@depaul.edu.in', 8086199621, 'enduser', 'aa3899ebb42915cf64a832f61eac452e', 'ACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -1480,7 +1516,8 @@ ALTER TABLE `tbl_movie`
 -- Indexes for table `tbl_review`
 --
 ALTER TABLE `tbl_review`
-  ADD PRIMARY KEY (`rvw_id`);
+  ADD PRIMARY KEY (`rvw_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_screens`
@@ -1523,7 +1560,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_booking`
 --
 ALTER TABLE `tbl_booking`
-  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `book_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `tbl_movie`
@@ -1535,7 +1572,7 @@ ALTER TABLE `tbl_movie`
 -- AUTO_INCREMENT for table `tbl_review`
 --
 ALTER TABLE `tbl_review`
-  MODIFY `rvw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `rvw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_screens`
@@ -1553,7 +1590,7 @@ ALTER TABLE `tbl_seats`
 -- AUTO_INCREMENT for table `tbl_showtime`
 --
 ALTER TABLE `tbl_showtime`
-  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `shw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tbl_theater`
@@ -1565,7 +1602,7 @@ ALTER TABLE `tbl_theater`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 DELIMITER $$
 --
