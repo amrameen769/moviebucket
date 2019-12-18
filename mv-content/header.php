@@ -93,11 +93,6 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                   </div>
                 </li>-->
-
-                <!--<form class="form-inline my-2 my-lg-0">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
                 <?php if (isset($_SESSION['user_type'])) : ?>
                 <?php if ($_SESSION['user_type'] == "theater") : ?>
 
@@ -138,6 +133,10 @@
                     <a class="nav-link" href="<?= SITE_URL ?>mv-enduser/cancel-tickets.php">Bookings</a>
                 </li>
                 </ul>
+                <form class="form-inline my-2 my-lg-0" action="<?=SITE_URL."mv-enduser/home.php"?>" method="post">
+                    <input class="form-control mr-sm-2" name="search-movie" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search-mv">Search</button>
+                </form>
                 <div class="nav-item dropdown">
                     <button class="btn btn-primary user dropdown-toggle" data-toggle="dropdown">
                         <strong><?php

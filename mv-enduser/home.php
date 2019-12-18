@@ -37,7 +37,54 @@ if (isset($_GET['logout'])) {
 <!--if user logged in Successfully-->
 <?php if (isset($_SESSION['username'])) : ?>
     <!--<div class="jumbotron"><h3>Welcome <strong><$session['username']></strong></h3></div>-->
+    <?php if (isset($_POST['search-mv'])) : ?>
+        <span class="heading"> Search Matches:</span>
+        <form action="book-movie.php" method="post">
+            <div class="row row-margin">
+                <?php
+                $searchTerm = $_POST['search-movie'];
+                if (empty($searchTerm)) {
+                    echo "<p>No Movies Found</p>";
+                } else {
+                    $selectMovie = $dbconn->query("select * from tbl_movie where mv_name like '%$searchTerm%' limit 5");
+                    if (mysqli_num_rows($selectMovie) > 0) {
+                        while ($row = mysqli_fetch_assoc($selectMovie)): ?>
+                            <div class="col-md-6 col-xl-auto mb-4">
+                                <div class="card shadow border-left-primary py-2 width-set">
+                                    <div class="card-body">
+                                        <div class="row align-items-center no-gutters">
+                                            <div class="col mr-2">
+                                                <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                                <span>
+                                                    <img src="<?= SITE_URL ?>mv-theater/mv-thumb/<?= $row['mv_thumb'] ?>"
+                                                         height="100px" alt="mv-thumb.jpg">
+                                                </span>
+                                                </div>
+                                                <div class="text-dark font-weight-bold h5 mb-0">
+                                                    <span><?= $row['mv_name'] ?></span></div>
+                                                <button type="submit" class="btn btn-primary" name="btn-mov-book"
+                                                        value="<?= $row['mv_id'] ?>">Read More...
+                                                </button>
+                                                <div class="col-auto"><i
+                                                            class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <?php endwhile ?>
+                        <?php
+                    }
+                }
+                ?>
+            </div>
+        </form>
+    <?php endif ?>
+
     <form action="book-movie.php" method="post">
+        <span class="heading"> Available Movies</span>
         <div class="row row-margin">
             <?php
             $i = 1;
@@ -62,7 +109,8 @@ if (isset($_GET['logout'])) {
                                             <button type="submit" class="btn btn-primary" name="btn-mov-book"
                                                     value="<?= $movie['mv_id'] ?>">Read More...
                                             </button>
-                                            <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <div class="col-auto"><i
+                                                        class="fas fa-calendar fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
                                     </div>
