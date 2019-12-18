@@ -62,6 +62,10 @@ $mailer="";
                         array_push($errors, "Passwords Do Not Match");
                     }
 
+                    if (!preg_match('/^\d{10}$/', $user_phone)) {
+                        array_push($errors, "Invalid mobile number");
+                    }
+
                     if (count($errors) == 0) {
                         if ($user_pasd_1 == $user_uname) {
                             array_push($errors, "Username and Password cannot be the same");

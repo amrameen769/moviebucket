@@ -75,6 +75,9 @@ $mailer = "";
                     if ($thr_pasd_1 != $thr_pasd_2) {
                         array_push($errors, "Passwords Do Not Match");
                     }
+                    if (!preg_match('/^\d{10}$/', $thr_phone)) {
+                        array_push($errors, "Invalid mobile number");
+                    }
 
 
                     if (count($errors) == 0) {
