@@ -1,0 +1,18 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_expired_booking`()
+    MODIFIES SQL DATA
+BEGIN
+
+DECLARE done INT DEFAULT FALSE;
+DECLARE show_id INT;
+DECLARE curShows CURSOR FOR SELECT shw_id FROM tbl_showtime WHERE shw_status = 0;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+OPEN curShows;
+updateBook: LOOP
+	FETCH curShows INTO show_id;
+    UPDATE tbl_booking SET book_status = 2 WHERE shw_id = show_id AND book_status = 1;
+END LOOP updateBook;
+CLOSE curShows;
+
+END$$
+DELIMITER ;

@@ -1,0 +1,110 @@
+#body {
+    margin: 0px;
+    height: auto;
+    width: auto;
+}
+
+.row-margin {
+    margin-right: .75rem !important;
+    margin-left: .75rem !important;
+}
+
+.logo1 {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
+
+.maze {
+    background: url(../images/bg_contain.jpg) left top repeat;
+    text-align: center;
+    padding: 15%;
+    display: block;
+}
+
+.maze h1 {
+    color: rgb(255, 255, 255);
+}
+
+/*-----Navigation Bar-----*/
+
+.user {
+    margin: 0 5px 0 5px;
+}
+
+/*-----Pages Common-----*/
+
+.highlight-blue {
+    color: #fff;
+    background-color: #1e6add;
+    padding: 50px 0;
+}
+
+.highlight-blue h2 {
+    color: #fff;
+}
+
+.td-color {
+    color: #FFFFFF;
+}
+
+.form-movie {
+    margin-top: 0px;
+    width: auto;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .6);
+    background: rgb(234, 230, 235);
+    color: #000;
+    display: inline-block;
+}
+
+.field-width {
+    width: 200px;
+    margin-left: 0px;
+}
+
+.heading {
+    margin-top: 10px;
+    color: rgb(0, 125, 255);
+    font-weight: 600;
+    font-size: 24px;
+    text-align: center;
+}
+
+.add-info {
+    padding-bottom: 5px;
+}
+
+.distance {
+    margin-top: 25px;
+}
+
+.auto-width {
+    width: auto !important;
+}
+
+.scroll-top {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    text-align: center;
+    color: #fff;
+    background: rgba(90, 92, 105, .5);
+    line-height: 46px
+}
+
+.scroll-top:focus, .scroll-top:hover {
+    color: #fff
+}
+
+.scroll-top:hover {
+    background: #5a5c69
+}
+
+.scroll-top i {
+    font-weight: 800
+}
